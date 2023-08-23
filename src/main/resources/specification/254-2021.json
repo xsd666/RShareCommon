@@ -1,0 +1,363 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "254(2021)的服务框架",
+    "description": "用于服务请求的基本框架内容，被其它具体BB服务所引用",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/GeneralFormat": {
+      "post": {
+        "summary": "请求响应格式框架",
+        "description": "提供对于部标服务的254(2021)要求的参数进行检查",
+        "deprecated": false,
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/SenderID"
+          },
+          {
+            "$ref": "#/components/parameters/ServiceResourceId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/XMLCommonFormat254"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JSONCommonRequest254"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功响应数据服务",
+            "headers": {
+              "SenderID": {
+                "$ref": "#/components/parameters/SenderID"
+              },
+              "ServiceID": {
+                "$ref": "#/components/parameters/ServiceID"
+              }
+            },
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/XMLCommonFormat254"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JSONCommonResponse254"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "SenderID": {
+        "name": "SenderID",
+        "in": "header",
+        "description": "请求方ID",
+        "required": true,
+        "example": "",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ServiceResourceId": {
+        "name": "ServiceResourceId",
+        "in": "header",
+        "description": "服务资源标识符",
+        "required": true,
+        "example": "",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ServiceID": {
+        "name": "ServiceID",
+        "description": "服务方ID",
+        "required": false,
+        "example": "",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "JSONCommonRequest254": {
+        "type": "object",
+        "properties": {
+          "From": {
+            "type": "string",
+            "title": "服务发起方标识",
+            "description": "GA380-2012/GB32100-2015",
+            "format": "regex",
+            "default": "440000000000",
+            "pattern": "^[0-9a-zA-Z]{12,17}$",
+            "examples": [
+              "440000000000"
+            ]
+          },
+          "To": {
+            "type": "string",
+            "title": "服务接收方标识",
+            "description": "GA380-2012/GB32100-2015",
+            "format": "regex",
+            "default": "440000030000",
+            "pattern": "^[0-9a-zA-Z]{12,17}$",
+            "examples": [
+              "440000030000"
+            ]
+          },
+          "MessageSequence": {
+            "type": "string",
+            "title": "消息流水号",
+            "description": "14位时间串+4位自定义索引码",
+            "format": "regex",
+            "default": "202307121732300001",
+            "pattern": "^[0-9]{18}$",
+            "examples": [
+              "202307121732300001"
+            ]
+          },
+          "MessageType": {
+            "type": "string",
+            "title": "消息类型",
+            "description": "14位时间串+4位自定义索引码",
+            "enum": [
+              "11",
+              "12",
+              "21",
+              "22"
+            ],
+            "x-apifox": {
+              "enumDescriptions": {
+                "11": "请求+非回调",
+                "12": "请求+回调",
+                "21": "应答+非回调",
+                "22": "应答+回调"
+              }
+            }
+          },
+          "CallbackSequence": {
+            "type": "string",
+            "title": "回调包序列号",
+            "description": "只有异步回调时才需要，最后一个加[END]",
+            "format": "regex",
+            "default": "0",
+            "pattern": "/^[0-9]+\\[END\\]$/",
+            "examples": [
+              "0"
+            ]
+          },
+          "CallbackRecords": {
+            "type": "integer",
+            "title": "回调包中记录数",
+            "description": "只有异步回调时才需要",
+            "format": "int32",
+            "default": "0",
+            "examples": [
+              "0"
+            ]
+          },
+          "RequestParam": {
+            "type": "object",
+            "title": "请求自定义参数，各自服务自定义"
+          },
+          "required": [
+            "From",
+            "To",
+            "MessageSequence",
+            "RequestParam"
+          ]
+        },
+        "example": "{\r\n\"From\": \"440000000000\",\r\n\"To\": \"440000030000\",\r\n\"MessageSequence\": \"202307121732300001\",\r\n\"RequestParam\": {...}\r\n}"
+      },
+      "JSONCommonResponse254": {
+        "type": "object",
+        "properties": {
+          "MessageStatus": {
+            "type": "string",
+            "title": "状态码",
+            "enum": [
+              "0200",
+              "0300",
+              "0301",
+              "0302",
+              "0303",
+              "0400",
+              "0401",
+              "0402",
+              "0403",
+              "0404",
+              "0500",
+              "0501",
+              "0502",
+              "0503",
+              "0504",
+              "0505",
+              "0506",
+              "9900"
+            ],
+            "x-apifox": {
+              "enumDescriptions": {
+                "0200": "正常",
+                "0300": "权限异常",
+                "0301": "鉴权服务执行失败",
+                "0302": "没有访问权限",
+                "0303": "部分访问权限",
+                "0400": "服务异常",
+                "0401": "请求频率不合法",
+                "0402": "过多的请求",
+                "0403": "超时",
+                "0404": "服务内部错误",
+                "0500": "资源目录核验异常",
+                "0501": "必填字段为空",
+                "0502": "数据格式不符合规范",
+                "0503": "注册资源目录重复",
+                "0504": "缺少必填字段",
+                "0505": "更新资源目录不存在",
+                "0506": "无资源目录合法授权",
+                "9900": "其它异常"
+              }
+            }
+          },
+          "MessageSequence": {
+            "type": "string",
+            "title": "消息流水号",
+            "description": "14位时间串+4位自定义索引码",
+            "format": "regex",
+            "default": "202307121732300001",
+            "pattern": "^[0-9]{18}$",
+            "examples": [
+              "202307121732300001"
+            ]
+          },
+          "Remark": {
+            "type": "string",
+            "title": "备注"
+          },
+          "ResponseParam": {
+            "type": "object",
+            "properties": {}
+          },
+          "required": [
+            "MessageStatus",
+            "MessageSequence",
+            "Remark",
+            "ResponseParam"
+          ]
+        },
+        "example": "{\r\n\"MessageStatus\": \"0200\",\r\n\"MessageSequence\": \"2019010714141200001\",\r\n\"Remark\": \"正常\",\r\n\"ResponseParam\": {}\r\n}"
+      },
+      "XMLCommonFormat254": {
+        "type": "object",
+        "properties": {
+          "MESSAGE": {
+            "type": "object",
+            "properties": {
+              "DATASET": {
+                "$ref": "#components/schemas/DataSet"
+              }
+            }
+          }
+        }
+      },
+      "DataSet": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "xml": {
+              "attribute": true
+            }
+          },
+          "rmk": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "file": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "DATA": {
+            "$ref": "#components/schemas/Data"
+          }
+        }
+      },
+      "Data": {
+        "type": "object",
+        "properties": {
+          "ITEM": {
+            "type": "array",
+            "items": {
+              "$ref": "#components/schemas/Item"
+            }
+          },
+          "DATASET": {
+            "type": "array"
+          }
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "nullable": false,
+            "xml": {
+              "attribute": true
+            }
+          },
+          "val": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "eng": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "chn": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "rmk": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "fmt": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "required": ["key", "val"]
+      }
+    }
+  },
+  "servers": []
+}

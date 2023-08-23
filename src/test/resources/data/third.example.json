@@ -1,0 +1,11 @@
+{
+  "code": "200",
+  "msg": "≤È—Ø≥…π¶",
+  "x-rshare-fields-path": "$.data[*]",
+  "x-rshare-data-path": "$.data[*]",
+  "data": [
+    { "name": "John", "age": 30, "city": "New York" },
+    { "name": "Alice", "age": 25, "city": "Los Angeles" },
+    { "name": "Bob", "age": 28, "city": "Chicago" }
+  ]
+}

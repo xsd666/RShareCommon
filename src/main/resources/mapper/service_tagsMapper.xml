@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.service_tagsMapper">
+
+    <resultMap id="BaseResultMap" type="generator.com.run.rshare.entity.service_tags">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="pid" column="pid" jdbcType="VARCHAR"/>
+            <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+            <result property="tagDesc" column="tag_desc" jdbcType="VARCHAR"/>
+            <result property="orderNum" column="order_num" jdbcType="INTEGER"/>
+            <result property="isTagCategory" column="is_tag_category" jdbcType="VARCHAR"/>
+            <result property="isUse" column="is_use" jdbcType="VARCHAR"/>
+            <result property="createUserid" column="create_userid" jdbcType="VARCHAR"/>
+            <result property="createUsername" column="create_username" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,pid,tag_name,
+        tag_desc,order_num,is_tag_category,
+        is_use,create_userid,create_username,
+        create_time
+    </sql>
+</mapper>

@@ -1,0 +1,28 @@
+{
+  "From": "370000000001",
+  "To": "110000000001",
+  "MessageSequence": "201901071414120001",
+  "RequestParam": {
+    "Condition": "XM='张三'",
+    "ResourceInfos": [
+      {
+        "ResourceName": "R-010000220000-00000001",
+        "DataItems": [
+          {
+            "Name": "XXZJBH",
+            "Fmt": ""
+          }
+        ]
+      }
+    ],
+    "OtherCondition": {
+      "MaxReturnNum": "2",
+      "AsyncBoolean": "0",
+      "AsyncOnceReturnNum": "2",
+      "AsyncQuery": "",
+      "CallbackID": "",
+      "CodeMode": "0",
+      "SortResults": "DJSJ+,XM-"
+    }
+  }
+}

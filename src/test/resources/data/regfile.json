@@ -1,0 +1,206 @@
+{
+  "code": "200",
+  "msg": "ok",
+  "data": {
+    "service_req_headers": [
+      {
+        "arg": "Content-Type",
+        "name": "内容类型",
+        "desc": "内容类型",
+        "type": "string",
+        "required": "1"
+      },
+      {
+        "arg": "SenderID",
+        "name": "应用ID",
+        "desc": "应用ID",
+        "type": "string",
+        "required": "1"
+      },
+      {
+        "arg": "ServiceResourceId",
+        "name": "服务资源ID",
+        "desc": "服务资源ID",
+        "type": "string",
+        "required": "1"
+      },
+      {
+        "arg": "UserID",
+        "name": "用户ID",
+        "desc": "用户ID",
+        "type": "string",
+        "required": "1"
+      },
+      {
+        "arg": "taskID",
+        "type": "string",
+        "required": "是",
+        "name": "任务ID",
+        "desc": "任务ID"
+      },
+      {
+        "arg": "seqID",
+        "type": "string",
+        "required": "是",
+        "name": "流水号",
+        "desc": "流水号"
+      }
+    ],
+    "service_req_args": [
+      {
+        "arg": "name",
+        "pArg": "",
+        "type": "string",
+        "required": "是",
+        "desc": "任务名称，必须唯一"
+      },
+      {
+        "arg": "description",
+        "pArg": "",
+        "type": "string",
+        "required": "否",
+        "desc": "任务描述"
+      },
+      {
+        "arg": "strategy",
+        "pArg": "",
+        "type": "json_object",
+        "required": "否",
+        "desc": "任务调度策略，json对象格式"
+      },
+      {
+        "arg": "startTime",
+        "pArg": "strategy",
+        "type": "string",
+        "required": "否",
+        "desc": "调度开始时间，13位时间戳"
+      },
+      {
+        "arg": "endTime",
+        "pArg": "strategy",
+        "type": "string",
+        "required": "否",
+        "desc": "调度结束时间，13位时间戳"
+      },
+      {
+        "arg": "crontab",
+        "pArg": "strategy",
+        "type": "string",
+        "required": "否",
+        "desc": "cron表达式"
+      },
+      {
+        "arg": "priority",
+        "pArg": "",
+        "type": "int",
+        "required": "否",
+        "desc": "任务执行优先级"
+      },
+      {
+        "arg": "timeout",
+        "pArg": "",
+        "type": "int",
+        "required": "否",
+        "desc": "任务执行超时时间"
+      },
+      {
+        "arg": "definition",
+        "pArg": "",
+        "type": "json_object",
+        "required": "是",
+        "desc": "任务定义，json对象格式"
+      },
+      {
+        "arg": "jobs",
+        "pArg": "definition",
+        "type": "json_array",
+        "required": "是",
+        "desc": "作业节点定义"
+      },
+      {
+        "arg": "connects",
+        "pArg": "definition",
+        "type": "json_array",
+        "required": "否",
+        "desc": "作业节点图标连接信息"
+      },
+      {
+        "arg": "注意:这部分参数说明相同,但使用时GET与POST要区分使用",
+        "pArg": "注意:这部分参数说明相同,但使用时GET与POST要区分使用",
+        "type": "注意:这部分参数说明相同,但使用时GET与POST要区分使用",
+        "required": "注意:这部分参数说明相同,但使用时GET与POST要区分使用",
+        "desc": "注意:这部分参数说明相同,但使用时GET与POST要区分使用"
+      }
+    ],
+    "service_resp_headers": [
+      {
+        "arg": "taskID",
+        "type": "string",
+        "name": "任务ID",
+        "desc": "任务ID"
+      },
+      {
+        "arg": "seqID",
+        "type": "string",
+        "name": "流水号",
+        "desc": "流水号"
+      }
+    ],
+    "service_resp_args": [
+      {
+        "arg": "code",
+        "pArg": "",
+        "type": "string",
+        "desc": "状态码"
+      },
+      {
+        "arg": "msg",
+        "pArg": "",
+        "type": "string",
+        "desc": "消息"
+      },
+      {
+        "arg": "data",
+        "pArg": "",
+        "type": "json_object",
+        "desc": "响应数据"
+      },
+      {
+        "arg": "id",
+        "pArg": "data",
+        "type": "string",
+        "desc": "调度任务id"
+      }
+    ],
+    "service_resp_code": [
+      {
+        "code": 200,
+        "desc": "正常"
+      },
+      {
+        "code": 500,
+        "desc": "内部错误"
+      }
+    ],
+    "service_req_sample": {
+      "header": {
+        "taskID": "8008",
+        "seqID": "600656"
+      },
+      "body": "{\n   \"name\": \"测试任务调度01\",\n   \"description\": \"测试任务调度01\",\n   \"strategy\": {\n      \"startTime\": \"2021/10/15\",\n      \"endTime\": \"2021/10/15\",\n      \"crontab\": \"0 0/10 * * * ?\"\n   },\n   \"priority\": \"1\",\n   \"timeout\": \"1000\",\n   \"definition\": {\n      \"jobs\": [\n      ],\n      \"connects\": [\n      ],\n      \"locations\": {\n      }\n   },\n   \"global_params\": {\n   }\n}\n注意: 上面是POST的示例,GET时如下\nname=测试任务调度01&priority=1&timeout=1000..."
+    },
+    "service_resp_sample": {
+      "header": {
+        "taskID": "8008",
+        "seqID": "600656"
+      },
+      "body": {
+        "msg": "ok",
+        "code": 200,
+        "data": {
+          "id": "12345"
+        }
+      }
+    }
+  }
+}

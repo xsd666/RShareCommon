@@ -1,0 +1,28 @@
+{
+  "condition": {
+    "position": "$.RequestParam.Condition",
+    "localtion": "request"
+  },
+  "datasets": [
+    {
+      "name" : "R-010000220000-00000001",
+      "fieldStruct": {
+        "position": "$.ResponseParam.ResourceInfos[0].DataItems[*].name",
+        "type": "string[]",
+        "localtion": "response"
+      },
+      "fieldValue": {
+        "position": "$.ResponseParam.ResourceInfos[0].DataInfos[*]",
+        "type": "String[]",
+        "localtion": "response"
+      },
+      "fields": [
+        {
+          "rule": {},
+          "position": "[1]"
+        },
+        {}
+      ]
+    }
+  ]
+}

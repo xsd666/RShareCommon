@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "From": {
+      "type": "string",
+      "title": "服务发起方标识",
+      "description": "GA380-2012/GB32100-2015",
+      "format": "regex",
+      "default": "440000000000",
+      "pattern": "^[0-9a-zA-Z]{12,17}$",
+      "examples": [
+        "440000000000"
+      ]
+    },
+    "To": {
+      "type": "string",
+      "title": "服务接收方标识",
+      "description": "GA380-2012/GB32100-2015",
+      "format": "regex",
+      "default": "440000030000",
+      "pattern": "^[0-9a-zA-Z]{12,17}$",
+      "examples": [
+        "440000030000"
+      ]
+    },
+    "MessageSequence": {
+      "type": "string",
+      "title": "消息流水号",
+      "description": "14位时间串+4位自定义索引码",
+      "format": "regex",
+      "default": "202307121732300001",
+      "pattern": "^[0-9]{18}$",
+      "examples": [
+        "202307121732300001"
+      ]
+    },
+    "MessageType": {
+      "type": "string",
+      "title": "消息类型",
+      "description": "14位时间串+4位自定义索引码",
+      "enum": [
+        "11",
+        "12",
+        "21",
+        "22"
+      ],
+      "x-apifox": {
+        "enumDescriptions": {
+          "11": "请求+非回调",
+          "12": "请求+回调",
+          "21": "应答+非回调",
+          "22": "应答+回调"
+        }
+      }
+    },
+    "CallbackSequence": {
+      "type": "string",
+      "title": "回调包序列号",
+      "description": "只有异步回调时才需要，最后一个加[END]",
+      "format": "regex",
+      "default": "0",
+      "pattern": "/^[0-9]+\\[END\\]$/",
+      "examples": [
+        "0"
+      ]
+    },
+    "CallbackRecords": {
+      "type": "integer",
+      "title": "回调包中记录数",
+      "description": "只有异步回调时才需要",
+      "format": "int32",
+      "default": "0",
+      "examples": [
+        "0"
+      ]
+    },
+    "RequestParam": {
+      "title": "请求自定义参数，各自服务自定义",
+      "type": "object",
+      "properties": {
+        "Condition": {
+          "type": "string",
+          "description": "查询条件信息",
+          "nullable": false
+        },
+        "OtherCondition": {
+          "type": "object",
+          "description": "扩展的查询条件信息",
+          "properties": {
+            "MaxReturnNum": {
+              "description": "最多总返回条数",
+              "type": "string"
+            },
+            "AsyncBoolean": {
+              "description": "异步查询_判断标识",
+              "type": "string",
+              "nullable": false,
+              "enum": [
+                "0",
+                "1"
+              ],
+              "x-apifox": {
+                "enumDescriptions": {
+                  "0": "不是",
+                  "1": "是"
+                }
+              }
+            },
+            "AsyncOnceReturnNum": {
+              "description": "异步查询单次返回条数",
+              "type": "string"
+            },
+            "AsyncQuery": {
+              "description": "异步查询标识",
+              "type": "string"
+            },
+            "CallbackID": {
+              "description": "查询回调服务资源标识符",
+              "type": "string"
+            },
+            "CodeMode": {
+              "description": "信息代码输出模式",
+              "type": "string",
+              "enum": [
+                "0",
+                "1",
+                "2"
+              ],
+              "x-apifox": {
+                "enumDescriptions": {
+                  "0": "代码",
+                  "1": "名称",
+                  "2": "代码和名称"
+                }
+              }
+            },
+            "SortResults": {
+              "description": "结果排序数据项集",
+              "type": "string"
+            }
+          }
+        },
+        "ResourceInfos": {
+          "description": "查询要求返回信息"
+        }
+      },
+      "required": [
+        "Condition",
+        "OtherCondition"
+      ]
+    }
+  },
+  "required": [
+    "From",
+    "To",
+    "MessageSequence",
+    "RequestParam"
+  ],
+  "example": "{\r\n\"From\": \"440000000000\",\r\n\"To\": \"440000030000\",\r\n\"MessageSequence\": \"202307121732300001\",\r\n\"RequestParam\": {...}\r\n}"
+}

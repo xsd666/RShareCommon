@@ -1,0 +1,28 @@
+{
+  "condition": {
+    "position": "$.condition",
+    "localtion": "request"
+  },
+  "datasets": [
+    {
+      "name" : "R-010000220000-00000001",
+      "fieldStruct": {
+        "position": "$.data[*]",
+        "type": "mapKeys",
+        "localtion": "response"
+      },
+      "fieldValue": {
+        "position": "$.data[*]",
+        "type": "String[]",
+        "localtion": "response"
+      },
+      "fields": [
+        {
+          "rule": {},
+          "position": ".leafNode"
+        },
+        {}
+      ]
+    }
+  ]
+}
