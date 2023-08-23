@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 17-7ÔÂ-2023 17:10:33
+ * @created 17-7æœˆ-2023 17:10:33
  */
 public interface ServiceAgreement {
 
@@ -20,51 +20,51 @@ public interface ServiceAgreement {
 	public void checkResponseSchema();
 
 	/**
-	 * 1¡¢×¨×¢·ÇÇ¶Ì×µÄ·şÎñµÄ²ÎÊı
+	 * 1ã€ä¸“æ³¨éåµŒå¥—çš„æœåŠ¡çš„å‚æ•°
 	 * 
-	 * @param id    ¹æÔ¼³ö²ÎÄÚÈİ
+	 * @param id    è§„çº¦å‡ºå‚å†…å®¹
 	 */
 	public List<FieldInfo> getResponseParam(String id);
 
 	public void isValid();
 
 	/**
-	 * 1¡¢×¨×¢·ÇÇ¶Ì×µÄ·şÎñµÄ²ÎÊı
+	 * 1ã€ä¸“æ³¨éåµŒå¥—çš„æœåŠ¡çš„å‚æ•°
 	 * 
-	 * @param id    ¹æÔ¼Èë²ÎÄÚÈİ
+	 * @param id    è§„çº¦å…¥å‚å†…å®¹
 	 */
 	public List<FieldInfo> getRequestParam(String id);
 
 	public void tryRun();
 
 	/**
-	 * ´´½¨³É¹¦ºó£¬·µ»Ø¹æÔ¼Êı¾İ 1¡¢ÒÔOpenAPI3.0Îª±ê×¼´´½¨ 2¡¢±ê×¼µÄµ¥²ãÊäÈëÊä³ö²ÎÊı
+	 * åˆ›å»ºæˆåŠŸåï¼Œè¿”å›è§„çº¦æ•°æ® 1ã€ä»¥OpenAPI3.0ä¸ºæ ‡å‡†åˆ›å»º 2ã€æ ‡å‡†çš„å•å±‚è¾“å…¥è¾“å‡ºå‚æ•°
 	 * 
-	 * @param serviceConfig    ±àÅÅµÄ·şÎñÅäÖÃ
+	 * @param serviceConfig    ç¼–æ’çš„æœåŠ¡é…ç½®
 	 */
 	public String createFromServiceConfig(ServiceInfo serviceConfig);
 
 	/**
 	 * 
-	 * @param value    ÖµÉèÖÃ
+	 * @param value    å€¼è®¾ç½®
 	 */
 	public ServiceRequest buildServiceRequest(Map<String,String> value);
 
 	/**
 	 * 
-	 * @param result    ÏìÓ¦½á¹û
+	 * @param result    å“åº”ç»“æœ
 	 */
 	public ServiceResponse buildServiceResponse(String result);
 
 	/**
 	 * 
-	 * @param req    ÇëÇóÌå
+	 * @param req    è¯·æ±‚ä½“
 	 */
 	public ServiceRequest buildServiceRequest(HttpServletRequest req);
 
 	/**
 	 * 
-	 * @param resp    ÏìÓ¦Ìå
+	 * @param resp    å“åº”ä½“
 	 */
 	public ServiceResponse buildServiceResponse(HttpServletResponse resp);
 

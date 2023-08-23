@@ -2,9 +2,9 @@ package com.run.rshare.common.agreement;
 
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 17-7ÔÂ-2023 17:10:33
+ * @created 17-7æœˆ-2023 17:10:33
  */
 public class ServiceAgreementFactory {
 
@@ -13,18 +13,18 @@ public class ServiceAgreementFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @exception Throwable
 	 */
 	public void finalize()
-	  throws Throwable{
+			throws Throwable{
 
 	}
 
 	/**
-	 * 
-	 * @param type    ¹æÔ¼ÀàÐÍ
-	 * @param version    ¹æÔ¼°æ±¾
+	 *
+	 * @param type    è§„çº¦ç±»åž‹
+	 * @param version    è§„çº¦ç‰ˆæœ¬
 	 */
 	public ServiceAgreement getServiceAgreement(String type, String version){
 		return null;

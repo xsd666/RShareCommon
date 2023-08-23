@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * @ClassName OpenApiUtil
- * @Description: ¹æÔ¼¹¤¾ßÀà
+ * @Description: è§„çº¦å·¥å…·ç±»
  * @Author xsd
  * @Date 2023/8/23
  * @Version V1.0
@@ -23,14 +23,14 @@ import java.util.stream.Collectors;
 public class OpenApiUtil {
 
     /**
-     * jsonÊı¾İ×ªÎªOpenApiJson excel
+     * jsonæ•°æ®è½¬ä¸ºOpenApiJson excel
      * @param reqAndRespData
-     * @param name     ½Ó¿ÚÃû³Æ
-     * @param desc     ½Ó¿ÚÃèÊö
-     * @param version  ½Ó¿Ú°æ±¾ºÅ
-     * @param servers  µØÖ·
-     * @param operationId  urlºÍoperationIdÊÇÒ»ÖÂµÄ
-     * @param httpMethod  ÇëÇó·½·¨,get.post
+     * @param name     æ¥å£åç§°
+     * @param desc     æ¥å£æè¿°
+     * @param version  æ¥å£ç‰ˆæœ¬å·
+     * @param servers  åœ°å€
+     * @param operationId  urlå’ŒoperationIdæ˜¯ä¸€è‡´çš„
+     * @param httpMethod  è¯·æ±‚æ–¹æ³•,get.post
      * @return
      */
     public static String reqAndRespToOpenApiJson(JSONObject reqAndRespData,String name,String desc,String version,List<Servers> servers,String operationId,String httpMethod){
@@ -42,10 +42,10 @@ public class OpenApiUtil {
         openAPIDocument.setInfo(info);
         openAPIDocument.setServers(servers);
         OpenApiOperation openApiOperation = new OpenApiOperation();
-        //ÇëÇóÍ·
+        //è¯·æ±‚å¤´
         List<HeadersParameter> headersParameters = OpenApiUtil.buildHeadersParameter(reqAndRespData.getJSONArray("service_req_headers"));
         openApiOperation.setParameters(headersParameters);
-        //ÇëÇóÌå
+        //è¯·æ±‚ä½“
         OpenApiContent openApiContent = OpenApiUtil.buildOpenApiContent(reqAndRespData.getJSONArray("service_req_args"), reqAndRespData.getJSONObject("service_req_sample").getString("body"));
         openApiOperation.setSummary(name);
         openApiOperation.setDescription(desc);
@@ -54,18 +54,18 @@ public class OpenApiUtil {
         RequestBody requestBody = new RequestBody();
         requestBody.setContent(openApiContent);
         openApiOperation.setRequestBody(requestBody);
-        //ÏìÓ¦Ìå
+        //å“åº”ä½“
         LinkedHashMap<String, OpenApiResponse> responses = OpenApiUtil.buildOpenApiResponse(reqAndRespData.getJSONArray("service_resp_headers"), reqAndRespData.getJSONArray("service_resp_args"), reqAndRespData.getJSONArray("service_resp_code"), reqAndRespData.getJSONObject("service_resp_sample").getString("body"));
         openApiOperation.setResponses(responses);
         OpenApiPath path = new OpenApiPath();
         path.set(httpMethod, openApiOperation);
-        //urlºÍoperationIdÊÇÒ»ÖÂµÄ
+        //urlå’ŒoperationIdæ˜¯ä¸€è‡´çš„
         openAPIDocument.paths("/" + operationId, path);
         String defaultSchema = JSON.toJSONString(openAPIDocument, SerializerFeature.PrettyFormat);
         return defaultSchema;
     }
     /**
-     * ÉèÖÃÏìÓ¦Ìå
+     * è®¾ç½®å“åº”ä½“
      *
      * @param respHeaders
      * @param respArgs
@@ -89,7 +89,7 @@ public class OpenApiUtil {
     }
 
     /**
-     * ¹¹½¨ÇëÇó²ÎÊı
+     * æ„å»ºè¯·æ±‚å‚æ•°
      *
      * @param reqHeaders
      * @return
@@ -108,7 +108,7 @@ public class OpenApiUtil {
             parameter.setName(arg);
             parameter.setDescription(name);
             if (StrUtil.isNotBlank(required)) {
-                parameter.setRequired(Objects.equals("ÊÇ", required) ? Boolean.TRUE : Objects.equals("1", required) ? Boolean.TRUE : Boolean.FALSE);
+                parameter.setRequired(Objects.equals("æ˜¯", required) ? Boolean.TRUE : Objects.equals("1", required) ? Boolean.TRUE : Boolean.FALSE);
             }
             parameter.setExample("");
             Map<String, Object> schema = new HashMap<>();
@@ -120,14 +120,14 @@ public class OpenApiUtil {
     }
 
     /**
-     * ¹¹½¨ÇëÇóÌå
+     * æ„å»ºè¯·æ±‚ä½“
      *
      * @param reqArgs
      * @return
      */
     public static OpenApiContent buildOpenApiContent(JSONArray reqArgs, String example) {
         OpenApiContent openApiContent = new OpenApiContent();
-        //xmlÏÈ²»×ö
+        //xmlå…ˆä¸åš
         openApiContent.setApplicationXml(new OpenApiMediaType());
         OpenApiMediaType openApiMediaType = new OpenApiMediaType();
         OpenApiSchema apiSchema = new OpenApiSchema();
@@ -136,7 +136,7 @@ public class OpenApiUtil {
         Map<String, OpenApiProperties> properties = Maps.newHashMap();
         Map<String, List<JSONObject>> groupByParentArgMap = reqArgs.stream().map(obj -> JSON.parseObject(obj.toString()))
                 .collect(Collectors.groupingBy(obj -> obj.getString("pArg")));
-        //ÏÈÌí¼Ó¸¸ÔªËØ
+        //å…ˆæ·»åŠ çˆ¶å…ƒç´ 
         List<JSONObject> parentList = groupByParentArgMap.get("");
         buildProperties(parentList, properties, groupByParentArgMap);
         List<String> requiredArgs = fetchRequiredArgs(parentList);
@@ -159,7 +159,7 @@ public class OpenApiUtil {
             String desc = item.getString("desc");
             String type = item.getString("type");
             String required = item.getString("required");
-            //ÉèÖÃ±ØÌîÏî µ±Ç°Ä¿Â¼µÄ±ØÌîÏî
+            //è®¾ç½®å¿…å¡«é¡¹ å½“å‰ç›®å½•çš„å¿…å¡«é¡¹
             List<JSONObject> child = groupByParentArgMap.getOrDefault(arg, Lists.newArrayList());
             List<String> requiredArgs = fetchRequiredArgs(child);
             OpenApiProperties openApiPropertiesItem = new OpenApiProperties();
@@ -184,14 +184,14 @@ public class OpenApiUtil {
     }
 
     /**
-     * ÄÃµ½µ±Ç°½ÚµãµÄËùÓĞ±ØĞëµÄ×Ö¶Î
+     * æ‹¿åˆ°å½“å‰èŠ‚ç‚¹çš„æ‰€æœ‰å¿…é¡»çš„å­—æ®µ
      *
      * @param child
      * @return
      */
     public static List<String> fetchRequiredArgs(List<JSONObject> child) {
         List<String> requiredArgs = child.stream().map(json -> JSON.parseObject(JSON.toJSONString(json)))
-                .filter(json -> (StrUtil.isNotBlank(json.getString("required")) && (Objects.equals("ÊÇ", json.getString("required")) || Objects.equals("1", json.getString("required")))))
+                .filter(json -> (StrUtil.isNotBlank(json.getString("required")) && (Objects.equals("æ˜¯", json.getString("required")) || Objects.equals("1", json.getString("required")))))
                 .map(json -> json.getString("arg")).collect(Collectors.toList());
         return requiredArgs;
     }

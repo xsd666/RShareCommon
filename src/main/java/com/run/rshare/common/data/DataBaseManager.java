@@ -2,9 +2,9 @@ package com.run.rshare.common.data;
 
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 06-7ÔÂ-2023 11:09:18
+ * @created 06-7æœˆ-2023 11:09:18
  */
 public interface DataBaseManager {
 

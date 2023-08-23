@@ -5,23 +5,23 @@ import java.util.Map;
 
 /**
  * @ClassName ApiSchema
- * @Description: 请求体Schema
+ * @Description: 璇锋眰浣揝chema
  * @Author xsd
  * @Date 2023/8/22
  * @Version V1.0
  **/
 public class OpenApiSchema {
     /**
-     * 类型
+     * 绫诲瀷
      */
     private String type;
     /**
-     * 参数响应信息
+     * 鍙傛暟鍝嶅簲淇℃伅
      */
 
     private Map<String, OpenApiProperties> properties;
     /**
-     * 实例
+     * 瀹炰緥
      */
     private String example;
 

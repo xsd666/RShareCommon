@@ -4,18 +4,18 @@ package com.run.rshare.common.agreement;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * >°üº¬ÇëÇóÍ·ºÍÇëÇóÌå
- * >±£´æÔ­Ê¼µÄÇëÇóĞÅÏ¢
- * @author ÖÜ¿­
+ * >åŒ…å«è¯·æ±‚å¤´å’Œè¯·æ±‚ä½“
+ * >ä¿å­˜åŸå§‹çš„è¯·æ±‚ä¿¡æ¯
+ * @author å‘¨å‡¯
  * @version 1.0
- * @updated 17-7ÔÂ-2023 17:11:32
+ * @updated 17-7æœˆ-2023 17:11:32
  */
 public class ServiceRequest {
 
 	ServiceAgreement agreemnet = null;
 	HttpServletRequest httpServletRequest = null;
 	/**
-	 * ä¸´æ—¶ç»Ÿè®¡ä¿¡æ¯
+	 * æ¶“å­˜æ¤‚ç¼ç†»î…¸æ·‡â„ƒä¼…
 	 */
 	Long timeBegin = 0L;
 	Long timeEnd = 0L;

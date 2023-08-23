@@ -2,11 +2,11 @@ package com.run.rshare.common.agreement;
 
 
 /**
- * >°üº¬ÏìÓ¦Í·ºÍÏìÓ¦Ìå
- * >±£´æÔ­Ê¼µÄÏìÓ¦ĞÅÏ¢
- * @author ÖÜ¿­
+ * >åŒ…å«å“åº”å¤´å’Œå“åº”ä½“
+ * >ä¿å­˜åŸå§‹çš„å“åº”ä¿¡æ¯
+ * @author å‘¨å‡¯
  * @version 1.0
- * @updated 17-7ÔÂ-2023 17:11:32
+ * @updated 17-7æœˆ-2023 17:11:32
  */
 public class ServiceResponse {
 

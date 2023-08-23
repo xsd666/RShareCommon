@@ -4,7 +4,7 @@ import io.swagger.models.HttpMethod;
 
 /**
  * @ClassName OpenAPIPath
- * @Description: µ½¸÷¸ö¶ËµãµÄÏà¶ÔÂ·¾¶£¬Â·¾¶±ØĞëÒÔ/´òÍ·£¬Õâ¸öÂ·¾¶»á±»Ö±½ÓÁ¬½Óµ½ Server ¶ÔÏó µÄurl×Ö¶ÎÒÔ×é³ÉÍêÕûURLµØ
+ * @Description: åˆ°å„ä¸ªç«¯ç‚¹çš„ç›¸å¯¹è·¯å¾„ï¼Œè·¯å¾„å¿…é¡»ä»¥/æ‰“å¤´ï¼Œè¿™ä¸ªè·¯å¾„ä¼šè¢«ç›´æ¥è¿æ¥åˆ° Server å¯¹è±¡ çš„urlå­—æ®µä»¥ç»„æˆå®Œæ•´URLåœ°
  * @Author xsd
  * @Date 2023/8/21
  * @Version V1.0

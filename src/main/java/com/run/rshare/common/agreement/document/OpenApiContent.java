@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @ClassName RequestBody
- * @Description: ÇëÇóÌå
+ * @Description: è¯·æ±‚ä½“
  * @Author xsd
  * @Date 2023/8/22
  * @Version V1.0

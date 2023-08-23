@@ -10,9 +10,9 @@ import javax.jms.ObjectMessage;
 import java.util.List;
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 06-7ÔÂ-2023 11:09:21
+ * @created 06-7æœˆ-2023 11:09:21
  */
 @Component
 public class serivceStatics {
@@ -28,9 +28,9 @@ public class serivceStatics {
 	}
 
 	/**
-	 * Ö§³ÖÅúÁ¿´¦Àí
+	 * æ”¯æŒæ‰¹é‡å¤„ç†
 	 *
-	 * @param log    ÈÕÖ¾ÁĞ±í
+	 * @param log    æ—¥å¿—åˆ—è¡¨
 	 */
 	//@JmsListener(destination = "${spring.activemq.topic}")
 	public void requestLogListener(ObjectMessage log){
@@ -38,9 +38,9 @@ public class serivceStatics {
 	}
 
 	/**
-	 * TODO:ĞèÒªÃ÷È·¾ßÌåÒª²¹³äµÄÎ¬¶ÈºÍ²¹³äµÄ·½·¨¡£
-	 * 
-	 * @param log    ÈÕÖ¾
+	 * TODO:éœ€è¦æ˜ç¡®å…·ä½“è¦è¡¥å……çš„ç»´åº¦å’Œè¡¥å……çš„æ–¹æ³•ã€‚
+	 *
+	 * @param log    æ—¥å¿—
 	 */
 //	public void supplementaryDimension(gw_request_logs log){
 //
@@ -51,9 +51,9 @@ public class serivceStatics {
 	}
 
 	/**
-	 * Ö§³ÖÅúÁ¿´¦Àí
-	 * 
-	 * @param logs    ÈÕÖ¾ÁĞ±í
+	 * æ”¯æŒæ‰¹é‡å¤„ç†
+	 *
+	 * @param logs    æ—¥å¿—åˆ—è¡¨
 	 */
 //	public void requestLogListener(List<gw_request_logs> logs){
 //

@@ -1,40 +1,32 @@
 package com.run.rshare.common.agreement.document;
 
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName OpenAPIDocument
- * @Description: OpenAPI ¶ÔÏó
+ * @Description: OpenAPI å¯¹è±¡
  * @Author xsd
  * @Date 2023/8/21
  * @Version V1.0
  **/
 public class OpenApiDocument {
     /**
-     * ±ØÑ¡. Õâ¸ö×Ö·û´®±ØĞëÊÇ¿ª·ÅAPI¹æ·¶°æ±¾ºÅÌáµ½µÄ·ûºÏÓïÒå»¯°æ±¾ºÅ¹æ·¶µÄ°æ±¾ºÅ¡£openapi×Ö¶ÎÓ¦¸Ã±»¹¤¾ß»òÕß¿Í»§¶ËÓÃÀ´½âÊÍ OpenAPI ÎÄµµ¡£Õâ¸öÖµºÍAPI info.version×Ö·û´®Ã»ÓĞ¹ØÁª¡£
+     * å¿…é€‰. è¿™ä¸ªå­—ç¬¦ä¸²å¿…é¡»æ˜¯å¼€æ”¾APIè§„èŒƒç‰ˆæœ¬å·æåˆ°çš„ç¬¦åˆè¯­ä¹‰åŒ–ç‰ˆæœ¬å·è§„èŒƒçš„ç‰ˆæœ¬å·ã€‚openapiå­—æ®µåº”è¯¥è¢«å·¥å…·æˆ–è€…å®¢æˆ·ç«¯ç”¨æ¥è§£é‡Š OpenAPI æ–‡æ¡£ã€‚è¿™ä¸ªå€¼å’ŒAPI info.versionå­—ç¬¦ä¸²æ²¡æœ‰å…³è”ã€‚
      */
     protected String openapi = "3.0.1";
     /**
-     * ±ØÑ¡¡£´Ë×Ö¶ÎÌá¹©APIÏà¹ØµÄÔªÊı¾İ¡£Ïà¹Ø¹¤¾ß¿ÉÄÜĞèÒªÕâ¸ö×Ö¶Î¡£
+     * å¿…é€‰ã€‚æ­¤å­—æ®µæä¾›APIç›¸å…³çš„å…ƒæ•°æ®ã€‚ç›¸å…³å·¥å…·å¯èƒ½éœ€è¦è¿™ä¸ªå­—æ®µã€‚
      */
     protected Info info;
     /**
-     * ÕâÊÇÒ»¸öServer¶ÔÏóµÄÊı×é£¬ Ìá¹©µ½·şÎñÆ÷µÄÁ¬½ÓĞÅÏ¢¡£Èç¹ûÃ»ÓĞÌá¹©serversÊôĞÔ»òÕßÊÇÒ»¸ö¿ÕÊı×é
+     * è¿™æ˜¯ä¸€ä¸ªServerå¯¹è±¡çš„æ•°ç»„ï¼Œ æä¾›åˆ°æœåŠ¡å™¨çš„è¿æ¥ä¿¡æ¯ã€‚å¦‚æœæ²¡æœ‰æä¾›serverså±æ€§æˆ–è€…æ˜¯ä¸€ä¸ªç©ºæ•°ç»„
      */
     protected List<Servers> servers;
     /**
-     * ±ØÑ¡¡£¶ÔËùÌá¹©µÄAPIÓĞĞ§µÄÂ·¾¶ºÍ²Ù×÷¡£
+     * å¿…é€‰ã€‚å¯¹æ‰€æä¾›çš„APIæœ‰æ•ˆçš„è·¯å¾„å’Œæ“ä½œã€‚
      */
     protected Map<String, OpenApiPath> paths;
 

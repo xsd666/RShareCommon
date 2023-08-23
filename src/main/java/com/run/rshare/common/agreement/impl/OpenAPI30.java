@@ -13,85 +13,96 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 17-7ÔÂ-2023 17:10:33
+ * @created 17-7æœˆ-2023 17:10:33
  */
 @Component("OpenAPI30")
 public class OpenAPI30 implements ServiceAgreement {
 
+	@Override
 	public void checkRequireSchema(){
 
 	}
 
+	@Override
 	public void checkResponseSchema(){
 
 	}
 
 	/**
-	 * 1¡¢×¨×¢·ÇÇ¶Ì×µÄ·şÎñµÄ²ÎÊı
+	 * 1ã€ä¸“æ³¨éåµŒå¥—çš„æœåŠ¡çš„å‚æ•°
 	 * 
-	 * @param id    ¹æÔ¼³ö²ÎÄÚÈİ
+	 * @param id    è§„çº¦å‡ºå‚å†…å®¹
 	 */
+	@Override
 	public List<FieldInfo> getResponseParam(String id){
 		return null;
 	}
 
+	@Override
 	public void isValid(){
 
 	}
 
 	/**
-	 * 1¡¢×¨×¢·ÇÇ¶Ì×µÄ·şÎñµÄ²ÎÊı
+	 * 1ã€ä¸“æ³¨éåµŒå¥—çš„æœåŠ¡çš„å‚æ•°
 	 * 
-	 * @param id    ¹æÔ¼Èë²ÎÄÚÈİ
+	 * @param id    è§„çº¦å…¥å‚å†…å®¹
 	 */
+	@Override
 	public List<FieldInfo> getRequestParam(String id){
 		return null;
 	}
 
+	@Override
 	public void tryRun(){
 
 	}
 
 	/**
-	 * ´´½¨³É¹¦ºó£¬·µ»Ø¹æÔ¼Êı¾İ 1¡¢ÒÔOpenAPI3.0Îª±ê×¼´´½¨ 2¡¢±ê×¼µÄµ¥²ãÊäÈëÊä³ö²ÎÊı
+	 * åˆ›å»ºæˆåŠŸåï¼Œè¿”å›è§„çº¦æ•°æ® 1ã€ä»¥OpenAPI3.0ä¸ºæ ‡å‡†åˆ›å»º 2ã€æ ‡å‡†çš„å•å±‚è¾“å…¥è¾“å‡ºå‚æ•°
 	 * 
-	 * @param serviceConfig    ±àÅÅµÄ·şÎñÅäÖÃ
+	 * @param serviceConfig    ç¼–æ’çš„æœåŠ¡é…ç½®
 	 */
+	@Override
 	public String createFromServiceConfig(ServiceInfo serviceConfig){
 		return "";
 	}
 
 	/**
 	 * 
-	 * @param value    ÖµÉèÖÃ
+	 * @param value    å€¼è®¾ç½®
 	 */
+	@Override
 	public ServiceRequest buildServiceRequest(Map<String,String> value){
 		return null;
 	}
 
 	/**
 	 * 
-	 * @param result    ÏìÓ¦½á¹û
+	 * @param result    å“åº”ç»“æœ
 	 */
+	@Override
 	public ServiceResponse buildServiceResponse(String result){
 		return null;
 	}
 
 	/**
 	 * 
-	 * @param req    ÇëÇóÌå
+	 * @param req    è¯·æ±‚ä½“
 	 */
+	@Override
 	public ServiceRequest buildServiceRequest(HttpServletRequest req){
 		return null;
 	}
 
 	/**
 	 * 
-	 * @param resp    ÏìÓ¦Ìå
+	 * @param resp    å“åº”ä½“
 	 */
+	@Override
 	public ServiceResponse buildServiceResponse(HttpServletResponse resp){
 		return null;
 	}
-}//end OpenAPI30
+}

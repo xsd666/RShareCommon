@@ -2,14 +2,14 @@ package com.run.rshare.common.agreement;
 
 
 /**
- * @author �ܿ�
+ * @author 周凯
  * @version 1.0
- * @created 17-7��-2023 17:10:33
+ * @created 17-7月-2023 17:10:33
  */
 public class ServiceRequestStandard extends ServiceRequest {
 
 	/**
-	 * 请求体内的参数信�?    String msgFrom = null;
+	 * 璇锋眰浣撳唴鐨勫弬鏁颁俊鎭?    String msgFrom = null;
 	 */
 	String msgTo = null;
 	String msgSequence = null;

@@ -2,9 +2,9 @@ package com.run.rshare.common.agreement;
 
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 17-7ÔÂ-2023 17:10:33
+ * @created 17-7æœˆ-2023 17:10:33
  */
 public class ServiceResponseStandard extends ServiceResponse {
 

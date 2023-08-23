@@ -4,9 +4,9 @@ package com.run.rshare.common.statics.type;
 import java.util.List;
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 06-7ÔÂ-2023 11:45:08
+ * @created 06-7æœˆ-2023 11:45:08
  */
 public class StaticsInfo {
 

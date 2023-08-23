@@ -2,57 +2,56 @@ package com.run.rshare.common.agreement.document;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @ClassName ApiProperties
- * @Description: ²ÎÊıÊµÌåĞÅÏ¢
+ * @Description: å‚æ•°å®ä½“ä¿¡æ¯
  * @Author xsd
  * @Date 2023/8/22
  * @Version V1.0
  **/
 public class OpenApiProperties {
     /**
-     * ±ØĞëµÄ×Ö¶Î
+     * å¿…é¡»çš„å­—æ®µ
      */
     private List<String> required;
     /**
-     * ÀàĞÍ
+     * ç±»å‹
      */
     private String type;
     /**
-     * ±êÌâ
+     * æ ‡é¢˜
      */
     private String title;
     /**
-     * ÃèÊö
+     * æè¿°
      */
     private String description;
     /**
-     * º¯ÊıĞÅÏ¢
+     * å‡½æ•°ä¿¡æ¯
      */
     private String format;
     /**
-     * Ä¬ÈÏÖµ
+     * é»˜è®¤å€¼
      */
     @JSONField(name="default")
     private String defaultVal;
     /**
-     * ÕıÔò±í´ïÊ½
+     * æ­£åˆ™è¡¨è¾¾å¼
      */
     private String pattern;
 
     @JSONField(name="enum")
     private List<String> enumVal;
     /**
-     * ÊµÀı
+     * å®ä¾‹
      */
     private List<String> examples;
 
     /**
-     * ²ÎÊıÏìÓ¦ĞÅÏ¢
+     * å‚æ•°å“åº”ä¿¡æ¯
      */
     private Map<String, OpenApiProperties> properties;
 

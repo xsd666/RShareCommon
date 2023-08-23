@@ -2,18 +2,18 @@ package com.run.rshare.common.agreement.document;
 
 /**
  * @ClassName Servers
- * @Description: ÕâÊÇÒ»¸öServer¶ÔÏóµÄÊý×é£¬ Ìá¹©µ½·þÎñÆ÷µÄÁ¬½ÓÐÅÏ¢¡£Èç¹ûÃ»ÓÐÌá¹©serversÊôÐÔ»òÕßÊÇÒ»¸ö¿ÕÊý×é
+ * @Description: è¿™æ˜¯ä¸€ä¸ªServerå¯¹è±¡çš„æ•°ç»„ï¼Œ æä¾›åˆ°æœåŠ¡å™¨çš„è¿žæŽ¥ä¿¡æ¯ã€‚å¦‚æžœæ²¡æœ‰æä¾›serverså±žæ€§æˆ–è€…æ˜¯ä¸€ä¸ªç©ºæ•°ç»„
  * @Author xsd
  * @Date 2023/8/22
  * @Version V1.0
  **/
 public class Servers {
     /**
-     * ±ØÑ¡. Ö¸ÏòÄ¿±êÖ÷»úµÄURLµØÖ·¡£Õâ¸öURLµØÖ·Ö§³Ö·þÎñÆ÷±äÁ¿¶øÇÒ¿ÉÄÜÊÇÏà¶ÔÂ·¾¶£¬±íÊ¾Ö÷»úÂ·¾¶ÊÇÏà¶ÔÓÚ±¾ÎÄµµËùÔÚµÄÂ·¾¶
+     * å¿…é€‰. æŒ‡å‘ç›®æ ‡ä¸»æœºçš„URLåœ°å€ã€‚è¿™ä¸ªURLåœ°å€æ”¯æŒæœåŠ¡å™¨å˜é‡è€Œä¸”å¯èƒ½æ˜¯ç›¸å¯¹è·¯å¾„ï¼Œè¡¨ç¤ºä¸»æœºè·¯å¾„æ˜¯ç›¸å¯¹äºŽæœ¬æ–‡æ¡£æ‰€åœ¨çš„è·¯å¾„
      */
     private String url;
     /**
-     * Ò»¸ö¿ÉÑ¡µÄ×Ö·û´®£¬ÓÃÀ´ÃèÊö´ËURLµØÖ·
+     * ä¸€ä¸ªå¯é€‰çš„å­—ç¬¦ä¸²ï¼Œç”¨æ¥æè¿°æ­¤URLåœ°å€
      */
     private String description;
 

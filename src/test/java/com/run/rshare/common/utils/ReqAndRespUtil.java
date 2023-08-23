@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * <p>ÇëÇóºÍÏìÓ¦²ÎÊıÉú³ÉÆ÷</p>
+ * <p>è¯·æ±‚å’Œå“åº”å‚æ•°ç”Ÿæˆå™¨</p>
  * @author hexing
  *
  */
@@ -28,100 +28,100 @@ public class ReqAndRespUtil {
 		result.put("data", reqAndRespData);
 		try {
 			FileReader file = new FileReader(filename);
-			//ÇëÇóÍ·ËµÃ÷
+			//è¯·æ±‚å¤´è¯´æ˜
 			ExcelReader reader = cn.hutool.poi.excel.ExcelUtil.getReader(file.getInputStream());
-			//SheetĞ£Ñé
+			//Sheetæ ¡éªŒ
 			if(!validSheet(reader.getSheetNames())) {
 				result.put("code", "500");
-				result.put("msg", "ÉÏ´«µÄExcelÎÄ¼ş²»ÊÇ±ê×¼µÄ·şÎñ×¢²áÄ£°åÎÄ¼ş£¬ÇëÖØĞÂÉÏ´«£¡");
+				result.put("msg", "ä¸Šä¼ çš„Excelæ–‡ä»¶ä¸æ˜¯æ ‡å‡†çš„æœåŠ¡æ³¨å†Œæ¨¡æ¿æ–‡ä»¶ï¼Œè¯·é‡æ–°ä¸Šä¼ ï¼");
 				return result;
 			}
 			JSONArray reqHeaders = (JSONArray) JSON.toJSON(reader.setSheet(0).readAll());
 			if(reqHeaders.size() > 0) {
 				reqHeaders.stream().forEach(r -> {
-					((JSONObject) r).put("desc", ((JSONObject) r).getString("ÇëÇóÍ·ËµÃ÷"));
+					((JSONObject) r).put("desc", ((JSONObject) r).getString("è¯·æ±‚å¤´è¯´æ˜"));
 				});
 				Map<String, String> changeKeysMap = new HashMap<>();
-				changeKeysMap.put("ÇëÇóÍ·Ãû³Æ", "arg");
-				changeKeysMap.put("ÇëÇóÍ·ËµÃ÷", "name");
-				changeKeysMap.put("Êı¾İÀàĞÍ", "type");
-				changeKeysMap.put("ÊÇ·ñ±ØÌî", "required");
-				result.getJSONObject("data").put("service_req_headers", buildReqHeadersDef().fluentAddAll((JSONArray) removeOrRetainKeys(changeJsonArrayKeys(reqHeaders, changeKeysMap), true, "ĞòºÅ")));
+				changeKeysMap.put("è¯·æ±‚å¤´åç§°", "arg");
+				changeKeysMap.put("è¯·æ±‚å¤´è¯´æ˜", "name");
+				changeKeysMap.put("æ•°æ®ç±»å‹", "type");
+				changeKeysMap.put("æ˜¯å¦å¿…å¡«", "required");
+				result.getJSONObject("data").put("service_req_headers", buildReqHeadersDef().fluentAddAll((JSONArray) removeOrRetainKeys(changeJsonArrayKeys(reqHeaders, changeKeysMap), true, "åºå·")));
 			}else {
 				result.getJSONObject("data").put("service_req_headers", buildReqHeadersDef());
 			}
-			//ÇëÇó²ÎÊıËµÃ÷
+			//è¯·æ±‚å‚æ•°è¯´æ˜
 			JSONArray reqArgs = (JSONArray) JSON.toJSON(reader.setSheet(1).readAll());
 			if(reqArgs.size() > 0) {
 				Map<String, String> changeKeysMap = new HashMap<>();
-				changeKeysMap.put("²ÎÊıÃû³Æ", "arg");
-				changeKeysMap.put("¸¸¼¶Ãû³Æ", "pArg");
-				changeKeysMap.put("Êı¾İÀàĞÍ", "type");
-				changeKeysMap.put("ÊÇ·ñ±ØÌî", "required");
-				changeKeysMap.put("²ÎÊıËµÃ÷", "desc");
-				result.getJSONObject("data").put("service_req_args", removeOrRetainKeys(changeJsonArrayKeys(reqArgs, changeKeysMap), true, "ĞòºÅ"));
+				changeKeysMap.put("å‚æ•°åç§°", "arg");
+				changeKeysMap.put("çˆ¶çº§åç§°", "pArg");
+				changeKeysMap.put("æ•°æ®ç±»å‹", "type");
+				changeKeysMap.put("æ˜¯å¦å¿…å¡«", "required");
+				changeKeysMap.put("å‚æ•°è¯´æ˜", "desc");
+				result.getJSONObject("data").put("service_req_args", removeOrRetainKeys(changeJsonArrayKeys(reqArgs, changeKeysMap), true, "åºå·"));
 			}else {
 				result.getJSONObject("data").put("service_req_args", new JSONArray());
 			}
-			//ÏìÓ¦Í·ËµÃ÷
+			//å“åº”å¤´è¯´æ˜
 			JSONArray respHeaders = (JSONArray) JSON.toJSON(reader.setSheet(2).readAll());
 			if(respHeaders.size() > 0) {
 				respHeaders.stream().forEach(r -> {
-					((JSONObject) r).put("desc", ((JSONObject) r).getString("ÏìÓ¦Í·ËµÃ÷"));
+					((JSONObject) r).put("desc", ((JSONObject) r).getString("å“åº”å¤´è¯´æ˜"));
 				});
 				Map<String, String> changeKeysMap = new HashMap<>();
-				changeKeysMap.put("ÏìÓ¦Í·Ãû³Æ", "arg");
-				changeKeysMap.put("ÏìÓ¦Í·ËµÃ÷", "name");
-				changeKeysMap.put("Êı¾İÀàĞÍ", "type");
-				result.getJSONObject("data").put("service_resp_headers", ReqAndRespUtil.buildRespHeadersDef().fluentAddAll((JSONArray) removeOrRetainKeys(changeJsonArrayKeys(respHeaders, changeKeysMap), true, "ĞòºÅ")));
+				changeKeysMap.put("å“åº”å¤´åç§°", "arg");
+				changeKeysMap.put("å“åº”å¤´è¯´æ˜", "name");
+				changeKeysMap.put("æ•°æ®ç±»å‹", "type");
+				result.getJSONObject("data").put("service_resp_headers", ReqAndRespUtil.buildRespHeadersDef().fluentAddAll((JSONArray) removeOrRetainKeys(changeJsonArrayKeys(respHeaders, changeKeysMap), true, "åºå·")));
 			}else {
 				result.getJSONObject("data").put("service_resp_headers", ReqAndRespUtil.buildRespHeadersDef());
 			}
-			//ÏìÓ¦²ÎÊıËµÃ÷
+			//å“åº”å‚æ•°è¯´æ˜
 			JSONArray respArgs = (JSONArray) JSON.toJSON(reader.setSheet(3).readAll());
 			if(respArgs.size() > 0) {
 				Map<String, String> changeKeysMap = new HashMap<>();
-				changeKeysMap.put("²ÎÊıÃû³Æ", "arg");
-				changeKeysMap.put("¸¸¼¶Ãû³Æ", "pArg");
-				changeKeysMap.put("Êı¾İÀàĞÍ", "type");
-				changeKeysMap.put("²ÎÊıËµÃ÷", "desc");
-				result.getJSONObject("data").put("service_resp_args", removeOrRetainKeys(changeJsonArrayKeys(respArgs, changeKeysMap), true, "ĞòºÅ"));
+				changeKeysMap.put("å‚æ•°åç§°", "arg");
+				changeKeysMap.put("çˆ¶çº§åç§°", "pArg");
+				changeKeysMap.put("æ•°æ®ç±»å‹", "type");
+				changeKeysMap.put("å‚æ•°è¯´æ˜", "desc");
+				result.getJSONObject("data").put("service_resp_args", removeOrRetainKeys(changeJsonArrayKeys(respArgs, changeKeysMap), true, "åºå·"));
 			}else {
 				result.getJSONObject("data").put("service_resp_args", new JSONArray());
 			}
-			//ÏìÓ¦ÂëËµÃ÷
+			//å“åº”ç è¯´æ˜
 			JSONArray respCode = (JSONArray) JSON.toJSON(reader.setSheet(4).readAll());
 			if(respCode.size() > 0) {
 				Map<String, String> changeKeysMap = new HashMap<>();
-				changeKeysMap.put("×´Ì¬Âë", "code");
-				changeKeysMap.put("×´Ì¬ÂëÃèÊö", "desc");
-				result.getJSONObject("data").put("service_resp_code", removeOrRetainKeys(changeJsonArrayKeys(respCode, changeKeysMap), true, "ĞòºÅ"));
+				changeKeysMap.put("çŠ¶æ€ç ", "code");
+				changeKeysMap.put("çŠ¶æ€ç æè¿°", "desc");
+				result.getJSONObject("data").put("service_resp_code", removeOrRetainKeys(changeJsonArrayKeys(respCode, changeKeysMap), true, "åºå·"));
 			}else {
 				result.getJSONObject("data").put("service_resp_code", new JSONArray());
 			}
-			//ÇëÇóÏìÓ¦Ê¾Àı
+			//è¯·æ±‚å“åº”ç¤ºä¾‹
 			JSONArray reqAndRespSample = (JSONArray) JSON.toJSON(reader.setSheet(5).readAll());
 			if(reqAndRespSample.size() > 0) {
 				JSONObject service_req_sample = new JSONObject(true);
 				JSONObject reqHeader = new JSONObject();
 				try {
-					String reqHeaderString = reqAndRespSample.getJSONObject(0).getString("ÇëÇóÍ·Ê¾Àı");
+					String reqHeaderString = reqAndRespSample.getJSONObject(0).getString("è¯·æ±‚å¤´ç¤ºä¾‹");
 					reqHeader = JSONObject.parseObject(StringUtils.isNotBlank(reqHeaderString) ? reqHeaderString : "{}");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				service_req_sample.put("header", reqHeader);
-				//KK-0621-4.1£º È¥µôJSONÅĞ¶Ï£¬¼æÈİGETÄ£Ê½
+				//KK-0621-4.1ï¼š å»æ‰JSONåˆ¤æ–­ï¼Œå…¼å®¹GETæ¨¡å¼
 				JSONObject reqBody = new JSONObject();
 				try {
-					String reqBodyString = reqAndRespSample.getJSONObject(0).getString("ÇëÇóÌåÊ¾Àı");
+					String reqBodyString = reqAndRespSample.getJSONObject(0).getString("è¯·æ±‚ä½“ç¤ºä¾‹");
 					String trimString = reqBodyString.trim();
 					if(trimString.startsWith("{") && trimString.endsWith("}")) {
-						//POST¶ÔÏóÄ£Ê½
+						//POSTå¯¹è±¡æ¨¡å¼
 						reqBody = JSONObject.parseObject(trimString);
 						service_req_sample.put("body", reqBody);
 					}else{
-						//GETÄÚÈİÄ£Ê½
+						//GETå†…å®¹æ¨¡å¼
 						service_req_sample.put("body", trimString);
 					}
 
@@ -133,7 +133,7 @@ public class ReqAndRespUtil {
 				JSONObject service_resp_sample = new JSONObject(true);
 				JSONObject respHeader = new JSONObject();
 				try {
-					String respHeaderString = reqAndRespSample.getJSONObject(0).getString("ÏìÓ¦Í·Ê¾Àı");
+					String respHeaderString = reqAndRespSample.getJSONObject(0).getString("å“åº”å¤´ç¤ºä¾‹");
 					respHeader = JSONObject.parseObject(StringUtils.isNotBlank(respHeaderString) ? respHeaderString : "{}");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -141,7 +141,7 @@ public class ReqAndRespUtil {
 				service_resp_sample.put("header", respHeader);
 				JSONObject respBody = new JSONObject();
 				try {
-					String respBodyString = reqAndRespSample.getJSONObject(0).getString("ÏìÓ¦ÌåÊ¾Àı");
+					String respBodyString = reqAndRespSample.getJSONObject(0).getString("å“åº”ä½“ç¤ºä¾‹");
 					respBody = JSONObject.parseObject(StringUtils.isNotBlank(respBodyString) ? respBodyString : "{}");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -159,7 +159,7 @@ public class ReqAndRespUtil {
 	}
 
 	/**
-	 * <p>¹¹½¨Header</p>
+	 * <p>æ„å»ºHeader</p>
 	 * @param arg
 	 * @param name
 	 * @param desc
@@ -178,24 +178,24 @@ public class ReqAndRespUtil {
 		}
 		return header;
 	}
-	
+
 	/**
-	 * <p>¹¹½¨¹«¹²µÄÇëÇóÍ·ÃèÊöĞÅÏ¢</p>
+	 * <p>æ„å»ºå…¬å…±çš„è¯·æ±‚å¤´æè¿°ä¿¡æ¯</p>
 	 * @return
 	 */
 	public static JSONArray buildReqHeadersDef() {
 		JSONArray jsonArray = new JSONArray();
-		jsonArray.add(buildHeader("Content-Type", "ÄÚÈİÀàĞÍ", "ÄÚÈİÀàĞÍ", "string", "1"));
-		jsonArray.add(buildHeader("SenderID", "Ó¦ÓÃID", "Ó¦ÓÃID", "string", "1"));
-		jsonArray.add(buildHeader("ServiceResourceId", "·şÎñ×ÊÔ´ID", "·şÎñ×ÊÔ´ID", "string", "1"));
-		jsonArray.add(buildHeader("UserID", "ÓÃ»§ID", "ÓÃ»§ID", "string", "1"));
+		jsonArray.add(buildHeader("Content-Type", "å†…å®¹ç±»å‹", "å†…å®¹ç±»å‹", "string", "1"));
+		jsonArray.add(buildHeader("SenderID", "åº”ç”¨ID", "åº”ç”¨ID", "string", "1"));
+		jsonArray.add(buildHeader("ServiceResourceId", "æœåŠ¡èµ„æºID", "æœåŠ¡èµ„æºID", "string", "1"));
+		jsonArray.add(buildHeader("UserID", "ç”¨æˆ·ID", "ç”¨æˆ·ID", "string", "1"));
 		return jsonArray;
 	}
 
-	private static final String[] validSheetNames = {"ÇëÇóÍ·ËµÃ÷", "ÇëÇó²ÎÊıËµÃ÷", "ÏìÓ¦Í·ËµÃ÷", "ÏìÓ¦²ÎÊıËµÃ÷", "ÏìÓ¦ÂëËµÃ÷", "ÇëÇóÏìÓ¦Ê¾ÀıËµÃ÷"};
+	private static final String[] validSheetNames = {"è¯·æ±‚å¤´è¯´æ˜", "è¯·æ±‚å‚æ•°è¯´æ˜", "å“åº”å¤´è¯´æ˜", "å“åº”å‚æ•°è¯´æ˜", "å“åº”ç è¯´æ˜", "è¯·æ±‚å“åº”ç¤ºä¾‹è¯´æ˜"};
 
 	/**
-	 * Ğ£ÑéSheet
+	 * æ ¡éªŒSheet
 	 * @param sheetNames
 	 * @return
 	 */
@@ -263,7 +263,7 @@ public class ReqAndRespUtil {
 		return resJson;
 	}
 	/**
-	 * <p>¹¹½¨¹«¹²µÄÇëÇóÍ·ÑùÀıÊı¾İ</p>
+	 * <p>æ„å»ºå…¬å…±çš„è¯·æ±‚å¤´æ ·ä¾‹æ•°æ®</p>
 	 * @param SenderID
 	 * @param ServiceResourceId
 	 * @param UserID
@@ -277,9 +277,9 @@ public class ReqAndRespUtil {
 		headerObject.put("UserID", UserID);
 		return headerObject;
 	}
-	
+
 	/**
-	 * <p>¹¹½¨¹«¹²µÄÇëÇóÌåÑùÀıÊı¾İ</p>
+	 * <p>æ„å»ºå…¬å…±çš„è¯·æ±‚ä½“æ ·ä¾‹æ•°æ®</p>
 	 * @return
 	 */
 	public static JSONObject buildPostReqBodySample(String type, String dataResourceName, JSONArray reqArgs, JSONArray respArgs) {
@@ -292,10 +292,10 @@ public class ReqAndRespUtil {
 		reqArgs.forEach(o_ -> {
 			JSONObject o = (JSONObject) o_;
 			if(StringUtils.isNotBlank(o.getString("value"))) {
-				Condition.append(" and " + o.getString("arg") + "='" + o.getString("value") + "'"); 
+				Condition.append(" and " + o.getString("arg") + "='" + o.getString("value") + "'");
 			}
 		});
-		//RequestParam²ÎÊıÊÔÔËĞĞÊ±£¬ÅĞ¶¨·şÎñ½ö´«µİÒ»ÏîKEY1¼´¿É£¬²éÑ¯·şÎñºÍÏÂÔØ·şÎñĞèÒªCondition¡¢ResourceInfos¡¢OtherConditionÈıÏî
+		//RequestParamå‚æ•°è¯•è¿è¡Œæ—¶ï¼Œåˆ¤å®šæœåŠ¡ä»…ä¼ é€’ä¸€é¡¹KEY1å³å¯ï¼ŒæŸ¥è¯¢æœåŠ¡å’Œä¸‹è½½æœåŠ¡éœ€è¦Conditionã€ResourceInfosã€OtherConditionä¸‰é¡¹
 		if("11".equals(type)) {
 			RequestParam.put("KEY1", Condition.length() > 0 ? Condition.toString().substring(5) : "");
 		}else {
@@ -315,7 +315,7 @@ public class ReqAndRespUtil {
 			JSONObject OtherCondition = new JSONObject(true);
 			OtherCondition.put("PageSize", 10);
 			OtherCondition.put("CurrentPage", 1);
-			//Êı¾İÏÂÔØ·şÎñÊÔÔËĞĞµÄ»Øµ÷µØÖ·
+			//æ•°æ®ä¸‹è½½æœåŠ¡è¯•è¿è¡Œçš„å›è°ƒåœ°å€
 			if("4".equals(type)){
 				OtherCondition.put("CallbackID", "http://192.168.15.56:9090/service/TrialRunController/downloadCallback");
 			}
@@ -326,70 +326,70 @@ public class ReqAndRespUtil {
 	}
 
 	/**
-	 * <p>¹¹½¨¹«¹²µÄÏìÓ¦Í·ÃèÊöĞÅÏ¢</p>
+	 * <p>æ„å»ºå…¬å…±çš„å“åº”å¤´æè¿°ä¿¡æ¯</p>
 	 * @return
 	 */
 	public static JSONArray buildRespHeadersDef() {
 		JSONArray jsonArray = new JSONArray();
 		return jsonArray;
 	}
-	
+
 	/**
-	 * <p>¹¹½¨¹«¹²µÄÏìÓ¦Í·ÑùÀıÊı¾İ</p>
+	 * <p>æ„å»ºå…¬å…±çš„å“åº”å¤´æ ·ä¾‹æ•°æ®</p>
 	 * @return
 	 */
 	public static JSONObject buildRespHeadersSample() {
 		JSONObject headerObject = new JSONObject(true);
 		return headerObject;
 	}
-	
+
 	/**
-	 * <p>¹¹½¨¹«¹²µÄÏìÓ¦ÌåÑùÀıÊı¾İ</p>
+	 * <p>æ„å»ºå…¬å…±çš„å“åº”ä½“æ ·ä¾‹æ•°æ®</p>
 	 * @return
 	 */
 	public static JSONObject buildRespBodySample(String type, String dataResourceName, JSONArray respArgs) {
 		JSONObject bodyObject = new JSONObject(true);
 		bodyObject.put("MessageStatus", "0200");
-		bodyObject.put("Remark", "Õı³£");
+		bodyObject.put("Remark", "æ­£å¸¸");
 		bodyObject.put("MessageSequence", new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + (int)(Math.random() * 90 + 10));
 		JSONObject ResponseParam = new JSONObject(true);
 		switch (type) {
-		case "4":
-			bodyObject.clear();
-			bodyObject.put("status", "0200");
-			bodyObject.put("taskId", "trial_370000000000000002021101712345");
-			bodyObject.put("filePath", "/home/ftp/trial_370000000000000002021101712345");
-			bodyObject.put("username", "runtest");
-			bodyObject.put("password", "12345");
-			bodyObject.put("total", "15");
-			break;
-		case "11":
-			ResponseParam.put("KEY1", "true");
-			bodyObject.put("ResponseParam", ResponseParam);
-			break;
-		default:
-			JSONArray ResourceInfos = new JSONArray();
-			JSONObject ResourceInfo = new JSONObject(true);
-			ResourceInfo.put("ResourceName", dataResourceName);
-			JSONArray DataItems = respArgs;
-			DataItems.forEach(o_ -> {
-				JSONObject o = (JSONObject) o_;
-				o.put("Name", o.getString("arg"));
-				o.put("Fmt", "");
-			});
-			ResourceInfo.put("DataItems", removeOrRetainKeys(DataItems, false, "Name", "Fmt"));
-			ResourceInfo.put("DataInfo", new JSONArray());
-			ResourceInfos.add(ResourceInfo);
-			ResponseParam.put("ResourceInfos", ResourceInfos);
-			bodyObject.put("ResponseParam", ResponseParam);
-			break;
+			case "4":
+				bodyObject.clear();
+				bodyObject.put("status", "0200");
+				bodyObject.put("taskId", "trial_370000000000000002021101712345");
+				bodyObject.put("filePath", "/home/ftp/trial_370000000000000002021101712345");
+				bodyObject.put("username", "runtest");
+				bodyObject.put("password", "12345");
+				bodyObject.put("total", "15");
+				break;
+			case "11":
+				ResponseParam.put("KEY1", "true");
+				bodyObject.put("ResponseParam", ResponseParam);
+				break;
+			default:
+				JSONArray ResourceInfos = new JSONArray();
+				JSONObject ResourceInfo = new JSONObject(true);
+				ResourceInfo.put("ResourceName", dataResourceName);
+				JSONArray DataItems = respArgs;
+				DataItems.forEach(o_ -> {
+					JSONObject o = (JSONObject) o_;
+					o.put("Name", o.getString("arg"));
+					o.put("Fmt", "");
+				});
+				ResourceInfo.put("DataItems", removeOrRetainKeys(DataItems, false, "Name", "Fmt"));
+				ResourceInfo.put("DataInfo", new JSONArray());
+				ResourceInfos.add(ResourceInfo);
+				ResponseParam.put("ResourceInfos", ResourceInfos);
+				bodyObject.put("ResponseParam", ResponseParam);
+				break;
 		}
 		return bodyObject;
 	}
-	
+
 	public static JSONObject buildRespCode(String dataset) {
 		JSONObject respCode = new JSONObject();
-		respCode.put(dataset, JSONArray.parseArray("[{\"code\": \"0200\", \"desc\": \"Õı³£\"}]"));
+		respCode.put(dataset, JSONArray.parseArray("[{\"code\": \"0200\", \"desc\": \"æ­£å¸¸\"}]"));
 		return respCode;
 	}
 

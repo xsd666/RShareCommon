@@ -2,22 +2,22 @@ package com.run.rshare.common.agreement.document;
 
 /**
  * @ClassName Info
- * @Description: ��������ṩAPI��Ԫ���ݡ�����ͻ�����Ҫʱ���ܻ��õ���ЩԪ���ݣ����ҿ��ܻᱻ�����ڱ༭���߻����ĵ����ɹ����С�
+ * @Description: 这个对象提供API的元数据。如果客户端需要时可能会用到这些元数据，而且可能会被呈现在编辑工具或者文档生成工具中。
  * @Author xsd
  * @Date 2023/8/21
  * @Version V1.0
  **/
 public class Info {
     /**
-     * ��Ӧ�õļ������
+     * 对应用的简短描述
      */
     private String description;
     /**
-     * ��ѡ. API�ĵ��İ汾��Ϣ
+     * 必选. API文档的版本信息
      */
     private String version;
     /**
-     * ��ѡ. Ӧ�õ�����
+     * 必选. 应用的名称
      */
     private String title;
 

@@ -11,487 +11,487 @@ import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 
 /**
-* ����������־��
-* @TableName gw_request_logs
-*/
+ * 服务请求日志表
+ * @TableName gw_request_logs
+ */
 public class gw_request_logs implements Serializable {
 
     /**
-    * ��ID,����
-    */
-    @NotBlank(message="[��ID,����]不能为空")
-    @Size(max= 64,message="编码长度不能超过64")
-    @ApiModelProperty("��ID,����")
-    @Length(max= 64,message="编码长度不能超过64")
+     * 旧ID,无序
+     */
+    @NotBlank(message="[旧ID,无序]涓嶈兘涓虹┖")
+    @Size(max= 64,message="缂栫爜闀垮害涓嶈兘瓒呰繃64")
+    @ApiModelProperty("旧ID,无序")
+    @Length(max= 64,message="缂栫爜闀垮害涓嶈兘瓒呰繃64")
     public String id;
     /**
-    * �û�ID
-    */
-    @Size(max= 100,message="编码长度不能超过100")
-    @ApiModelProperty("�û�ID")
-    @Length(max= 100,message="编码长度不能超过100")
+     * 用户ID
+     */
+    @Size(max= 100,message="缂栫爜闀垮害涓嶈兘瓒呰繃100")
+    @ApiModelProperty("用户ID")
+    @Length(max= 100,message="缂栫爜闀垮害涓嶈兘瓒呰繃100")
     public String userId;
     /**
-    * Ӧ��ID
-    */
-    @Size(max= 100,message="编码长度不能超过100")
-    @ApiModelProperty("Ӧ��ID")
-    @Length(max= 100,message="编码长度不能超过100")
+     * 应用ID
+     */
+    @Size(max= 100,message="缂栫爜闀垮害涓嶈兘瓒呰繃100")
+    @ApiModelProperty("应用ID")
+    @Length(max= 100,message="缂栫爜闀垮害涓嶈兘瓒呰繃100")
     public String appId;
     /**
-    * ������Դ��ʶ
-    */
-    @Size(max= 100,message="编码长度不能超过100")
-    @ApiModelProperty("������Դ��ʶ")
-    @Length(max= 100,message="编码长度不能超过100")
+     * 服务资源标识
+     */
+    @Size(max= 100,message="缂栫爜闀垮害涓嶈兘瓒呰繃100")
+    @ApiModelProperty("服务资源标识")
+    @Length(max= 100,message="缂栫爜闀垮害涓嶈兘瓒呰繃100")
     public String serviceId;
     /**
-    * ����IP
-    */
-    @Size(max= 255,message="编码长度不能超过255")
-    @ApiModelProperty("����IP")
-    @Length(max= 255,message="编码长度不能超过255")
+     * 请求方IP
+     */
+    @Size(max= 255,message="缂栫爜闀垮害涓嶈兘瓒呰繃255")
+    @ApiModelProperty("请求方IP")
+    @Length(max= 255,message="缂栫爜闀垮害涓嶈兘瓒呰繃255")
     public String requestIp;
     /**
-    * �����ַ
-    */
-    @Size(max= 500,message="编码长度不能超过500")
-    @ApiModelProperty("�����ַ")
-    @Length(max= 500,message="编码长度不能超过500")
+     * 服务地址
+     */
+    @Size(max= 500,message="缂栫爜闀垮害涓嶈兘瓒呰繃500")
+    @ApiModelProperty("服务地址")
+    @Length(max= 500,message="缂栫爜闀垮害涓嶈兘瓒呰繃500")
     public String requestUrl;
     /**
-    * ��������ʱ��
-    */
-    @ApiModelProperty("��������ʱ��")
+     * 服务请求时间
+     */
+    @ApiModelProperty("服务请求时间")
     public Date requestTime;
     /**
-    * ����ʽ
-    */
-    @Size(max= 64,message="编码长度不能超过64")
-    @ApiModelProperty("����ʽ")
-    @Length(max= 64,message="编码长度不能超过64")
+     * 请求方式
+     */
+    @Size(max= 64,message="缂栫爜闀垮害涓嶈兘瓒呰繃64")
+    @ApiModelProperty("请求方式")
+    @Length(max= 64,message="缂栫爜闀垮害涓嶈兘瓒呰繃64")
     public String requestMethod;
     /**
-    * 
-    */
-    @Size(max= 50,message="编码长度不能超过50")
+     *
+     */
+    @Size(max= 50,message="缂栫爜闀垮害涓嶈兘瓒呰繃50")
     @ApiModelProperty("")
-    @Length(max= 50,message="编码长度不能超过50")
+    @Length(max= 50,message="缂栫爜闀垮害涓嶈兘瓒呰繃50")
     public String requestOriginalHeader;
     /**
-    * ԭʼ�������
-    */
-    @Size(max= -1,message="编码长度不能超过-1")
-    @ApiModelProperty("ԭʼ�������")
-    @Length(max= -1,message="编码长度不能超过-1")
+     * 原始请求参数
+     */
+    @Size(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
+    @ApiModelProperty("原始请求参数")
+    @Length(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
     public String requestOriginalParam;
     /**
-    * ����ͷ����
-    */
-    @Size(max= -1,message="编码长度不能超过-1")
-    @ApiModelProperty("����ͷ����")
-    @Length(max= -1,message="编码长度不能超过-1")
+     * 请求头内容
+     */
+    @Size(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
+    @ApiModelProperty("请求头内容")
+    @Length(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
     public String requestHeadParam;
     /**
-    * �������������
-    */
-    @Size(max= -1,message="编码长度不能超过-1")
-    @ApiModelProperty("�������������")
-    @Length(max= -1,message="编码长度不能超过-1")
+     * 处理后请求参数
+     */
+    @Size(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
+    @ApiModelProperty("处理后请求参数")
+    @Length(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
     public String requestParam;
     /**
-    * ������ʵ�ַ,����ʵ����ת��ַ
-    */
-    @Size(max= 500,message="编码长度不能超过500")
-    @ApiModelProperty("������ʵ�ַ,����ʵ����ת��ַ")
-    @Length(max= 500,message="编码长度不能超过500")
+     * 服务访问地址,服务实际跳转地址
+     */
+    @Size(max= 500,message="缂栫爜闀垮害涓嶈兘瓒呰繃500")
+    @ApiModelProperty("服务访问地址,服务实际跳转地址")
+    @Length(max= 500,message="缂栫爜闀垮害涓嶈兘瓒呰繃500")
     public String forwardUrl;
     /**
-    * ת��ʱ��
-    */
-    @ApiModelProperty("ת��ʱ��")
+     * 转发时间
+     */
+    @ApiModelProperty("转发时间")
     public Date forwardTime;
     /**
-    * ����ת��״̬
-    */
-    @Size(max= 20,message="编码长度不能超过20")
-    @ApiModelProperty("����ת��״̬")
-    @Length(max= 20,message="编码长度不能超过20")
+     * 服务转发状态
+     */
+    @Size(max= 20,message="缂栫爜闀垮害涓嶈兘瓒呰繃20")
+    @ApiModelProperty("服务转发状态")
+    @Length(max= 20,message="缂栫爜闀垮害涓嶈兘瓒呰繃20")
     public String forwardState;
     /**
-    * ����ת��ʧ��ԭ��
-    */
-    @Size(max= 4000,message="编码长度不能超过4000")
-    @ApiModelProperty("����ת��ʧ��ԭ��")
-    @Length(max= 4000,message="编码长度不能超过4,000")
+     * 服务转发失败原因
+     */
+    @Size(max= 4000,message="缂栫爜闀垮害涓嶈兘瓒呰繃4000")
+    @ApiModelProperty("服务转发失败原因")
+    @Length(max= 4000,message="缂栫爜闀垮害涓嶈兘瓒呰繃4,000")
     public String forwardFailReason;
     /**
-    * ������Ӧʱ��
-    */
-    @ApiModelProperty("������Ӧʱ��")
+     * 服务响应时间
+     */
+    @ApiModelProperty("服务响应时间")
     public Date responseTime;
     /**
-    * 
-    */
-    @Size(max= 50,message="编码长度不能超过50")
+     *
+     */
+    @Size(max= 50,message="缂栫爜闀垮害涓嶈兘瓒呰繃50")
     @ApiModelProperty("")
-    @Length(max= 50,message="编码长度不能超过50")
+    @Length(max= 50,message="缂栫爜闀垮害涓嶈兘瓒呰繃50")
     public String responseOriginalHeader;
     /**
-    * ԭʼ��Ӧ����
-    */
-    @Size(max= -1,message="编码长度不能超过-1")
-    @ApiModelProperty("ԭʼ��Ӧ����")
-    @Length(max= -1,message="编码长度不能超过-1")
+     * 原始响应请求
+     */
+    @Size(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
+    @ApiModelProperty("原始响应请求")
+    @Length(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
     public String responseOriginalParam;
     /**
-    * 
-    */
-    @Size(max= 50,message="编码长度不能超过50")
+     *
+     */
+    @Size(max= 50,message="缂栫爜闀垮害涓嶈兘瓒呰繃50")
     @ApiModelProperty("")
-    @Length(max= 50,message="编码长度不能超过50")
+    @Length(max= 50,message="缂栫爜闀垮害涓嶈兘瓒呰繃50")
     public String responseHeader;
     /**
-    * ��������Ӧ����
-    */
-    @Size(max= -1,message="编码长度不能超过-1")
-    @ApiModelProperty("��������Ӧ����")
-    @Length(max= -1,message="编码长度不能超过-1")
+     * 处理后响应请求
+     */
+    @Size(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
+    @ApiModelProperty("处理后响应请求")
+    @Length(max= -1,message="缂栫爜闀垮害涓嶈兘瓒呰繃-1")
     public String responseParam;
     /**
-    * ������Ӧ״̬
-    */
-    @Size(max= 20,message="编码长度不能超过20")
-    @ApiModelProperty("������Ӧ״̬")
-    @Length(max= 20,message="编码长度不能超过20")
+     * 服务响应状态
+     */
+    @Size(max= 20,message="缂栫爜闀垮害涓嶈兘瓒呰繃20")
+    @ApiModelProperty("服务响应状态")
+    @Length(max= 20,message="缂栫爜闀垮害涓嶈兘瓒呰繃20")
     public String responseState;
     /**
-    * ����ʱ��
-    */
-    @ApiModelProperty("����ʱ��")
+     * 创建时间
+     */
+    @ApiModelProperty("创建时间")
     public Date createTime;
 
     /**
-    * ��ID,����
-    */
+     * 旧ID,无序
+     */
     public void setId(String id){
-    this.id = id;
+        this.id = id;
     }
 
     /**
-    * �û�ID
-    */
+     * 用户ID
+     */
     public void setUserId(String userId){
-    this.userId = userId;
+        this.userId = userId;
     }
 
     /**
-    * Ӧ��ID
-    */
+     * 应用ID
+     */
     public void setAppId(String appId){
-    this.appId = appId;
+        this.appId = appId;
     }
 
     /**
-    * ������Դ��ʶ
-    */
+     * 服务资源标识
+     */
     public void setServiceId(String serviceId){
-    this.serviceId = serviceId;
+        this.serviceId = serviceId;
     }
 
     /**
-    * ����IP
-    */
+     * 请求方IP
+     */
     public void setRequestIp(String requestIp){
-    this.requestIp = requestIp;
+        this.requestIp = requestIp;
     }
 
     /**
-    * �����ַ
-    */
+     * 服务地址
+     */
     public void setRequestUrl(String requestUrl){
-    this.requestUrl = requestUrl;
+        this.requestUrl = requestUrl;
     }
 
     /**
-    * ��������ʱ��
-    */
+     * 服务请求时间
+     */
     public void setRequestTime(Date requestTime){
-    this.requestTime = requestTime;
+        this.requestTime = requestTime;
     }
 
     /**
-    * ����ʽ
-    */
+     * 请求方式
+     */
     public void setRequestMethod(String requestMethod){
-    this.requestMethod = requestMethod;
+        this.requestMethod = requestMethod;
     }
 
     /**
-    * 
-    */
+     *
+     */
     public void setRequestOriginalHeader(String requestOriginalHeader){
-    this.requestOriginalHeader = requestOriginalHeader;
+        this.requestOriginalHeader = requestOriginalHeader;
     }
 
     /**
-    * ԭʼ�������
-    */
+     * 原始请求参数
+     */
     public void setRequestOriginalParam(String requestOriginalParam){
-    this.requestOriginalParam = requestOriginalParam;
+        this.requestOriginalParam = requestOriginalParam;
     }
 
     /**
-    * ����ͷ����
-    */
+     * 请求头内容
+     */
     public void setRequestHeadParam(String requestHeadParam){
-    this.requestHeadParam = requestHeadParam;
+        this.requestHeadParam = requestHeadParam;
     }
 
     /**
-    * �������������
-    */
+     * 处理后请求参数
+     */
     public void setRequestParam(String requestParam){
-    this.requestParam = requestParam;
+        this.requestParam = requestParam;
     }
 
     /**
-    * ������ʵ�ַ,����ʵ����ת��ַ
-    */
+     * 服务访问地址,服务实际跳转地址
+     */
     public void setForwardUrl(String forwardUrl){
-    this.forwardUrl = forwardUrl;
+        this.forwardUrl = forwardUrl;
     }
 
     /**
-    * ת��ʱ��
-    */
+     * 转发时间
+     */
     public void setForwardTime(Date forwardTime){
-    this.forwardTime = forwardTime;
+        this.forwardTime = forwardTime;
     }
 
     /**
-    * ����ת��״̬
-    */
+     * 服务转发状态
+     */
     public void setForwardState(String forwardState){
-    this.forwardState = forwardState;
+        this.forwardState = forwardState;
     }
 
     /**
-    * ����ת��ʧ��ԭ��
-    */
+     * 服务转发失败原因
+     */
     public void setForwardFailReason(String forwardFailReason){
-    this.forwardFailReason = forwardFailReason;
+        this.forwardFailReason = forwardFailReason;
     }
 
     /**
-    * ������Ӧʱ��
-    */
+     * 服务响应时间
+     */
     public void setResponseTime(Date responseTime){
-    this.responseTime = responseTime;
+        this.responseTime = responseTime;
     }
 
     /**
-    * 
-    */
+     *
+     */
     public void setResponseOriginalHeader(String responseOriginalHeader){
-    this.responseOriginalHeader = responseOriginalHeader;
+        this.responseOriginalHeader = responseOriginalHeader;
     }
 
     /**
-    * ԭʼ��Ӧ����
-    */
+     * 原始响应请求
+     */
     public void setResponseOriginalParam(String responseOriginalParam){
-    this.responseOriginalParam = responseOriginalParam;
+        this.responseOriginalParam = responseOriginalParam;
     }
 
     /**
-    * 
-    */
+     *
+     */
     public void setResponseHeader(String responseHeader){
-    this.responseHeader = responseHeader;
+        this.responseHeader = responseHeader;
     }
 
     /**
-    * ��������Ӧ����
-    */
+     * 处理后响应请求
+     */
     public void setResponseParam(String responseParam){
-    this.responseParam = responseParam;
+        this.responseParam = responseParam;
     }
 
     /**
-    * ������Ӧ״̬
-    */
+     * 服务响应状态
+     */
     public void setResponseState(String responseState){
-    this.responseState = responseState;
+        this.responseState = responseState;
     }
 
     /**
-    * ����ʱ��
-    */
+     * 创建时间
+     */
     public void setCreateTime(Date createTime){
-    this.createTime = createTime;
+        this.createTime = createTime;
     }
 
 
     /**
-    * ��ID,����
-    */
+     * 旧ID,无序
+     */
     public String getId(){
-    return this.id;
+        return this.id;
     }
 
     /**
-    * �û�ID
-    */
+     * 用户ID
+     */
     public String getUserId(){
-    return this.userId;
+        return this.userId;
     }
 
     /**
-    * Ӧ��ID
-    */
+     * 应用ID
+     */
     public String getAppId(){
-    return this.appId;
+        return this.appId;
     }
 
     /**
-    * ������Դ��ʶ
-    */
+     * 服务资源标识
+     */
     public String getServiceId(){
-    return this.serviceId;
+        return this.serviceId;
     }
 
     /**
-    * ����IP
-    */
+     * 请求方IP
+     */
     public String getRequestIp(){
-    return this.requestIp;
+        return this.requestIp;
     }
 
     /**
-    * �����ַ
-    */
+     * 服务地址
+     */
     public String getRequestUrl(){
-    return this.requestUrl;
+        return this.requestUrl;
     }
 
     /**
-    * ��������ʱ��
-    */
+     * 服务请求时间
+     */
     public Date getRequestTime(){
-    return this.requestTime;
+        return this.requestTime;
     }
 
     /**
-    * ����ʽ
-    */
+     * 请求方式
+     */
     public String getRequestMethod(){
-    return this.requestMethod;
+        return this.requestMethod;
     }
 
     /**
-    * 
-    */
+     *
+     */
     public String getRequestOriginalHeader(){
-    return this.requestOriginalHeader;
+        return this.requestOriginalHeader;
     }
 
     /**
-    * ԭʼ�������
-    */
+     * 原始请求参数
+     */
     public String getRequestOriginalParam(){
-    return this.requestOriginalParam;
+        return this.requestOriginalParam;
     }
 
     /**
-    * ����ͷ����
-    */
+     * 请求头内容
+     */
     public String getRequestHeadParam(){
-    return this.requestHeadParam;
+        return this.requestHeadParam;
     }
 
     /**
-    * �������������
-    */
+     * 处理后请求参数
+     */
     public String getRequestParam(){
-    return this.requestParam;
+        return this.requestParam;
     }
 
     /**
-    * ������ʵ�ַ,����ʵ����ת��ַ
-    */
+     * 服务访问地址,服务实际跳转地址
+     */
     public String getForwardUrl(){
-    return this.forwardUrl;
+        return this.forwardUrl;
     }
 
     /**
-    * ת��ʱ��
-    */
+     * 转发时间
+     */
     public Date getForwardTime(){
-    return this.forwardTime;
+        return this.forwardTime;
     }
 
     /**
-    * ����ת��״̬
-    */
+     * 服务转发状态
+     */
     public String getForwardState(){
-    return this.forwardState;
+        return this.forwardState;
     }
 
     /**
-    * ����ת��ʧ��ԭ��
-    */
+     * 服务转发失败原因
+     */
     public String getForwardFailReason(){
-    return this.forwardFailReason;
+        return this.forwardFailReason;
     }
 
     /**
-    * ������Ӧʱ��
-    */
+     * 服务响应时间
+     */
     public Date getResponseTime(){
-    return this.responseTime;
+        return this.responseTime;
     }
 
     /**
-    * 
-    */
+     *
+     */
     public String getResponseOriginalHeader(){
-    return this.responseOriginalHeader;
+        return this.responseOriginalHeader;
     }
 
     /**
-    * ԭʼ��Ӧ����
-    */
+     * 原始响应请求
+     */
     public String getResponseOriginalParam(){
-    return this.responseOriginalParam;
+        return this.responseOriginalParam;
     }
 
     /**
-    * 
-    */
+     *
+     */
     public String getResponseHeader(){
-    return this.responseHeader;
+        return this.responseHeader;
     }
 
     /**
-    * ��������Ӧ����
-    */
+     * 处理后响应请求
+     */
     public String getResponseParam(){
-    return this.responseParam;
+        return this.responseParam;
     }
 
     /**
-    * ������Ӧ״̬
-    */
+     * 服务响应状态
+     */
     public String getResponseState(){
-    return this.responseState;
+        return this.responseState;
     }
 
     /**
-    * ����ʱ��
-    */
+     * 创建时间
+     */
     public Date getCreateTime(){
-    return this.createTime;
+        return this.createTime;
     }
 
 }

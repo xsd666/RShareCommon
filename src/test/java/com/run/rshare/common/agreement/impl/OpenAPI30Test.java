@@ -3,20 +3,17 @@ package com.run.rshare.common.agreement.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
 import com.run.rshare.common.agreement.ServiceRequest;
 import com.run.rshare.common.agreement.ServiceResponse;
-import com.run.rshare.common.agreement.document.*;
+import com.run.rshare.common.agreement.document.OpenApiUtil;
+import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import com.run.rshare.common.agreement.type.ServiceInfo;
 import com.run.rshare.common.utils.ReqAndRespUtil;
@@ -25,15 +22,12 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.json.schema.*;
 import io.vertx.junit5.VertxExtension;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @ExtendWith(VertxExtension.class)
 public class OpenAPI30Test {
@@ -143,24 +137,24 @@ public class OpenAPI30Test {
 
         //Object fieldsPath = JSONPath.eval(jsonBBData,"$.ResponseParam.ResourceInfos[0].x\\-rshare\\-fields\\-path");
         Object fieldsPath = JSONPath.eval(jsonBBData, "$.ResponseParam..x\\-rshare\\-fields\\-path");
-        System.out.println("--????°§??");
+        System.out.println("--????¬∑??");
         System.out.println("type:" + fieldsPath.getClass());
         System.out.println("value:" + ((ArrayList<Object>) fieldsPath).get(0));
         String thePath = ((ArrayList<Object>) fieldsPath).get(0).toString();
 
-        System.out.println("--?????ß“?");
+        System.out.println("--?????–±?");
         Object fields = JSONPath.eval(jsonBBData, thePath);
         System.out.println("type:" + fields.getClass());
         System.out.println("value:" + fields);
 
         //fieldsPath = JSONPath.eval(jsonBBData,"$.ResponseParam.ResourceInfos[0].x\\-rshare\\-data\\-path");
         fieldsPath = JSONPath.eval(jsonBBData, "$.ResponseParam..x\\-rshare\\-data\\-path");
-        System.out.println("--??°§??");
+        System.out.println("--??¬∑??");
         System.out.println("type:" + fieldsPath.getClass());
         System.out.println("value:" + ((ArrayList<Object>) fieldsPath).get(0));
         thePath = ((ArrayList<Object>) fieldsPath).get(0).toString();
 
-        System.out.println("--???ß“?");
+        System.out.println("--???–±?");
         fields = JSONPath.eval(jsonBBData, thePath);
         System.out.println("type:" + fields.getClass());
         System.out.println("value:" + fields);
@@ -172,23 +166,23 @@ public class OpenAPI30Test {
         String jsonBBData = fileReader.readString();
 
         Object fieldsPath = JSONPath.eval(jsonBBData, "$.x\\-rshare\\-fields\\-path");
-        System.out.println("--????°§??");
+        System.out.println("--????¬∑??");
         System.out.println("type:" + fieldsPath.getClass());
         System.out.println("value:" + fieldsPath);
         String thePath = fieldsPath.toString();
 
-        System.out.println("--?????ß“?");
+        System.out.println("--?????–±?");
         Object fields = JSONPath.eval(jsonBBData, thePath);
         System.out.println("type:" + fields.getClass());
         System.out.println("value:" + ((JSONArray) fields).getJSONObject(0).keySet());
 
         fieldsPath = JSONPath.eval(jsonBBData, "$.x\\-rshare\\-data\\-path");
-        System.out.println("--??°§??");
+        System.out.println("--??¬∑??");
         System.out.println("type:" + fieldsPath.getClass());
         System.out.println("value:" + fieldsPath);
         thePath = fieldsPath.toString();
 
-        System.out.println("--???ß“?");
+        System.out.println("--???–±?");
         fields = JSONPath.eval(jsonBBData, thePath);
         System.out.println("type:" + fields.getClass());
         System.out.println("value:" + fields);
@@ -263,16 +257,16 @@ public class OpenAPI30Test {
 
     @Test
     public void excelToSchema() throws Exception {
-        JSONObject fileContent = ReqAndRespUtil.externalRegFile("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\Õ‚≤ø∑˛ŒÒ◊¢≤·…œ¥´ƒ£∞Â.xlsx");
+        JSONObject fileContent = ReqAndRespUtil.externalRegFile("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\Â§ñÈÉ®ÊúçÂä°Ê≥®ÂÜå‰∏ä‰º†Ê®°Êùø.xlsx");
         System.out.println(fileContent.toJSONString());
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
-        //‘› ±…Ë÷√Œ™≤‚ ‘
-        String name = "≤‚ ‘";
-        //‘› ±…Ë÷√Œ™≤‚ ‘
-        String desc = "≤‚ ‘";
-        //‘› ±…Ë÷√Œ™1.0.1
+        //ÊöÇÊó∂ËÆæÁΩÆ‰∏∫ÊµãËØï
+        String name = "ÊµãËØï";
+        //ÊöÇÊó∂ËÆæÁΩÆ‰∏∫ÊµãËØï
+        String desc = "ÊµãËØï";
+        //ÊöÇÊó∂ËÆæÁΩÆ‰∏∫1.0.1
         String version = "1.0.1";
-        //‘› ±…Ë÷√Œ™ø’
+        //ÊöÇÊó∂ËÆæÁΩÆ‰∏∫Á©∫
         List<Servers> servers = Lists.newArrayList();
         String operationId = "postDataTest";
         String httpMethod = HttpMethod.POST.name();

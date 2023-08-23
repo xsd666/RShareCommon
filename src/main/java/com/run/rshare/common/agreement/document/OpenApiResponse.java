@@ -1,14 +1,11 @@
 package com.run.rshare.common.agreement.document;
 
-import io.swagger.models.properties.Property;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName OpenApiResponse
- * @Description: ÏìÓ¦½á¹û
+ * @Description: å“åº”ç»“æœ
  * @Author xsd
  * @Date 2023/8/22
  * @Version V1.0

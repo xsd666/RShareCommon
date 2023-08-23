@@ -7,34 +7,34 @@ import java.util.Map;
 
 /**
  * @ClassName ApiOperation
- * @Description: ÃèÊö¶ÔÂ·¾¶µÄÄ³¸ö²Ù×÷
+ * @Description: æè¿°å¯¹è·¯å¾„çš„æŸä¸ªæ“ä½œ
  * @Author xsd
  * @Date 2023/8/22
  * @Version V1.0
  **/
 public class OpenApiOperation {
     /**
-     * ¶Ô´Ë²Ù×÷ĞĞÎªµÄ¼ò¶ÌÃèÊö¡£
+     * å¯¹æ­¤æ“ä½œè¡Œä¸ºçš„ç®€çŸ­æè¿°ã€‚
      */
     private String summary;
     /**
-     * ¶Ô´Ë²Ù×÷ĞĞÎªµÄÏêÏ¸½âÊÍ
+     * å¯¹æ­¤æ“ä½œè¡Œä¸ºçš„è¯¦ç»†è§£é‡Š
      */
     private String description;
     /**
-     * ÓÃÓÚ±êÊ¶´Ë²Ù×÷µÄÎ¨Ò»×Ö·û´®£¬
+     * ç”¨äºæ ‡è¯†æ­¤æ“ä½œçš„å”¯ä¸€å­—ç¬¦ä¸²ï¼Œ
      */
     private String operationId;
     /**
-     * ÉùÃ÷´Ë²Ù×÷ÒÑ¾­±»·ÏÆú£¬Ê¹ÓÃÕßÓ¦¸Ã¾¡Á¿±ÜÃâÊ¹ÓÃ´Ë²Ù×÷
+     * å£°æ˜æ­¤æ“ä½œå·²ç»è¢«åºŸå¼ƒï¼Œä½¿ç”¨è€…åº”è¯¥å°½é‡é¿å…ä½¿ç”¨æ­¤æ“ä½œ
      */
     private Boolean deprecated = Boolean.FALSE;
     /**
-     * ±ØÑ¡. ¶¨ÒåÖ´ĞĞ´Ë²Ù×÷ºóµÄ¿ÉÄÜµÄÏìÓ¦ÖµÁĞ±í
+     * å¿…é€‰. å®šä¹‰æ‰§è¡Œæ­¤æ“ä½œåçš„å¯èƒ½çš„å“åº”å€¼åˆ—è¡¨
      */
     private LinkedHashMap<String, OpenApiResponse> responses;
     /**
-     * ´Ë²Ù×÷µÄÇëÇóÌå
+     * æ­¤æ“ä½œçš„è¯·æ±‚ä½“
      */
     private RequestBody requestBody;
 
