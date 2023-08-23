@@ -5,9 +5,9 @@ package com.run.rshare.common.agreement.type;
 import java.util.List;
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 17-7ÔÂ-2023 17:10:34
+ * @created 17-7æœˆ-2023 17:10:34
  */
 public class SubServiceInfo {
 

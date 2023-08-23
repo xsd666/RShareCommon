@@ -3,14 +3,14 @@ package com.run.rshare.common.agreement.type;
 //import com.run.rshare.entity.sjzy_field;
 
 /**
- * @author ÖÜ¿­
+ * @author å‘¨å‡¯
  * @version 1.0
- * @created 17-7ÔÂ-2023 17:10:32
+ * @created 17-7æœˆ-2023 17:10:32
  */
 public class FieldInfo {
 
 	/**
-	 * 1¡¢×Ô¶¨Òå²ÎÊı 2¡¢µ÷ÓÃ·½Ìá¹© 3¡¢·şÎñ²ÎÊı
+	 * 1ã€è‡ªå®šä¹‰å‚æ•° 2ã€è°ƒç”¨æ–¹æä¾› 3ã€æœåŠ¡å‚æ•°
 	 */
 	private String type;
 	private String value;
