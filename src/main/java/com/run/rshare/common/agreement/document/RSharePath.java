@@ -28,4 +28,12 @@ public class RSharePath {
     public void setType(String type) {
         this.type = type;
     }
+
+    public RSharePath() {
+    }
+
+    public RSharePath(String position, String type) {
+        this.position = position;
+        this.type = type;
+    }
 }

@@ -30,7 +30,7 @@ public class OpenApiUtil {
      * @param openApiJsonSchema
      * @return
      */
-    public List<FieldInfo> getRequestParam(String openApiJsonSchema) {
+    public static List<FieldInfo> buildRequestParam(String openApiJsonSchema) {
         List<FieldInfo> fieldInfoList = Lists.newArrayList();
         OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
         Optional<OpenApiSchema> schemaOptional = openApiDocument.fetchRequestSchemaOptional();
@@ -39,9 +39,6 @@ public class OpenApiUtil {
         }
         OpenApiSchema openApiSchema = schemaOptional.get();
         String example = openApiSchema.getExample();
-        if (StrUtil.isBlank(example)) {
-            //todo 从openApiJsonSchema中 转化一个请求参数体 后期可以从
-        }
         RSharePath requestFields = openApiSchema.getRequestFieldsPath();
         String position = requestFields.getPosition();
         Object eval = JSONPath.eval(example, position);
@@ -88,8 +85,6 @@ public class OpenApiUtil {
         openApiOperation.setParameters(headersParameters);
         //请求体
         OpenApiContent openApiContent = OpenApiUtil.buildOpenApiContent(reqAndRespData.getJSONArray("service_req_args"), reqAndRespData.getJSONObject("service_req_sample").getString("body"));
-        //构建参数请求体的jsonPath
-
         openApiOperation.setSummary(name);
         openApiOperation.setDescription(desc);
         openApiOperation.setOperationId(operationId);
@@ -185,11 +180,12 @@ public class OpenApiUtil {
         Map<String, JSONObject> pathMap = reqArgs.stream().map(obj -> JSON.parseObject(obj.toString()))
                 .filter(json -> StrUtil.isNotBlank(json.getString("path")))
                 .collect(Collectors.toMap(
-                        json -> json.getString("name"),
+                        json -> json.getString("arg"),
                         v1 -> v1,
                         (v1, v2) -> v2
                 ));
-        //getRSharePath(pathMap, apiSchema, groupByParentArgMap);
+        //设置rSharePath
+        setRSharePath(apiSchema, pathMap, reqArgs);
         buildProperties(parentList, properties, groupByParentArgMap);
         List<String> requiredArgs = fetchRequiredArgs(parentList);
         if (CollectionUtils.isNotEmpty(requiredArgs)) {
@@ -201,37 +197,56 @@ public class OpenApiUtil {
         return openApiContent;
     }
 
+    /**
+     * 设置RSharePath
+     *
+     * @param apiSchema
+     * @param pathMap
+     * @param reqArgs
+     */
+    private static void setRSharePath(OpenApiSchema apiSchema, Map<String, JSONObject> pathMap, JSONArray reqArgs) {
+        pathMap.forEach((arg, json) -> {
+            String path = json.getString("path");
+            String pathType = json.getString("pathType");
+            if ("requestField".equalsIgnoreCase(path)) {
+                RSharePath rSharePath = new RSharePath(arg, pathType);
+                setRSharePathPosition(rSharePath, json, reqArgs);
+                apiSchema.setRequestFieldsPath(rSharePath);
+            }
+        });
+    }
 
     /**
-     * 获取RSharePath原因
+     * 获取RSharePath
      *
-     * @param groupByParentArgMap
+     * @param json
+     * @param reqArgs
      * @return
      */
-    private static RSharePath getRSharePath(JSONObject json, Map<String, List<JSONObject>> groupByParentArgMap) {
-        //先求路径信息
+    private static void setRSharePathPosition(RSharePath rSharePath, JSONObject json, JSONArray reqArgs) {
         String pArg = json.getString("pArg");
-        //递归获取父路径
-        String jsonPath = "$.";
-        String jsonPathChild = "";
-        if (StrUtil.isNotBlank(pArg)) {
-            jsonPathChild = getJsonPath(jsonPath, pArg, groupByParentArgMap);
-        } else {
-            jsonPathChild = json.getString("arg");
+        if (StrUtil.isBlank(pArg)) {
+            rSharePath.setPosition("$."+rSharePath.getPosition());
+            return ;
         }
-        RSharePath rSharePath = new RSharePath();
-        rSharePath.setPosition(jsonPath + jsonPathChild);
-        rSharePath.setType(json.getString("pathType"));
-        return rSharePath;
+        Optional<JSONObject> parent = reqArgs.stream()
+                .map(obj -> JSON.parseObject(obj.toString()))
+                .filter(itemJson -> pArg.equals(itemJson.getString("arg")))
+                .findFirst();
+        if (parent.isPresent()) {
+            JSONObject parentJson = parent.get();
+            String type = parentJson.getString("type");
+            String arg = parentJson.getString("arg");
+            if ("array".equalsIgnoreCase(type)) {
+                arg = arg + "[*]";
+            }
+            String pathString = arg + "." + rSharePath.getPosition();
+            rSharePath.setPosition(pathString);
+            setRSharePathPosition(rSharePath, parentJson, reqArgs);
+        }
+
     }
 
-    private static String getJsonPath(String jsonPathChild, String pArg, Map<String, List<JSONObject>> groupByParentArgMap) {
-        if(!groupByParentArgMap.containsKey(pArg)){
-            return jsonPathChild;
-        }
-        List<JSONObject> objectList = groupByParentArgMap.get(pArg);
-        return null;
-    }
 
     public static void buildProperties(List<JSONObject> parentList, Map<String, OpenApiProperties> properties, Map<String, List<JSONObject>> groupByParentArgMap) {
         if (CollectionUtils.isEmpty(parentList)) {

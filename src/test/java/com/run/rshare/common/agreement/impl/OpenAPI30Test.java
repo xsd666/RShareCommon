@@ -3,6 +3,7 @@ package com.run.rshare.common.agreement.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
+import cn.hutool.json.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -27,12 +28,17 @@ import io.vertx.junit5.VertxExtension;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
 @ExtendWith(VertxExtension.class)
 public class OpenAPI30Test {
+
+    private static Logger LOG = LoggerFactory.getLogger(OpenAPI30Test.class);
+
     OpenAPI30 openAPI30 = new OpenAPI30();
 
     @Test
@@ -276,11 +282,18 @@ public class OpenAPI30Test {
         String schemaName = operationId + "_" + DateUtil.format(new Date(), "yyyy-MM-dd") + ".json";
         File schemaNameFile = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\" + schemaName);
         FileUtil.writeString(defaultSchema, schemaNameFile, "utf-8");
-
+        LOG.info("============生成服务规约json结束============");
         OpenApiDocument openApiDocument = JSONObject.parseObject(defaultSchema, OpenApiDocument.class);
         JSONObject requestJSON = openApiDocument.fetchRequestJSON();
         String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
-        System.out.println(toJSONString);
+        LOG.info("服务请求参数体json:" + toJSONString);
+        LOG.info("============服务请求参数打印结束============");
+        //todo 通用查询中example是有字段的,规约参数中
+        //todo RequestParam.ResourceInfos[0].DataItems[0].Name
+        //todo 中是以val值的形式，规约中没有
+        List<FieldInfo> infoList = OpenApiUtil.buildRequestParam(defaultSchema);
+        LOG.info("FieldInfoList:" + JSONObject.toJSONString(infoList, SerializerFeature.WriteMapNullValue));
+
     }
 
 
