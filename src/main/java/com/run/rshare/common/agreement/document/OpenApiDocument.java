@@ -1,9 +1,14 @@
 package com.run.rshare.common.agreement.document;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.collections4.MapUtils;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @ClassName OpenAPIDocument
@@ -69,4 +74,72 @@ public class OpenApiDocument {
         this.paths.put(key, path);
     }
 
+
+    public OpenApiOperation fetchOpenApiOperation() {
+        if (MapUtils.isEmpty(paths)) {
+            return null;
+        }
+        String path = paths.keySet().iterator().next();
+        OpenApiPath openApiPath = paths.get(path);
+        OpenApiOperation openApiOperation = openApiPath.get();
+        return openApiOperation;
+    }
+
+
+    public Optional<OpenApiSchema> fetchRequestSchemaOptional() {
+        OpenApiOperation openApiOperation = fetchOpenApiOperation();
+        Optional<OpenApiSchema> openApiSchemaOptional = Optional.of(openApiOperation.getRequestBody())
+                .map(RequestBody::getContent)
+                .map(OpenApiContent::getApplicationJson)
+                .map(OpenApiMediaType::getSchema);
+        return openApiSchemaOptional;
+    }
+
+    public JSONObject fetchRequestJSON(OpenApiSchema apiSchema) {
+        Map<String, OpenApiProperties> properties = apiSchema.getProperties();
+        if (MapUtils.isEmpty(properties)) {
+            return new JSONObject();
+        }
+        JSONObject requestParams = new JSONObject();
+        properties.forEach((key, val) -> {
+            setJsonKey(requestParams, val);
+        });
+        return requestParams;
+    }
+
+    public JSONObject fetchRequestJSON() {
+        Optional<OpenApiSchema> schemaOptional = fetchRequestSchemaOptional();
+        if (!schemaOptional.isPresent()) {
+            return null;
+        }
+        OpenApiSchema apiSchema = schemaOptional.get();
+       return fetchRequestJSON(apiSchema);
+    }
+
+    private void setJsonKey(JSONObject requestParams, OpenApiProperties openApiProperties) {
+        String valType = openApiProperties.getType();
+        String title = openApiProperties.getTitle();
+        Map<String, OpenApiProperties> properties = openApiProperties.getProperties();
+        if ("array".equalsIgnoreCase(valType)) {
+            JSONArray jsonArray = new JSONArray();
+            JSONObject item = new JSONObject();
+            if(MapUtils.isNotEmpty(properties)){
+                properties.forEach((key,val)->{
+                    setJsonKey(item, val);
+                });
+                jsonArray.add(item);
+            }
+            requestParams.put(title,jsonArray);
+        } else if ("object".equalsIgnoreCase(valType)) {
+            JSONObject item = new JSONObject();
+            if(MapUtils.isNotEmpty(properties)){
+                properties.forEach((key,val)->{
+                    setJsonKey(item, val);
+                });
+            }
+            requestParams.put(title,item);
+        } else {
+            requestParams.put(title, null);
+        }
+    }
 }

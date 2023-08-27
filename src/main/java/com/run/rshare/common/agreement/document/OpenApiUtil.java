@@ -4,9 +4,11 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.run.rshare.common.agreement.type.FieldInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 
@@ -23,17 +25,56 @@ import java.util.stream.Collectors;
 public class OpenApiUtil {
 
     /**
-     * json数据转为OpenApiJson excel
-     * @param reqAndRespData
-     * @param name     接口名称
-     * @param desc     接口描述
-     * @param version  接口版本号
-     * @param servers  地址
-     * @param operationId  url和operationId是一致的
-     * @param httpMethod  请求方法,get.post
+     * openApiJosn
+     *
+     * @param openApiJsonSchema
      * @return
      */
-    public static String reqAndRespToOpenApiJson(JSONObject reqAndRespData,String name,String desc,String version,List<Servers> servers,String operationId,String httpMethod){
+    public List<FieldInfo> getRequestParam(String openApiJsonSchema) {
+        List<FieldInfo> fieldInfoList = Lists.newArrayList();
+        OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
+        Optional<OpenApiSchema> schemaOptional = openApiDocument.fetchRequestSchemaOptional();
+        if (!schemaOptional.isPresent()) {
+            return fieldInfoList;
+        }
+        OpenApiSchema openApiSchema = schemaOptional.get();
+        String example = openApiSchema.getExample();
+        if (StrUtil.isBlank(example)) {
+            //todo 从openApiJsonSchema中 转化一个请求参数体 后期可以从
+        }
+        RSharePath requestFields = openApiSchema.getRequestFieldsPath();
+        String position = requestFields.getPosition();
+        Object eval = JSONPath.eval(example, position);
+        if (eval instanceof String) {
+            FieldInfo fieldInfo = new FieldInfo();
+            fieldInfo.setType("");
+            fieldInfo.setValue(eval.toString());
+            fieldInfoList.add(fieldInfo);
+        } else {
+            List<Object> evalList = (List) eval;
+            evalList.forEach(evalItem -> {
+                FieldInfo fieldInfo = new FieldInfo();
+                fieldInfo.setType("");
+                fieldInfo.setValue(eval.toString());
+                fieldInfoList.add(fieldInfo);
+            });
+        }
+        return fieldInfoList;
+    }
+
+    /**
+     * json数据转为OpenApiJson excel
+     *
+     * @param reqAndRespData
+     * @param name           接口名称
+     * @param desc           接口描述
+     * @param version        接口版本号
+     * @param servers        地址
+     * @param operationId    url和operationId是一致的
+     * @param httpMethod     请求方法,get.post
+     * @return
+     */
+    public static String reqAndRespToOpenApiJson(JSONObject reqAndRespData, String name, String desc, String version, List<Servers> servers, String operationId, String httpMethod) {
         OpenApiDocument openAPIDocument = new OpenApiDocument();
         Info info = new Info();
         info.setDescription(desc);
@@ -47,6 +88,8 @@ public class OpenApiUtil {
         openApiOperation.setParameters(headersParameters);
         //请求体
         OpenApiContent openApiContent = OpenApiUtil.buildOpenApiContent(reqAndRespData.getJSONArray("service_req_args"), reqAndRespData.getJSONObject("service_req_sample").getString("body"));
+        //构建参数请求体的jsonPath
+
         openApiOperation.setSummary(name);
         openApiOperation.setDescription(desc);
         openApiOperation.setOperationId(operationId);
@@ -64,6 +107,7 @@ public class OpenApiUtil {
         String defaultSchema = JSON.toJSONString(openAPIDocument, SerializerFeature.PrettyFormat);
         return defaultSchema;
     }
+
     /**
      * 设置响应体
      *
@@ -138,6 +182,14 @@ public class OpenApiUtil {
                 .collect(Collectors.groupingBy(obj -> obj.getString("pArg")));
         //先添加父元素
         List<JSONObject> parentList = groupByParentArgMap.get("");
+        Map<String, JSONObject> pathMap = reqArgs.stream().map(obj -> JSON.parseObject(obj.toString()))
+                .filter(json -> StrUtil.isNotBlank(json.getString("path")))
+                .collect(Collectors.toMap(
+                        json -> json.getString("name"),
+                        v1 -> v1,
+                        (v1, v2) -> v2
+                ));
+        //getRSharePath(pathMap, apiSchema, groupByParentArgMap);
         buildProperties(parentList, properties, groupByParentArgMap);
         List<String> requiredArgs = fetchRequiredArgs(parentList);
         if (CollectionUtils.isNotEmpty(requiredArgs)) {
@@ -149,7 +201,39 @@ public class OpenApiUtil {
         return openApiContent;
     }
 
-    public static  void buildProperties(List<JSONObject> parentList, Map<String, OpenApiProperties> properties, Map<String, List<JSONObject>> groupByParentArgMap) {
+
+    /**
+     * 获取RSharePath原因
+     *
+     * @param groupByParentArgMap
+     * @return
+     */
+    private static RSharePath getRSharePath(JSONObject json, Map<String, List<JSONObject>> groupByParentArgMap) {
+        //先求路径信息
+        String pArg = json.getString("pArg");
+        //递归获取父路径
+        String jsonPath = "$.";
+        String jsonPathChild = "";
+        if (StrUtil.isNotBlank(pArg)) {
+            jsonPathChild = getJsonPath(jsonPath, pArg, groupByParentArgMap);
+        } else {
+            jsonPathChild = json.getString("arg");
+        }
+        RSharePath rSharePath = new RSharePath();
+        rSharePath.setPosition(jsonPath + jsonPathChild);
+        rSharePath.setType(json.getString("pathType"));
+        return rSharePath;
+    }
+
+    private static String getJsonPath(String jsonPathChild, String pArg, Map<String, List<JSONObject>> groupByParentArgMap) {
+        if(!groupByParentArgMap.containsKey(pArg)){
+            return jsonPathChild;
+        }
+        List<JSONObject> objectList = groupByParentArgMap.get(pArg);
+        return null;
+    }
+
+    public static void buildProperties(List<JSONObject> parentList, Map<String, OpenApiProperties> properties, Map<String, List<JSONObject>> groupByParentArgMap) {
         if (CollectionUtils.isEmpty(parentList)) {
             return;
         }
@@ -159,6 +243,8 @@ public class OpenApiUtil {
             String desc = item.getString("desc");
             String type = item.getString("type");
             String required = item.getString("required");
+            String path = item.getString("path");
+            String pathType = item.getString("pathType");
             //设置必填项 当前目录的必填项
             List<JSONObject> child = groupByParentArgMap.getOrDefault(arg, Lists.newArrayList());
             List<String> requiredArgs = fetchRequiredArgs(child);

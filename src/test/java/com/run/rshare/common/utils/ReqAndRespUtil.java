@@ -59,6 +59,8 @@ public class ReqAndRespUtil {
 				changeKeysMap.put("数据类型", "type");
 				changeKeysMap.put("是否必填", "required");
 				changeKeysMap.put("参数说明", "desc");
+				changeKeysMap.put("path", "path");
+				changeKeysMap.put("pathType", "pathType");
 				result.getJSONObject("data").put("service_req_args", removeOrRetainKeys(changeJsonArrayKeys(reqArgs, changeKeysMap), true, "序号"));
 			}else {
 				result.getJSONObject("data").put("service_req_args", new JSONArray());
@@ -85,6 +87,8 @@ public class ReqAndRespUtil {
 				changeKeysMap.put("父级名称", "pArg");
 				changeKeysMap.put("数据类型", "type");
 				changeKeysMap.put("参数说明", "desc");
+				changeKeysMap.put("path", "path");
+				changeKeysMap.put("pathType", "pathType");
 				result.getJSONObject("data").put("service_resp_args", removeOrRetainKeys(changeJsonArrayKeys(respArgs, changeKeysMap), true, "序号"));
 			}else {
 				result.getJSONObject("data").put("service_resp_args", new JSONArray());

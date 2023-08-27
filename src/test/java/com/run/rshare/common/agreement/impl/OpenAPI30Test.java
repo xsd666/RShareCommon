@@ -6,12 +6,14 @@ import cn.hutool.core.io.file.FileReader;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
 import com.run.rshare.common.agreement.ServiceRequest;
 import com.run.rshare.common.agreement.ServiceResponse;
+import com.run.rshare.common.agreement.document.OpenApiDocument;
 import com.run.rshare.common.agreement.document.OpenApiUtil;
 import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.common.agreement.type.FieldInfo;
@@ -257,23 +259,28 @@ public class OpenAPI30Test {
 
     @Test
     public void excelToSchema() throws Exception {
-        JSONObject fileContent = ReqAndRespUtil.externalRegFile("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务注册上传模板.xlsx");
+        JSONObject fileContent = ReqAndRespUtil.externalRegFile("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
         System.out.println(fileContent.toJSONString());
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
-        //暂时设置为测试
-        String name = "测试";
-        //暂时设置为测试
-        String desc = "测试";
+        //试
+        String name = "通用查询";
+        //测试
+        String desc = "通用查询";
         //暂时设置为1.0.1
         String version = "1.0.1";
         //暂时设置为空
         List<Servers> servers = Lists.newArrayList();
-        String operationId = "postDataTest";
+        String operationId = "postBBDataTest";
         String httpMethod = HttpMethod.POST.name();
         String defaultSchema = OpenApiUtil.reqAndRespToOpenApiJson(reqAndRespData, name, desc, version, servers, operationId, httpMethod);
-        String schemaName = DateUtil.format(new Date(), "yyyy-MM-dd__HH_mm_ss") + ".json";
-        File schemaNameFile = new File("D:\\code\\2023\\RShare_V2.0R\\" + schemaName);
+        String schemaName = operationId + "_" + DateUtil.format(new Date(), "yyyy-MM-dd") + ".json";
+        File schemaNameFile = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\" + schemaName);
         FileUtil.writeString(defaultSchema, schemaNameFile, "utf-8");
+
+        OpenApiDocument openApiDocument = JSONObject.parseObject(defaultSchema, OpenApiDocument.class);
+        JSONObject requestJSON = openApiDocument.fetchRequestJSON();
+        String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
+        System.out.println(toJSONString);
     }
 
 

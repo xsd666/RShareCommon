@@ -1,15 +1,15 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "251.1(2019)µÄ²éÑ¯¼ìË÷·şÎñ",
-    "description": "°´ÕÕÊı¾İ·şÎñ×ÊÔ´Ëù×ñÑ­µÄ251.1-2019±àĞ´½Ó¿Ú¶¨ÒåÄÚÈİ",
+    "title": "251.1(2019)çš„æŸ¥è¯¢æ£€ç´¢æœåŠ¡",
+    "description": "æŒ‰ç…§æ•°æ®æœåŠ¡èµ„æºæ‰€éµå¾ªçš„251.1-2019ç¼–å†™æ¥å£å®šä¹‰å†…å®¹",
     "version": "1.0.0"
   },
   "paths": {
     "/QueryBinaryMD5": {
       "post": {
-        "summary": "¶ş½øÖÆÊı¾İ²éÑ¯·şÎñ",
-        "description": "Ìá¹©¸ù¾İMD5ºÍÎÄ¼şÌå³¤¶ÈÀ´²éÑ¯ÓëÊäÈëÎÄ¼şÏàÍ¬µÄÈ«ÎÄÊı¾İµÄ·şÎñ",
+        "summary": "äºŒè¿›åˆ¶æ•°æ®æŸ¥è¯¢æœåŠ¡",
+        "description": "æä¾›æ ¹æ®MD5å’Œæ–‡ä»¶ä½“é•¿åº¦æ¥æŸ¥è¯¢ä¸è¾“å…¥æ–‡ä»¶ç›¸åŒçš„å…¨æ–‡æ•°æ®çš„æœåŠ¡",
         "operationId": "QueryBinaryMD5",
         "deprecated": false,
         "parameters": [
@@ -36,7 +36,7 @@
         },
         "responses": {
           "200": {
-            "description": "³É¹¦ÏìÓ¦Êı¾İ·şÎñ",
+            "description": "æˆåŠŸå“åº”æ•°æ®æœåŠ¡",
             "headers": {
               "SenderID": {
                 "$ref": "254-2021.json#/components/parameters/SenderID"
@@ -65,7 +65,7 @@
   "components": {
     "schemas": {
       "JSONQueryDataResourceRequest": {
-        "description": "Êı¾İ×ÊÔ´Çé¿ö²éÑ¯·şÎñÇëÇó",
+        "description": "æ•°æ®èµ„æºæƒ…å†µæŸ¥è¯¢æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonRequest254"
@@ -78,29 +78,29 @@
                 "properties": {
                   "Condition": {
                     "type": "string",
-                    "description": "²éÑ¯Ìõ¼şĞÅÏ¢",
+                    "description": "æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
                     "nullable": false
                   },
                   "JSONResourceInfos": {
                     "type": "array",
-                    "description": "²éÑ¯ÒªÇó·µ»ØĞÅÏ¢",
+                    "description": "æŸ¥è¯¢è¦æ±‚è¿”å›ä¿¡æ¯",
                     "items": {
                       "type": "object",
                       "properties": {
                         "DataItems": {
                           "type": "array",
-                          "description": "Êı¾İÏîĞÅÏ¢µÄÊı×é",
+                          "description": "æ•°æ®é¡¹ä¿¡æ¯çš„æ•°ç»„",
                           "items": {
                             "type": "object",
-                            "description": "Êı¾İÏî¾ßÌå¶ÔÏó",
+                            "description": "æ•°æ®é¡¹å…·ä½“å¯¹è±¡",
                             "properties": {
                               "Name": {
                                 "type": "string",
-                                "description": "Êı¾İÏîµÄÃû³Æ"
+                                "description": "æ•°æ®é¡¹çš„åç§°"
                               },
                               "Fmt": {
                                 "type": "string",
-                                "description": "Êı¾İÏîµÄ¸ñÊ½"
+                                "description": "æ•°æ®é¡¹çš„æ ¼å¼"
                               }
                             }
                           }
@@ -111,15 +111,15 @@
                   "ReturnDataItems": {
                     "type": "string",
                     "nullable": false,
-                    "description": "ÊÇ·ñ·µ»ØÊı¾İ×ÊÔ´Êı¾İÏîĞÅÏ¢",
+                    "description": "æ˜¯å¦è¿”å›æ•°æ®èµ„æºæ•°æ®é¡¹ä¿¡æ¯",
                     "enum": [
                       "0",
                       "1"
                     ],
                     "x-apifox": {
                       "enumDescriptions": {
-                        "0": "²»·µ»ØÊı¾İÏîĞÅÏ¢",
-                        "1": "·µ»ØÊı¾İÏîĞÅÏ¢"
+                        "0": "ä¸è¿”å›æ•°æ®é¡¹ä¿¡æ¯",
+                        "1": "è¿”å›æ•°æ®é¡¹ä¿¡æ¯"
                       }
                     }
                   }
@@ -134,7 +134,7 @@
         ]
       },
       "JSONQueryDataResourceResponse": {
-        "description": "Êı¾İ×ÊÔ´Çé¿ö²éÑ¯·şÎñÏìÓ¦",
+        "description": "æ•°æ®èµ„æºæƒ…å†µæŸ¥è¯¢æœåŠ¡å“åº”",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonResponse254"
@@ -152,21 +152,21 @@
                       "type": "object",
                       "properties": {
                         "ResourceName": {
-                          "description": "Êı¾İ×ÊÔ´±êÊ¶·û",
+                          "description": "æ•°æ®èµ„æºæ ‡è¯†ç¬¦",
                           "type": "string",
                           "nullable": false
                         },
                         "ResourceItems": {
-                          "description": "Êı¾İ×ÊÔ´ĞÅÏ¢",
+                          "description": "æ•°æ®èµ„æºä¿¡æ¯",
                           "type": "string",
                           "nullable": false
                         },
                         "DataItems": {
-                          "description": "Êı¾İ×ÊÔ´Êı¾İÏîÊı×é",
+                          "description": "æ•°æ®èµ„æºæ•°æ®é¡¹æ•°ç»„",
                           "type": "array",
                           "items": {
                             "type": "object",
-                            "description": "Êı¾İ×ÊÔ´Êı¾İÏîĞÅÏ¢",
+                            "description": "æ•°æ®èµ„æºæ•°æ®é¡¹ä¿¡æ¯",
                             "minItems": 1
                           }
                         }
@@ -184,7 +184,7 @@
         ]
       },
       "JSONQueryGeneralDataRequest": {
-        "description": "Í¨ÓÃÊı¾İ²éÑ¯·şÎñÇëÇó",
+        "description": "é€šç”¨æ•°æ®æŸ¥è¯¢æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonRequest254"
@@ -197,63 +197,63 @@
                 "properties": {
                   "Condition": {
                     "type": "string",
-                    "description": "²éÑ¯Ìõ¼şĞÅÏ¢",
+                    "description": "æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
                     "nullable": false
                   },
                   "OtherCondition": {
                     "type": "object",
-                    "description": "À©Õ¹µÄ²éÑ¯Ìõ¼şĞÅÏ¢",
+                    "description": "æ‰©å±•çš„æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
                     "properties": {
                       "MaxReturnNum": {
-                        "description": "×î¶à×Ü·µ»ØÌõÊı",
+                        "description": "æœ€å¤šæ€»è¿”å›æ¡æ•°",
                         "type": "integer",
                         "default": 1000
                       },
                       "AsyncBoolean": {
-                        "description": "Òì²½²éÑ¯_ÅĞ¶Ï±êÊ¶",
+                        "description": "å¼‚æ­¥æŸ¥è¯¢_åˆ¤æ–­æ ‡è¯†",
                         "type": "string",
                         "nullable": false,
                         "enum": ["0","1"],
                         "x-apifox": {
                           "enumDescriptions": {
-                            "0": "²»ÊÇ",
-                            "1": "ÊÇ"
+                            "0": "ä¸æ˜¯",
+                            "1": "æ˜¯"
                           }
                         }
                       },
                       "AsyncOnceReturnNum": {
-                        "description": "Òì²½²éÑ¯µ¥´Î·µ»ØÌõÊı",
+                        "description": "å¼‚æ­¥æŸ¥è¯¢å•æ¬¡è¿”å›æ¡æ•°",
                         "type": "integer",
                         "default": 1000
                       },
                       "AsyncQuery": {
-                        "description": "Òì²½²éÑ¯±êÊ¶",
+                        "description": "å¼‚æ­¥æŸ¥è¯¢æ ‡è¯†",
                         "type": "string"
                       },
                       "CallbackID": {
-                        "description": "²éÑ¯»Øµ÷·şÎñ×ÊÔ´±êÊ¶·û",
+                        "description": "æŸ¥è¯¢å›è°ƒæœåŠ¡èµ„æºæ ‡è¯†ç¬¦",
                         "type": "string"
                       },
                       "CodeMode": {
-                        "description": "ĞÅÏ¢´úÂëÊä³öÄ£Ê½",
+                        "description": "ä¿¡æ¯ä»£ç è¾“å‡ºæ¨¡å¼",
                         "type": "string",
                         "enum": ["0","1","2"],
                         "x-apifox": {
                           "enumDescriptions": {
-                            "0": "´úÂë",
-                            "1": "Ãû³Æ",
-                            "2": "´úÂëºÍÃû³Æ"
+                            "0": "ä»£ç ",
+                            "1": "åç§°",
+                            "2": "ä»£ç å’Œåç§°"
                           }
                         }
                       },
                       "SortResults": {
-                        "description": "½á¹ûÅÅĞòÊı¾İÏî¼¯",
+                        "description": "ç»“æœæ’åºæ•°æ®é¡¹é›†",
                         "type": "string"
                       }
                     }
                   },
                   "ResourceInfos": {
-                    "description": "²éÑ¯ÒªÇó·µ»ØĞÅÏ¢",
+                    "description": "æŸ¥è¯¢è¦æ±‚è¿”å›ä¿¡æ¯",
                     "$ref": "#components/schemas/JSONResourceInfos"
                   }
                 },
@@ -267,7 +267,7 @@
         ]
       },
       "JSONQueryGeneralDataResponse": {
-        "description": "Í¨ÓÃÊı¾İ²éÑ¯·şÎñÏìÓ¦",
+        "description": "é€šç”¨æ•°æ®æŸ¥è¯¢æœåŠ¡å“åº”",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonResponse254"
@@ -297,21 +297,21 @@
           "type": "object",
           "properties": {
             "ResourceName": {
-              "description": "Êı¾İ×ÊÔ´±êÊ¶·û",
+              "description": "æ•°æ®èµ„æºæ ‡è¯†ç¬¦",
               "type": "string",
               "nullable": false
             },
             "ResourceItems": {
-              "description": "Êı¾İ×ÊÔ´ĞÅÏ¢",
+              "description": "æ•°æ®èµ„æºä¿¡æ¯",
               "type": "string",
               "nullable": false
             },
             "DataItems": {
-              "description": "Êı¾İ×ÊÔ´Êı¾İÏîÊı×é",
+              "description": "æ•°æ®èµ„æºæ•°æ®é¡¹æ•°ç»„",
               "type": "array",
               "items": {
                 "type": "object",
-                "description": "Êı¾İ×ÊÔ´Êı¾İÏîĞÅÏ¢",
+                "description": "æ•°æ®èµ„æºæ•°æ®é¡¹ä¿¡æ¯",
                 "minItems": 1,
                 "properties": {
                   "Name": {
@@ -324,15 +324,15 @@
               }
             },
             "DataInfo": {
-              "description": "ÏìÓ¦ĞÅÏ¢µÄÊı¾İ¼¯ºÏ£¬¶şÎ¬Êı×é",
+              "description": "å“åº”ä¿¡æ¯çš„æ•°æ®é›†åˆï¼ŒäºŒç»´æ•°ç»„",
               "type": "array",
               "minItems": 1,
               "items": {
-                "description": "ÏìÓ¦Êı¾İ¼ÇÂ¼£¬Ò»Î¬Êı×é",
+                "description": "å“åº”æ•°æ®è®°å½•ï¼Œä¸€ç»´æ•°ç»„",
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                  "description": "ÏìÓ¦Êı¾İ×Ö¶ÎÖµ",
+                  "description": "å“åº”æ•°æ®å­—æ®µå€¼",
                   "type": "object",
                   "nullable": false
                 }
@@ -346,7 +346,7 @@
         }
       },
       "JSONQueryBinaryMD5Request": {
-        "description": "¶ş½øÖÆÎÄ¼ş²éÑ¯·şÎñÇëÇó",
+        "description": "äºŒè¿›åˆ¶æ–‡ä»¶æŸ¥è¯¢æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonRequest254"
@@ -359,15 +359,15 @@
                 "properties": {
                   "SearchCondition": {
                     "type": "object",
-                    "description": "²éÑ¯µÄÌõ¼şĞÅÏ¢",
+                    "description": "æŸ¥è¯¢çš„æ¡ä»¶ä¿¡æ¯",
                     "properties": {
                       "FileMD5Value": {
                         "type": "string",
-                        "description": "ÎÄ¼şMD5Öµ"
+                        "description": "æ–‡ä»¶MD5å€¼"
                       },
                       "FileSize": {
                         "type": "string",
-                        "description": "ÎÄ¼ş´óĞ¡µ¥Î»Îª×Ö½Ú"
+                        "description": "æ–‡ä»¶å¤§å°å•ä½ä¸ºå­—èŠ‚"
                       }
                     },
                     "required": [
@@ -376,15 +376,15 @@
                   },
                   "OtherCondition": {
                     "type": "object",
-                    "description": "À©Õ¹µÄ²éÑ¯Ìõ¼şĞÅÏ¢",
+                    "description": "æ‰©å±•çš„æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
                     "properties": {
                       "MaxReturnNum": {
-                        "description": "×î¶à×Ü·µ»ØÌõÊı",
+                        "description": "æœ€å¤šæ€»è¿”å›æ¡æ•°",
                         "type": "integer",
                         "default": 1000
                       },
                       "AsyncBoolean": {
-                        "description": "Òì²½²éÑ¯_ÅĞ¶Ï±êÊ¶",
+                        "description": "å¼‚æ­¥æŸ¥è¯¢_åˆ¤æ–­æ ‡è¯†",
                         "type": "string",
                         "nullable": false,
                         "enum": [
@@ -393,62 +393,62 @@
                         ],
                         "x-apifox": {
                           "enumDescriptions": {
-                            "0": "²»ÊÇ",
-                            "1": "ÊÇ"
+                            "0": "ä¸æ˜¯",
+                            "1": "æ˜¯"
                           }
                         }
                       },
                       "AsyncOnceReturnNum": {
-                        "description": "Òì²½²éÑ¯µ¥´Î·µ»ØÌõÊı",
+                        "description": "å¼‚æ­¥æŸ¥è¯¢å•æ¬¡è¿”å›æ¡æ•°",
                         "type": "integer",
                         "default": 1000
                       },
                       "AsyncQuery": {
-                        "description": "Òì²½²éÑ¯±êÊ¶",
+                        "description": "å¼‚æ­¥æŸ¥è¯¢æ ‡è¯†",
                         "type": "string"
                       },
                       "CallbackID": {
-                        "description": "²éÑ¯»Øµ÷·şÎñ×ÊÔ´±êÊ¶·û",
+                        "description": "æŸ¥è¯¢å›è°ƒæœåŠ¡èµ„æºæ ‡è¯†ç¬¦",
                         "type": "string"
                       },
                       "CodeMode": {
-                        "description": "ĞÅÏ¢´úÂëÊä³öÄ£Ê½",
+                        "description": "ä¿¡æ¯ä»£ç è¾“å‡ºæ¨¡å¼",
                         "type": "string",
                         "enum": ["0","1","2"],
                         "x-apifox": {
                           "enumDescriptions": {
-                            "0": "´úÂë",
-                            "1": "Ãû³Æ",
-                            "2": "´úÂëºÍÃû³Æ"
+                            "0": "ä»£ç ",
+                            "1": "åç§°",
+                            "2": "ä»£ç å’Œåç§°"
                           }
                         }
                       },
                       "SortResults": {
-                        "description": "½á¹ûÅÅĞòÊı¾İÏî¼¯",
+                        "description": "ç»“æœæ’åºæ•°æ®é¡¹é›†",
                         "type": "string"
                       }
                     }
                   },
                   "JSONResourceInfos": {
                     "type": "array",
-                    "description": "²éÑ¯ÒªÇó·µ»ØĞÅÏ¢",
+                    "description": "æŸ¥è¯¢è¦æ±‚è¿”å›ä¿¡æ¯",
                     "items": {
                       "type": "object",
                       "properties": {
                         "DataItems": {
                           "type": "array",
-                          "description": "Êı¾İÏîĞÅÏ¢µÄÊı×é",
+                          "description": "æ•°æ®é¡¹ä¿¡æ¯çš„æ•°ç»„",
                           "items": {
                             "type": "object",
-                            "description": "Êı¾İÏî¾ßÌå¶ÔÏó",
+                            "description": "æ•°æ®é¡¹å…·ä½“å¯¹è±¡",
                             "properties": {
                               "Name": {
                                 "type": "string",
-                                "description": "Êı¾İÏîµÄÃû³Æ"
+                                "description": "æ•°æ®é¡¹çš„åç§°"
                               },
                               "Fmt": {
                                 "type": "string",
-                                "description": "Êı¾İÏîµÄ¸ñÊ½"
+                                "description": "æ•°æ®é¡¹çš„æ ¼å¼"
                               }
                             }
                           }
@@ -467,7 +467,7 @@
         ]
       },
       "JSONQueryBodyFileRequest": {
-        "description": "»ñÈ¡ÎÄ¼şÌå·şÎñÇëÇó",
+        "description": "è·å–æ–‡ä»¶ä½“æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonRequest254"
@@ -480,7 +480,7 @@
                 "properties": {
                   "FilePath": {
                     "type": "string",
-                    "description": "ÎÄ¼şÂ·¾¶",
+                    "description": "æ–‡ä»¶è·¯å¾„",
                     "nullable": false
                   }
                 },
@@ -493,7 +493,7 @@
         ]
       },
       "JSONQueryBodyFileResponse": {
-        "description": "»ñÈ¡ÎÄ¼şÌå·şÎñÏìÓ¦",
+        "description": "è·å–æ–‡ä»¶ä½“æœåŠ¡å“åº”",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonResponse254"
@@ -505,11 +505,11 @@
                 "type": "object",
                 "properties": {
                   "Content": {
-                    "description": "ÎÄ¼şÄÚÈİÒÔBase64¸ñÊ½·µ»Ø",
+                    "description": "æ–‡ä»¶å†…å®¹ä»¥Base64æ ¼å¼è¿”å›",
                     "type": "string"
                   },
                   "Filename": {
-                    "description": "Í¨¹ıÎÄ¼şÃûÔÚ´«ÊäÍ¨µÀ»ñÈ¡ÎÄ¼ş",
+                    "description": "é€šè¿‡æ–‡ä»¶ååœ¨ä¼ è¾“é€šé“è·å–æ–‡ä»¶",
                     "type": "string"
                   }
                 }
@@ -519,7 +519,7 @@
         ]
       },
       "JSONQueryMultiMediaRequest": {
-        "description": "¶àÃ½Ìå¼ìË÷²éÑ¯·şÎñÇëÇó",
+        "description": "å¤šåª’ä½“æ£€ç´¢æŸ¥è¯¢æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonRequest254"
@@ -532,32 +532,32 @@
                 "properties": {
                   "SearchCondition": {
                     "type": "object",
-                    "description": "²éÑ¯Ìõ¼şĞÅÏ¢",
+                    "description": "æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
                     "properties": {
                       "Content": {
                         "type": "string",
-                        "description": "ÎÄ¼şÄÚÈİ"
+                        "description": "æ–‡ä»¶å†…å®¹"
                       },
                       "Keywords": {
                         "type": "string",
-                        "description": "¹Ø¼ü´Ê"
+                        "description": "å…³é”®è¯"
                       },
                       "Similarity": {
                         "type": "string",
-                        "description": "²éÑ¯½á¹ûµÄ×îµÍÏàËÆÖµ£¬È¡Öµ0-1¡£",
+                        "description": "æŸ¥è¯¢ç»“æœçš„æœ€ä½ç›¸ä¼¼å€¼ï¼Œå–å€¼0-1ã€‚",
                         "enum": [0,1]
                       },
                       "TopNum": {
                         "type": "string",
-                        "description": "·µ»Ø²éÑ¯½á¹ûµÄ×î´óÊıÁ¿£¬ÉÏÏŞÎª50"
+                        "description": "è¿”å›æŸ¥è¯¢ç»“æœçš„æœ€å¤§æ•°é‡ï¼Œä¸Šé™ä¸º50"
                       },
                       "StartTime": {
                         "type": "string",
-                        "description": "¿ªÊ¼Ê±¼ä,¸ñÊ½£ºYYYYMMDDhh24miss"
+                        "description": "å¼€å§‹æ—¶é—´,æ ¼å¼ï¼šYYYYMMDDhh24miss"
                       },
                       "EndTime": {
                         "type": "string",
-                        "description": "½áÊøÊ±¼ä,¸ñÊ½£ºYYYYMMDDhh24miss"
+                        "description": "ç»“æŸæ—¶é—´,æ ¼å¼ï¼šYYYYMMDDhh24miss"
                       }
                     },
                     "required": [
@@ -566,24 +566,24 @@
                   },
                   "JSONResourceInfos": {
                     "type": "array",
-                    "description": "²éÑ¯ÒªÇó·µ»ØĞÅÏ¢",
+                    "description": "æŸ¥è¯¢è¦æ±‚è¿”å›ä¿¡æ¯",
                     "items": {
                       "type": "object",
                       "properties": {
                         "DataItems": {
                           "type": "array",
-                          "description": "Êı¾İÏîĞÅÏ¢µÄÊı×é",
+                          "description": "æ•°æ®é¡¹ä¿¡æ¯çš„æ•°ç»„",
                           "items": {
                             "type": "object",
-                            "description": "Êı¾İÏî¾ßÌå¶ÔÏó",
+                            "description": "æ•°æ®é¡¹å…·ä½“å¯¹è±¡",
                             "properties": {
                               "Name": {
                                 "type": "string",
-                                "description": "Êı¾İÏîµÄÃû³Æ"
+                                "description": "æ•°æ®é¡¹çš„åç§°"
                               },
                               "Fmt": {
                                 "type": "string",
-                                "description": "Êı¾İÏîµÄ¸ñÊ½"
+                                "description": "æ•°æ®é¡¹çš„æ ¼å¼"
                               }
                             }
                           }
@@ -601,7 +601,7 @@
         ]
       },
       "JSONQueryCallbackRequest": {
-        "description": "ÒôÆµ¼ìË÷²éÑ¯·şÎñÇëÇó",
+        "description": "éŸ³é¢‘æ£€ç´¢æŸ¥è¯¢æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/JSONCommonRequest254"
@@ -614,11 +614,11 @@
                 "properties": {
                   "ResourceInfos": {
                     "$ref": "#components/schemas/JSONResourceInfos",
-                    "description": "µ±È«ÎÄ¼ìË÷Ê±Êı¾İÏîÖĞ±ØĞë°üº¬¡°ÃüÖĞÎ»ÖÃ¡±£¬±íÊ¾¸ñÊ½£º{\"Êı¾İÏî\":{\"¹Ø¼ü×Ö\":[[\"ÃüÖĞÎ»ÖÃ\",\"Æ«ÒÆÁ¿\"]]}}"
+                    "description": "å½“å…¨æ–‡æ£€ç´¢æ—¶æ•°æ®é¡¹ä¸­å¿…é¡»åŒ…å«â€œå‘½ä¸­ä½ç½®â€ï¼Œè¡¨ç¤ºæ ¼å¼ï¼š{\"æ•°æ®é¡¹\":{\"å…³é”®å­—\":[[\"å‘½ä¸­ä½ç½®\",\"åç§»é‡\"]]}}"
                   },
                   "AsyncQuery": {
                     "type": "string",
-                    "description": "Òì²½²éÑ¯±êÊ¶"
+                    "description": "å¼‚æ­¥æŸ¥è¯¢æ ‡è¯†"
                   }
                 },
                 "required": [
@@ -631,7 +631,7 @@
         ]
       },
       "XMLQueryFormat": {
-        "description": "Êı¾İ×ÊÔ´Çé¿ö²éÑ¯·şÎñÇëÇó",
+        "description": "æ•°æ®èµ„æºæƒ…å†µæŸ¥è¯¢æœåŠ¡è¯·æ±‚",
         "allOf": [
           {
             "$ref": "254-2021.json#/components/schemas/XMLCommonFormat254"
@@ -666,20 +666,20 @@
             ],
             "x-apifox": {
               "enumDescriptions": {
-                "OR": "»ò",
-                "AND": "ºÍ",
-                "BTW": "·¶Î§È¡Öµ",
-                "PBR": "Ç°Ä£ºı",
-                "EBR": "ºóÄ£ºı",
-                "BBR": "Ç°ºóÄ£ºı",
-                "GT": "´óÓÚ",
-                "LT": "Ğ¡ÓÚ",
-                "GE": "´óÓÚµÈÓÚ",
-                "LE": "Ğ¡ÓÚµÈÓÚ",
-                "STC": "Ô­Ñù·µ»Ø",
-                "NOT": "·Ç",
-                "IN": "ÓëÁĞ±íÖĞÈÎÒâÒ»¸öÖµÏàµÈ",
-                "NULL": "¿ÕÖµ"
+                "OR": "æˆ–",
+                "AND": "å’Œ",
+                "BTW": "èŒƒå›´å–å€¼",
+                "PBR": "å‰æ¨¡ç³Š",
+                "EBR": "åæ¨¡ç³Š",
+                "BBR": "å‰åæ¨¡ç³Š",
+                "GT": "å¤§äº",
+                "LT": "å°äº",
+                "GE": "å¤§äºç­‰äº",
+                "LE": "å°äºç­‰äº",
+                "STC": "åŸæ ·è¿”å›",
+                "NOT": "é",
+                "IN": "ä¸åˆ—è¡¨ä¸­ä»»æ„ä¸€ä¸ªå€¼ç›¸ç­‰",
+                "NULL": "ç©ºå€¼"
               }
             }
           }

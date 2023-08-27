@@ -4,7 +4,7 @@
   "properties": {
     "From": {
       "type": "string",
-      "title": "·şÎñ·¢Æğ·½±êÊ¶",
+      "title": "æœåŠ¡å‘èµ·æ–¹æ ‡è¯†",
       "description": "GA380-2012/GB32100-2015",
       "format": "regex",
       "default": "440000000000",
@@ -15,7 +15,7 @@
     },
     "To": {
       "type": "string",
-      "title": "·şÎñ½ÓÊÕ·½±êÊ¶",
+      "title": "æœåŠ¡æ¥æ”¶æ–¹æ ‡è¯†",
       "description": "GA380-2012/GB32100-2015",
       "format": "regex",
       "default": "440000030000",
@@ -26,8 +26,8 @@
     },
     "MessageSequence": {
       "type": "string",
-      "title": "ÏûÏ¢Á÷Ë®ºÅ",
-      "description": "14Î»Ê±¼ä´®+4Î»×Ô¶¨ÒåË÷ÒıÂë",
+      "title": "æ¶ˆæ¯æµæ°´å·",
+      "description": "14ä½æ—¶é—´ä¸²+4ä½è‡ªå®šä¹‰ç´¢å¼•ç ",
       "format": "regex",
       "default": "202307121732300001",
       "pattern": "^[0-9]{18}$",
@@ -37,8 +37,8 @@
     },
     "MessageType": {
       "type": "string",
-      "title": "ÏûÏ¢ÀàĞÍ",
-      "description": "14Î»Ê±¼ä´®+4Î»×Ô¶¨ÒåË÷ÒıÂë",
+      "title": "æ¶ˆæ¯ç±»å‹",
+      "description": "14ä½æ—¶é—´ä¸²+4ä½è‡ªå®šä¹‰ç´¢å¼•ç ",
       "enum": [
         "11",
         "12",
@@ -47,17 +47,17 @@
       ],
       "x-apifox": {
         "enumDescriptions": {
-          "11": "ÇëÇó+·Ç»Øµ÷",
-          "12": "ÇëÇó+»Øµ÷",
-          "21": "Ó¦´ğ+·Ç»Øµ÷",
-          "22": "Ó¦´ğ+»Øµ÷"
+          "11": "è¯·æ±‚+éå›è°ƒ",
+          "12": "è¯·æ±‚+å›è°ƒ",
+          "21": "åº”ç­”+éå›è°ƒ",
+          "22": "åº”ç­”+å›è°ƒ"
         }
       }
     },
     "CallbackSequence": {
       "type": "string",
-      "title": "»Øµ÷°üĞòÁĞºÅ",
-      "description": "Ö»ÓĞÒì²½»Øµ÷Ê±²ÅĞèÒª£¬×îºóÒ»¸ö¼Ó[END]",
+      "title": "å›è°ƒåŒ…åºåˆ—å·",
+      "description": "åªæœ‰å¼‚æ­¥å›è°ƒæ—¶æ‰éœ€è¦ï¼Œæœ€åä¸€ä¸ªåŠ [END]",
       "format": "regex",
       "default": "0",
       "pattern": "/^[0-9]+\\[END\\]$/",
@@ -67,8 +67,8 @@
     },
     "CallbackRecords": {
       "type": "integer",
-      "title": "»Øµ÷°üÖĞ¼ÇÂ¼Êı",
-      "description": "Ö»ÓĞÒì²½»Øµ÷Ê±²ÅĞèÒª",
+      "title": "å›è°ƒåŒ…ä¸­è®°å½•æ•°",
+      "description": "åªæœ‰å¼‚æ­¥å›è°ƒæ—¶æ‰éœ€è¦",
       "format": "int32",
       "default": "0",
       "examples": [
@@ -76,24 +76,24 @@
       ]
     },
     "RequestParam": {
-      "title": "ÇëÇó×Ô¶¨Òå²ÎÊı£¬¸÷×Ô·şÎñ×Ô¶¨Òå",
+      "title": "è¯·æ±‚è‡ªå®šä¹‰å‚æ•°ï¼Œå„è‡ªæœåŠ¡è‡ªå®šä¹‰",
       "type": "object",
       "properties": {
         "Condition": {
           "type": "string",
-          "description": "²éÑ¯Ìõ¼şĞÅÏ¢",
+          "description": "æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
           "nullable": false
         },
         "OtherCondition": {
           "type": "object",
-          "description": "À©Õ¹µÄ²éÑ¯Ìõ¼şĞÅÏ¢",
+          "description": "æ‰©å±•çš„æŸ¥è¯¢æ¡ä»¶ä¿¡æ¯",
           "properties": {
             "MaxReturnNum": {
-              "description": "×î¶à×Ü·µ»ØÌõÊı",
+              "description": "æœ€å¤šæ€»è¿”å›æ¡æ•°",
               "type": "string"
             },
             "AsyncBoolean": {
-              "description": "Òì²½²éÑ¯_ÅĞ¶Ï±êÊ¶",
+              "description": "å¼‚æ­¥æŸ¥è¯¢_åˆ¤æ–­æ ‡è¯†",
               "type": "string",
               "nullable": false,
               "enum": [
@@ -102,25 +102,25 @@
               ],
               "x-apifox": {
                 "enumDescriptions": {
-                  "0": "²»ÊÇ",
-                  "1": "ÊÇ"
+                  "0": "ä¸æ˜¯",
+                  "1": "æ˜¯"
                 }
               }
             },
             "AsyncOnceReturnNum": {
-              "description": "Òì²½²éÑ¯µ¥´Î·µ»ØÌõÊı",
+              "description": "å¼‚æ­¥æŸ¥è¯¢å•æ¬¡è¿”å›æ¡æ•°",
               "type": "string"
             },
             "AsyncQuery": {
-              "description": "Òì²½²éÑ¯±êÊ¶",
+              "description": "å¼‚æ­¥æŸ¥è¯¢æ ‡è¯†",
               "type": "string"
             },
             "CallbackID": {
-              "description": "²éÑ¯»Øµ÷·şÎñ×ÊÔ´±êÊ¶·û",
+              "description": "æŸ¥è¯¢å›è°ƒæœåŠ¡èµ„æºæ ‡è¯†ç¬¦",
               "type": "string"
             },
             "CodeMode": {
-              "description": "ĞÅÏ¢´úÂëÊä³öÄ£Ê½",
+              "description": "ä¿¡æ¯ä»£ç è¾“å‡ºæ¨¡å¼",
               "type": "string",
               "enum": [
                 "0",
@@ -129,20 +129,20 @@
               ],
               "x-apifox": {
                 "enumDescriptions": {
-                  "0": "´úÂë",
-                  "1": "Ãû³Æ",
-                  "2": "´úÂëºÍÃû³Æ"
+                  "0": "ä»£ç ",
+                  "1": "åç§°",
+                  "2": "ä»£ç å’Œåç§°"
                 }
               }
             },
             "SortResults": {
-              "description": "½á¹ûÅÅĞòÊı¾İÏî¼¯",
+              "description": "ç»“æœæ’åºæ•°æ®é¡¹é›†",
               "type": "string"
             }
           }
         },
         "ResourceInfos": {
-          "description": "²éÑ¯ÒªÇó·µ»ØĞÅÏ¢"
+          "description": "æŸ¥è¯¢è¦æ±‚è¿”å›ä¿¡æ¯"
         }
       },
       "required": [

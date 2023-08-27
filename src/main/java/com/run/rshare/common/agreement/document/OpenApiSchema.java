@@ -1,5 +1,8 @@
 package com.run.rshare.common.agreement.document;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +29,12 @@ public class OpenApiSchema {
     private String example;
 
     private List<String> required;
+
+    @JSONField(name = "x-rshare-request_fields-path")
+    private RSharePath requestFieldsPath;
+
+    @JSONField(name = "x-rshare-response_fields-path")
+    private RSharePath responseFieldsPath;
 
     public String getType() {
         return type;
@@ -57,5 +66,21 @@ public class OpenApiSchema {
 
     public void setRequired(List<String> required) {
         this.required = required;
+    }
+
+    public RSharePath getRequestFieldsPath() {
+        return requestFieldsPath;
+    }
+
+    public void setRequestFieldsPath(RSharePath requestFieldsPath) {
+        this.requestFieldsPath = requestFieldsPath;
+    }
+
+    public RSharePath getResponseFieldsPath() {
+        return responseFieldsPath;
+    }
+
+    public void setResponseFieldsPath(RSharePath responseFieldsPath) {
+        this.responseFieldsPath = responseFieldsPath;
     }
 }

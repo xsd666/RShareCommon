@@ -15,16 +15,29 @@ public class OpenApiPath {
     private OpenApiOperation post;
     private OpenApiOperation delete;
 
-    public void set(String httpMethod,OpenApiOperation openApiOperation){
-        if(HttpMethod.GET.name().equalsIgnoreCase(httpMethod)){
+    public void set(String httpMethod, OpenApiOperation openApiOperation) {
+        if (HttpMethod.GET.name().equalsIgnoreCase(httpMethod)) {
             setGet(openApiOperation);
-        }else if(HttpMethod.PUT.name().equalsIgnoreCase(httpMethod)){
+        } else if (HttpMethod.PUT.name().equalsIgnoreCase(httpMethod)) {
             setPut(openApiOperation);
-        }else if(HttpMethod.POST.name().equalsIgnoreCase(httpMethod)){
+        } else if (HttpMethod.POST.name().equalsIgnoreCase(httpMethod)) {
             setPost(openApiOperation);
-        }else if(HttpMethod.DELETE.name().equalsIgnoreCase(httpMethod)){
+        } else if (HttpMethod.DELETE.name().equalsIgnoreCase(httpMethod)) {
             setDelete(openApiOperation);
         }
+    }
+
+    public OpenApiOperation get() {
+        if (get != null) {
+            return get;
+        } else if (put != null) {
+            return put;
+        } else if (post != null) {
+            return post;
+        } else if (delete != null) {
+            return delete;
+        }
+        return null;
     }
 
     public OpenApiOperation getGet() {

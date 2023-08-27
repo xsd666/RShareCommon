@@ -5,45 +5,45 @@
     "service_req_headers": [
       {
         "arg": "Content-Type",
-        "name": "ÄÚÈİÀàĞÍ",
-        "desc": "ÄÚÈİÀàĞÍ",
+        "name": "å†…å®¹ç±»å‹",
+        "desc": "å†…å®¹ç±»å‹",
         "type": "string",
         "required": "1"
       },
       {
         "arg": "SenderID",
-        "name": "Ó¦ÓÃID",
-        "desc": "Ó¦ÓÃID",
+        "name": "åº”ç”¨ID",
+        "desc": "åº”ç”¨ID",
         "type": "string",
         "required": "1"
       },
       {
         "arg": "ServiceResourceId",
-        "name": "·şÎñ×ÊÔ´ID",
-        "desc": "·şÎñ×ÊÔ´ID",
+        "name": "æœåŠ¡èµ„æºID",
+        "desc": "æœåŠ¡èµ„æºID",
         "type": "string",
         "required": "1"
       },
       {
         "arg": "UserID",
-        "name": "ÓÃ»§ID",
-        "desc": "ÓÃ»§ID",
+        "name": "ç”¨æˆ·ID",
+        "desc": "ç”¨æˆ·ID",
         "type": "string",
         "required": "1"
       },
       {
         "arg": "taskID",
         "type": "string",
-        "required": "ÊÇ",
-        "name": "ÈÎÎñID",
-        "desc": "ÈÎÎñID"
+        "required": "æ˜¯",
+        "name": "ä»»åŠ¡ID",
+        "desc": "ä»»åŠ¡ID"
       },
       {
         "arg": "seqID",
         "type": "string",
-        "required": "ÊÇ",
-        "name": "Á÷Ë®ºÅ",
-        "desc": "Á÷Ë®ºÅ"
+        "required": "æ˜¯",
+        "name": "æµæ°´å·",
+        "desc": "æµæ°´å·"
       }
     ],
     "service_req_args": [
@@ -51,99 +51,99 @@
         "arg": "name",
         "pArg": "",
         "type": "string",
-        "required": "ÊÇ",
-        "desc": "ÈÎÎñÃû³Æ£¬±ØĞëÎ¨Ò»"
+        "required": "æ˜¯",
+        "desc": "ä»»åŠ¡åç§°ï¼Œå¿…é¡»å”¯ä¸€"
       },
       {
         "arg": "description",
         "pArg": "",
         "type": "string",
-        "required": "·ñ",
-        "desc": "ÈÎÎñÃèÊö"
+        "required": "å¦",
+        "desc": "ä»»åŠ¡æè¿°"
       },
       {
         "arg": "strategy",
         "pArg": "",
         "type": "json_object",
-        "required": "·ñ",
-        "desc": "ÈÎÎñµ÷¶È²ßÂÔ£¬json¶ÔÏó¸ñÊ½"
+        "required": "å¦",
+        "desc": "ä»»åŠ¡è°ƒåº¦ç­–ç•¥ï¼Œjsonå¯¹è±¡æ ¼å¼"
       },
       {
         "arg": "startTime",
         "pArg": "strategy",
         "type": "string",
-        "required": "·ñ",
-        "desc": "µ÷¶È¿ªÊ¼Ê±¼ä£¬13Î»Ê±¼ä´Á"
+        "required": "å¦",
+        "desc": "è°ƒåº¦å¼€å§‹æ—¶é—´ï¼Œ13ä½æ—¶é—´æˆ³"
       },
       {
         "arg": "endTime",
         "pArg": "strategy",
         "type": "string",
-        "required": "·ñ",
-        "desc": "µ÷¶È½áÊøÊ±¼ä£¬13Î»Ê±¼ä´Á"
+        "required": "å¦",
+        "desc": "è°ƒåº¦ç»“æŸæ—¶é—´ï¼Œ13ä½æ—¶é—´æˆ³"
       },
       {
         "arg": "crontab",
         "pArg": "strategy",
         "type": "string",
-        "required": "·ñ",
-        "desc": "cron±í´ïÊ½"
+        "required": "å¦",
+        "desc": "cronè¡¨è¾¾å¼"
       },
       {
         "arg": "priority",
         "pArg": "",
         "type": "int",
-        "required": "·ñ",
-        "desc": "ÈÎÎñÖ´ĞĞÓÅÏÈ¼¶"
+        "required": "å¦",
+        "desc": "ä»»åŠ¡æ‰§è¡Œä¼˜å…ˆçº§"
       },
       {
         "arg": "timeout",
         "pArg": "",
         "type": "int",
-        "required": "·ñ",
-        "desc": "ÈÎÎñÖ´ĞĞ³¬Ê±Ê±¼ä"
+        "required": "å¦",
+        "desc": "ä»»åŠ¡æ‰§è¡Œè¶…æ—¶æ—¶é—´"
       },
       {
         "arg": "definition",
         "pArg": "",
         "type": "json_object",
-        "required": "ÊÇ",
-        "desc": "ÈÎÎñ¶¨Òå£¬json¶ÔÏó¸ñÊ½"
+        "required": "æ˜¯",
+        "desc": "ä»»åŠ¡å®šä¹‰ï¼Œjsonå¯¹è±¡æ ¼å¼"
       },
       {
         "arg": "jobs",
         "pArg": "definition",
         "type": "json_array",
-        "required": "ÊÇ",
-        "desc": "×÷Òµ½Úµã¶¨Òå"
+        "required": "æ˜¯",
+        "desc": "ä½œä¸šèŠ‚ç‚¹å®šä¹‰"
       },
       {
         "arg": "connects",
         "pArg": "definition",
         "type": "json_array",
-        "required": "·ñ",
-        "desc": "×÷Òµ½ÚµãÍ¼±êÁ¬½ÓĞÅÏ¢"
+        "required": "å¦",
+        "desc": "ä½œä¸šèŠ‚ç‚¹å›¾æ ‡è¿æ¥ä¿¡æ¯"
       },
       {
-        "arg": "×¢Òâ:Õâ²¿·Ö²ÎÊıËµÃ÷ÏàÍ¬,µ«Ê¹ÓÃÊ±GETÓëPOSTÒªÇø·ÖÊ¹ÓÃ",
-        "pArg": "×¢Òâ:Õâ²¿·Ö²ÎÊıËµÃ÷ÏàÍ¬,µ«Ê¹ÓÃÊ±GETÓëPOSTÒªÇø·ÖÊ¹ÓÃ",
-        "type": "×¢Òâ:Õâ²¿·Ö²ÎÊıËµÃ÷ÏàÍ¬,µ«Ê¹ÓÃÊ±GETÓëPOSTÒªÇø·ÖÊ¹ÓÃ",
-        "required": "×¢Òâ:Õâ²¿·Ö²ÎÊıËµÃ÷ÏàÍ¬,µ«Ê¹ÓÃÊ±GETÓëPOSTÒªÇø·ÖÊ¹ÓÃ",
-        "desc": "×¢Òâ:Õâ²¿·Ö²ÎÊıËµÃ÷ÏàÍ¬,µ«Ê¹ÓÃÊ±GETÓëPOSTÒªÇø·ÖÊ¹ÓÃ"
+        "arg": "æ³¨æ„:è¿™éƒ¨åˆ†å‚æ•°è¯´æ˜ç›¸åŒ,ä½†ä½¿ç”¨æ—¶GETä¸POSTè¦åŒºåˆ†ä½¿ç”¨",
+        "pArg": "æ³¨æ„:è¿™éƒ¨åˆ†å‚æ•°è¯´æ˜ç›¸åŒ,ä½†ä½¿ç”¨æ—¶GETä¸POSTè¦åŒºåˆ†ä½¿ç”¨",
+        "type": "æ³¨æ„:è¿™éƒ¨åˆ†å‚æ•°è¯´æ˜ç›¸åŒ,ä½†ä½¿ç”¨æ—¶GETä¸POSTè¦åŒºåˆ†ä½¿ç”¨",
+        "required": "æ³¨æ„:è¿™éƒ¨åˆ†å‚æ•°è¯´æ˜ç›¸åŒ,ä½†ä½¿ç”¨æ—¶GETä¸POSTè¦åŒºåˆ†ä½¿ç”¨",
+        "desc": "æ³¨æ„:è¿™éƒ¨åˆ†å‚æ•°è¯´æ˜ç›¸åŒ,ä½†ä½¿ç”¨æ—¶GETä¸POSTè¦åŒºåˆ†ä½¿ç”¨"
       }
     ],
     "service_resp_headers": [
       {
         "arg": "taskID",
         "type": "string",
-        "name": "ÈÎÎñID",
-        "desc": "ÈÎÎñID"
+        "name": "ä»»åŠ¡ID",
+        "desc": "ä»»åŠ¡ID"
       },
       {
         "arg": "seqID",
         "type": "string",
-        "name": "Á÷Ë®ºÅ",
-        "desc": "Á÷Ë®ºÅ"
+        "name": "æµæ°´å·",
+        "desc": "æµæ°´å·"
       }
     ],
     "service_resp_args": [
@@ -151,35 +151,35 @@
         "arg": "code",
         "pArg": "",
         "type": "string",
-        "desc": "×´Ì¬Âë"
+        "desc": "çŠ¶æ€ç "
       },
       {
         "arg": "msg",
         "pArg": "",
         "type": "string",
-        "desc": "ÏûÏ¢"
+        "desc": "æ¶ˆæ¯"
       },
       {
         "arg": "data",
         "pArg": "",
         "type": "json_object",
-        "desc": "ÏìÓ¦Êı¾İ"
+        "desc": "å“åº”æ•°æ®"
       },
       {
         "arg": "id",
         "pArg": "data",
         "type": "string",
-        "desc": "µ÷¶ÈÈÎÎñid"
+        "desc": "è°ƒåº¦ä»»åŠ¡id"
       }
     ],
     "service_resp_code": [
       {
         "code": 200,
-        "desc": "Õı³£"
+        "desc": "æ­£å¸¸"
       },
       {
         "code": 500,
-        "desc": "ÄÚ²¿´íÎó"
+        "desc": "å†…éƒ¨é”™è¯¯"
       }
     ],
     "service_req_sample": {
@@ -187,7 +187,7 @@
         "taskID": "8008",
         "seqID": "600656"
       },
-      "body": "{\n   \"name\": \"²âÊÔÈÎÎñµ÷¶È01\",\n   \"description\": \"²âÊÔÈÎÎñµ÷¶È01\",\n   \"strategy\": {\n      \"startTime\": \"2021/10/15\",\n      \"endTime\": \"2021/10/15\",\n      \"crontab\": \"0 0/10 * * * ?\"\n   },\n   \"priority\": \"1\",\n   \"timeout\": \"1000\",\n   \"definition\": {\n      \"jobs\": [\n      ],\n      \"connects\": [\n      ],\n      \"locations\": {\n      }\n   },\n   \"global_params\": {\n   }\n}\n×¢Òâ: ÉÏÃæÊÇPOSTµÄÊ¾Àı,GETÊ±ÈçÏÂ\nname=²âÊÔÈÎÎñµ÷¶È01&priority=1&timeout=1000..."
+      "body": "{\n   \"name\": \"æµ‹è¯•ä»»åŠ¡è°ƒåº¦01\",\n   \"description\": \"æµ‹è¯•ä»»åŠ¡è°ƒåº¦01\",\n   \"strategy\": {\n      \"startTime\": \"2021/10/15\",\n      \"endTime\": \"2021/10/15\",\n      \"crontab\": \"0 0/10 * * * ?\"\n   },\n   \"priority\": \"1\",\n   \"timeout\": \"1000\",\n   \"definition\": {\n      \"jobs\": [\n      ],\n      \"connects\": [\n      ],\n      \"locations\": {\n      }\n   },\n   \"global_params\": {\n   }\n}\næ³¨æ„: ä¸Šé¢æ˜¯POSTçš„ç¤ºä¾‹,GETæ—¶å¦‚ä¸‹\nname=æµ‹è¯•ä»»åŠ¡è°ƒåº¦01&priority=1&timeout=1000..."
     },
     "service_resp_sample": {
       "header": {
