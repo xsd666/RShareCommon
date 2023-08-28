@@ -14,6 +14,7 @@ import com.jayway.jsonpath.ReadContext;
 import com.run.rshare.common.agreement.ServiceRequest;
 import com.run.rshare.common.agreement.ServiceResponse;
 import com.run.rshare.common.agreement.document.OpenApiDocument;
+import com.run.rshare.common.agreement.document.OpenApiResponse;
 import com.run.rshare.common.agreement.document.OpenApiUtil;
 import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.common.agreement.type.FieldInfo;
@@ -286,18 +287,29 @@ public class OpenAPI30Test {
         JSONObject requestJSON = openApiDocument.fetchRequestJSON();
         String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
         LOG.info("服务请求参数体json:" + toJSONString);
-        LOG.info("============服务请求参数打印结束============");
+        LOG.info("============服务请求参数json打印结束============");
 
         //todo 通用查询中example是有字段的,规约参数中
         //todo RequestParam.ResourceInfos[0].DataItems[0].Name
         //todo 中是以val值的形式，规约中没有
         List<FieldInfo> requestInfoList = OpenApiUtil.getRequestFieldInfoByOpenApiJson(defaultSchema);
         LOG.info("requestInfoList:" + JSONObject.toJSONString(requestInfoList, SerializerFeature.WriteMapNullValue));
+        LOG.info("============服务请求字段打印结束============");
+
 
         //取请求结果码为200的
+        Optional<OpenApiResponse> openApiResponse = openApiDocument.fetchOpenApiResponseOptional("200");
+        JSONObject responseHeader = openApiDocument.fetchResponseHeader(openApiResponse);
+        LOG.info("ResponseHeader:" + JSONObject.toJSONString(responseHeader, SerializerFeature.WriteMapNullValue));
+        LOG.info("============服务响应头打印结束============");
+
+        JSONObject responseJSON = openApiDocument.fetchResponseJSON(openApiResponse);
+        LOG.info("responseJSON:" + JSONObject.toJSONString(responseJSON, SerializerFeature.WriteMapNullValue));
+        LOG.info("============服务响应json打印结束============");
+
         List<FieldInfo> responseFieldInfos = OpenApiUtil.getResponseFieldInfoByOpenApiJson(defaultSchema, "200");
         LOG.info("responseFieldInfos:" + JSONObject.toJSONString(responseFieldInfos, SerializerFeature.WriteMapNullValue));
-        LOG.info("============服务响应参数打印结束============");
+        LOG.info("============服务响应字段打印结束============");
 
         Map<String,Object> paramsMap = new HashMap<>();
         paramsMap.put("SenderID","400653");

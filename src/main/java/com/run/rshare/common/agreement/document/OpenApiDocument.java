@@ -151,6 +151,43 @@ public class OpenApiDocument {
     }
 
     /**
+     * 获取响应Response参数
+     *
+     * @param openApiResponseOptional
+     * @return fetchResponseHeader
+     */
+    public JSONObject fetchResponseHeader(Optional<OpenApiResponse> openApiResponseOptional) {
+        if (!openApiResponseOptional.isPresent()) {
+            return null;
+        }
+        OpenApiResponse apiResponse = openApiResponseOptional.get();
+        List<HeadersParameter> parameters = apiResponse.getParameters();
+        JSONObject jsonObject = new JSONObject();
+        parameters.forEach(parameter -> {
+            jsonObject.put(parameter.getName(), null);
+        });
+        return jsonObject;
+    }
+
+    /**
+     * 获取响应json
+     *
+     * @return
+     */
+    public JSONObject fetchResponseJSON(Optional<OpenApiResponse> openApiResponseOptional) {
+        Optional<OpenApiSchema> openApiSchemaOptional = openApiResponseOptional.map(OpenApiResponse::getContent)
+                .map(OpenApiContent::getApplicationJson)
+                .map(OpenApiMediaType::getSchema);
+        if (!openApiSchemaOptional.isPresent()) {
+            return null;
+        }
+        OpenApiSchema apiSchema = openApiSchemaOptional.get();
+        return fetchJSON(apiSchema);
+
+    }
+
+
+    /**
      * 获取响应schema
      *
      * @param openApiResponse
@@ -163,11 +200,11 @@ public class OpenApiDocument {
     }
 
     /**
-     * 获取请求json
+     * 获取json
      *
      * @return
      */
-    public JSONObject fetchRequestJSON(OpenApiSchema apiSchema) {
+    public JSONObject fetchJSON(OpenApiSchema apiSchema) {
         Map<String, OpenApiProperties> properties = apiSchema.getProperties();
         if (MapUtils.isEmpty(properties)) {
             return new JSONObject();
@@ -178,6 +215,7 @@ public class OpenApiDocument {
         });
         return requestParams;
     }
+
 
     /**
      * 获取请求json
@@ -190,7 +228,7 @@ public class OpenApiDocument {
             return null;
         }
         OpenApiSchema apiSchema = schemaOptional.get();
-        return fetchRequestJSON(apiSchema);
+        return fetchJSON(apiSchema);
     }
 
     /**
