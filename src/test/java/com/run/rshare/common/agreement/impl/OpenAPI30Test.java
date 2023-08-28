@@ -3,7 +3,6 @@ package com.run.rshare.common.agreement.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
-import cn.hutool.json.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -266,7 +265,6 @@ public class OpenAPI30Test {
     @Test
     public void excelToSchema() throws Exception {
         JSONObject fileContent = ReqAndRespUtil.externalRegFile("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
-        System.out.println(fileContent.toJSONString());
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
         //试
         String name = "通用查询";
@@ -283,17 +281,40 @@ public class OpenAPI30Test {
         File schemaNameFile = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\" + schemaName);
         FileUtil.writeString(defaultSchema, schemaNameFile, "utf-8");
         LOG.info("============生成服务规约json结束============");
+
         OpenApiDocument openApiDocument = JSONObject.parseObject(defaultSchema, OpenApiDocument.class);
         JSONObject requestJSON = openApiDocument.fetchRequestJSON();
         String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
         LOG.info("服务请求参数体json:" + toJSONString);
         LOG.info("============服务请求参数打印结束============");
+
         //todo 通用查询中example是有字段的,规约参数中
         //todo RequestParam.ResourceInfos[0].DataItems[0].Name
         //todo 中是以val值的形式，规约中没有
-        List<FieldInfo> infoList = OpenApiUtil.buildRequestParam(defaultSchema);
-        LOG.info("FieldInfoList:" + JSONObject.toJSONString(infoList, SerializerFeature.WriteMapNullValue));
+        List<FieldInfo> requestInfoList = OpenApiUtil.getRequestFieldInfoByOpenApiJson(defaultSchema);
+        LOG.info("requestInfoList:" + JSONObject.toJSONString(requestInfoList, SerializerFeature.WriteMapNullValue));
 
+        //取请求结果码为200的
+        List<FieldInfo> responseFieldInfos = OpenApiUtil.getResponseFieldInfoByOpenApiJson(defaultSchema, "200");
+        LOG.info("responseFieldInfos:" + JSONObject.toJSONString(responseFieldInfos, SerializerFeature.WriteMapNullValue));
+        LOG.info("============服务响应参数打印结束============");
+
+        Map<String,Object> paramsMap = new HashMap<>();
+        paramsMap.put("SenderID","400653");
+        paramsMap.put("ServiceResourceId","S-320300000000-0400-00001");
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("Name","XSD1");
+        jsonObject1.put("Fmt","");
+        jsonArray.add(jsonObject1);
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("Name","XSD2");
+        jsonObject2.put("Fmt","");
+        jsonArray.add(jsonObject2);
+        paramsMap.put("DataItems",jsonArray);
+        ServiceRequest buildServiceRequest = OpenApiUtil.buildServiceRequest(defaultSchema, paramsMap);
+        LOG.info("ServiceRequest:"+JSONObject.toJSONString(buildServiceRequest, SerializerFeature.WriteMapNullValue));
+        LOG.info("============服务请求体打印结束============");
     }
 
 

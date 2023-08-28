@@ -74,6 +74,43 @@ public class OpenApiDocument {
         this.paths.put(key, path);
     }
 
+    /**
+     * 获取请求方法
+     *
+     * @return
+     */
+    public String fetchHttpMethod() {
+        Optional<String> path = paths.keySet().stream().findFirst();
+        if (!path.isPresent()) {
+            return null;
+        }
+        OpenApiPath openApiPath = paths.get(path.get());
+        String httpMethod = openApiPath.getHttpMethod();
+        return httpMethod;
+    }
+
+    /**
+     * 获取请求头
+     *
+     * @return
+     */
+    public JSONObject fetchRequestHeader() {
+        if (MapUtils.isEmpty(paths)) {
+            return null;
+        }
+        String path = paths.keySet().iterator().next();
+        OpenApiPath openApiPath = paths.get(path);
+        OpenApiOperation openApiOperation = openApiPath.get();
+        if (openApiOperation == null) {
+            return null;
+        }
+        List<HeadersParameter> parameters = openApiOperation.getParameters();
+        JSONObject jsonObject = new JSONObject();
+        parameters.forEach(parameter -> {
+            jsonObject.put(parameter.getName(), null);
+        });
+        return jsonObject;
+    }
 
     public OpenApiOperation fetchOpenApiOperation() {
         if (MapUtils.isEmpty(paths)) {
@@ -85,7 +122,11 @@ public class OpenApiDocument {
         return openApiOperation;
     }
 
-
+    /**
+     * 获取请求schema
+     *
+     * @return
+     */
     public Optional<OpenApiSchema> fetchRequestSchemaOptional() {
         OpenApiOperation openApiOperation = fetchOpenApiOperation();
         Optional<OpenApiSchema> openApiSchemaOptional = Optional.of(openApiOperation.getRequestBody())
@@ -95,6 +136,37 @@ public class OpenApiDocument {
         return openApiSchemaOptional;
     }
 
+
+    /**
+     * 获取响应Response
+     *
+     * @param responseCode
+     * @return
+     */
+    public Optional<OpenApiResponse> fetchOpenApiResponseOptional(String responseCode) {
+        OpenApiOperation openApiOperation = fetchOpenApiOperation();
+        Optional<OpenApiResponse> openApiResponse = Optional.of(openApiOperation.getResponses())
+                .map(response -> response.get(responseCode));
+        return openApiResponse;
+    }
+
+    /**
+     * 获取响应schema
+     *
+     * @param openApiResponse
+     * @return
+     */
+    public Optional<OpenApiSchema> fetchResponseSchemaOptional(Optional<OpenApiResponse> openApiResponse) {
+        return openApiResponse.map(OpenApiResponse::getContent)
+                .map(OpenApiContent::getApplicationJson)
+                .map(OpenApiMediaType::getSchema);
+    }
+
+    /**
+     * 获取请求json
+     *
+     * @return
+     */
     public JSONObject fetchRequestJSON(OpenApiSchema apiSchema) {
         Map<String, OpenApiProperties> properties = apiSchema.getProperties();
         if (MapUtils.isEmpty(properties)) {
@@ -102,42 +174,53 @@ public class OpenApiDocument {
         }
         JSONObject requestParams = new JSONObject();
         properties.forEach((key, val) -> {
-            setJsonKey(requestParams, val);
+            setParamJsonKey(requestParams, val);
         });
         return requestParams;
     }
 
+    /**
+     * 获取请求json
+     *
+     * @return
+     */
     public JSONObject fetchRequestJSON() {
         Optional<OpenApiSchema> schemaOptional = fetchRequestSchemaOptional();
         if (!schemaOptional.isPresent()) {
             return null;
         }
         OpenApiSchema apiSchema = schemaOptional.get();
-       return fetchRequestJSON(apiSchema);
+        return fetchRequestJSON(apiSchema);
     }
 
-    private void setJsonKey(JSONObject requestParams, OpenApiProperties openApiProperties) {
+    /**
+     * 设置参数的key
+     *
+     * @param requestParams
+     * @param openApiProperties
+     */
+    private void setParamJsonKey(JSONObject requestParams, OpenApiProperties openApiProperties) {
         String valType = openApiProperties.getType();
         String title = openApiProperties.getTitle();
         Map<String, OpenApiProperties> properties = openApiProperties.getProperties();
         if ("array".equalsIgnoreCase(valType)) {
             JSONArray jsonArray = new JSONArray();
             JSONObject item = new JSONObject();
-            if(MapUtils.isNotEmpty(properties)){
-                properties.forEach((key,val)->{
-                    setJsonKey(item, val);
+            if (MapUtils.isNotEmpty(properties)) {
+                properties.forEach((key, val) -> {
+                    setParamJsonKey(item, val);
                 });
                 jsonArray.add(item);
             }
-            requestParams.put(title,jsonArray);
+            requestParams.put(title, jsonArray);
         } else if ("object".equalsIgnoreCase(valType)) {
             JSONObject item = new JSONObject();
-            if(MapUtils.isNotEmpty(properties)){
-                properties.forEach((key,val)->{
-                    setJsonKey(item, val);
+            if (MapUtils.isNotEmpty(properties)) {
+                properties.forEach((key, val) -> {
+                    setParamJsonKey(item, val);
                 });
             }
-            requestParams.put(title,item);
+            requestParams.put(title, item);
         } else {
             requestParams.put(title, null);
         }

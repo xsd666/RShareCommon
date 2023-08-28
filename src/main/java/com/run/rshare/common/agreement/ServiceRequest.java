@@ -1,7 +1,8 @@
 package com.run.rshare.common.agreement;
 
 
-import javax.servlet.http.HttpServletRequest;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.http.HttpHeaders;
 
 /**
  * >包含请求头和请求体
@@ -11,20 +12,72 @@ import javax.servlet.http.HttpServletRequest;
  * @updated 17-7月-2023 17:11:32
  */
 public class ServiceRequest {
-
-	ServiceAgreement agreemnet = null;
-	HttpServletRequest httpServletRequest = null;
 	/**
-	 * 涓存椂缁熻淇℃伅
+	 * 请求头
 	 */
+	private HttpHeaders header;
+	/**
+	 * 请求方法
+	 */
+	private String httpMethod;
+	/**
+	 * 参数信息
+	 */
+	private JSONObject requestJsonParam;
+	/**
+	 * 表单参数
+	 */
+	private String requestFormParam;
+
+	//临时统计信息
 	Long timeBegin = 0L;
 	Long timeEnd = 0L;
 
-	public ServiceRequest(){
-
+	public HttpHeaders getHeader() {
+		return header;
 	}
 
-	public void finalize() throws Throwable {
-
+	public void setHeader(HttpHeaders header) {
+		this.header = header;
 	}
-}//end ServiceRequest
+
+	public String getHttpMethod() {
+		return httpMethod;
+	}
+
+	public void setHttpMethod(String httpMethod) {
+		this.httpMethod = httpMethod;
+	}
+
+	public JSONObject getRequestJsonParam() {
+		return requestJsonParam;
+	}
+
+	public void setRequestJsonParam(JSONObject requestJsonParam) {
+		this.requestJsonParam = requestJsonParam;
+	}
+
+	public String getRequestFormParam() {
+		return requestFormParam;
+	}
+
+	public void setRequestFormParam(String requestFormParam) {
+		this.requestFormParam = requestFormParam;
+	}
+
+	public Long getTimeBegin() {
+		return timeBegin;
+	}
+
+	public void setTimeBegin(Long timeBegin) {
+		this.timeBegin = timeBegin;
+	}
+
+	public Long getTimeEnd() {
+		return timeEnd;
+	}
+
+	public void setTimeEnd(Long timeEnd) {
+		this.timeEnd = timeEnd;
+	}
+}

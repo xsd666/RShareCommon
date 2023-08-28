@@ -1,5 +1,9 @@
 package com.run.rshare.common.agreement.document;
 
+import com.google.common.base.Joiner;
+import com.jayway.jsonpath.DocumentContext;
+import org.springframework.http.HttpHeaders;
+
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -8,9 +12,13 @@ import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.run.rshare.common.agreement.ServiceRequest;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,23 +32,122 @@ import java.util.stream.Collectors;
  **/
 public class OpenApiUtil {
 
+    private static Logger LOG = LoggerFactory.getLogger(OpenApiUtil.class);
+
+
     /**
+     * 构建请求题
+     *
+     * @param openApiJsonSchema
+     * @param paramsMap
+     * @return
+     */
+    public static ServiceRequest buildServiceRequest(String openApiJsonSchema, Map<String, Object> paramsMap) {
+        OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
+        JSONObject paramsMapTemplate = openApiDocument.fetchRequestJSON();
+        String httpMethod = openApiDocument.fetchHttpMethod();
+        ServiceRequest serviceRequest = new ServiceRequest();
+        //填充请求头
+        JSONObject requestHeader = openApiDocument.fetchRequestHeader();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if (MapUtils.isNotEmpty(requestHeader)) {
+            paramsMap.forEach((key, val) -> {
+                if (requestHeader.containsKey(key)) {
+                    httpHeaders.add(key, val.toString());
+                }
+            });
+        }
+        if (HttpMethod.GET.name().equalsIgnoreCase(httpMethod) && MapUtils.isNotEmpty(paramsMap)) {
+            //get请求只取一层
+            List<String> params = new ArrayList<>();
+            paramsMap.forEach((key, val) -> {
+                if (paramsMapTemplate.containsKey(key)) {
+                    params.add(String.format("%s=%s", key, val));
+                }
+            });
+            serviceRequest.setRequestFormParam(Joiner.on("&").join(params));
+        } else {
+            //post请求
+            DocumentContext context = com.jayway.jsonpath.JsonPath.parse(paramsMapTemplate);
+            paramsMap.forEach((key, val) -> {
+                String path = "$.." + key;
+                context.set(path, val);
+            });
+            JSONObject params = JSONObject.parseObject(context.jsonString());
+            serviceRequest.setRequestJsonParam(params);
+        }
+        serviceRequest.setHeader(httpHeaders);
+        serviceRequest.setHttpMethod(httpMethod);
+
+        return serviceRequest;
+    }
+
+    /**
+     * 获取响应参数
+     *
+     * @param openApiJsonSchema 规约json
+     * @param responseCode      响应码
+     * @return
+     */
+    public static List<FieldInfo> getResponseFieldInfoByOpenApiJson(String openApiJsonSchema, String responseCode) {
+        OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
+        Optional<OpenApiResponse> openApiResponse = openApiDocument.fetchOpenApiResponseOptional(responseCode);
+        Optional<OpenApiSchema> openApiSchemaOptional = openApiDocument.fetchResponseSchemaOptional(openApiResponse);
+        if (!openApiSchemaOptional.isPresent()) {
+            return Lists.newArrayList();
+        }
+        OpenApiSchema apiSchema = openApiSchemaOptional.get();
+        RSharePath responseFieldsPath = apiSchema.getResponseFieldsPath();
+        if (responseFieldsPath == null) {
+            LOG.error("响应结果中 position is blan");
+            return null;
+        }
+        String position = responseFieldsPath.getPosition();
+        if (StrUtil.isBlank(position)) {
+            LOG.error("响应结果中 position is blank");
+            return null;
+        }
+        List<FieldInfo> fieldInfoList = getFieldInfoByOpenApiSchema(apiSchema, position);
+        return fieldInfoList;
+    }
+
+    /**
+     * 从服务规约json中获取请求字段信息
      * openApiJosn
      *
      * @param openApiJsonSchema
      * @return
      */
-    public static List<FieldInfo> buildRequestParam(String openApiJsonSchema) {
-        List<FieldInfo> fieldInfoList = Lists.newArrayList();
+    public static List<FieldInfo> getRequestFieldInfoByOpenApiJson(String openApiJsonSchema) {
         OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
         Optional<OpenApiSchema> schemaOptional = openApiDocument.fetchRequestSchemaOptional();
         if (!schemaOptional.isPresent()) {
-            return fieldInfoList;
+            return null;
         }
         OpenApiSchema openApiSchema = schemaOptional.get();
-        String example = openApiSchema.getExample();
         RSharePath requestFields = openApiSchema.getRequestFieldsPath();
+        if (requestFields == null) {
+            LOG.error("请求参数中 position is blank");
+            return null;
+        }
         String position = requestFields.getPosition();
+        if (StrUtil.isBlank(position)) {
+            LOG.error("请求参数中 position is blank");
+            return null;
+        }
+        List<FieldInfo> fieldInfoList = getFieldInfoByOpenApiSchema(openApiSchema, position);
+        return fieldInfoList;
+    }
+
+    /**
+     * 通过Schema获取FieldInfo
+     *
+     * @param openApiSchema
+     * @return
+     */
+    private static List<FieldInfo> getFieldInfoByOpenApiSchema(OpenApiSchema openApiSchema, String position) {
+        List<FieldInfo> fieldInfoList = Lists.newArrayList();
+        String example = openApiSchema.getExample();
         Object eval = JSONPath.eval(example, position);
         if (eval instanceof String) {
             FieldInfo fieldInfo = new FieldInfo();
@@ -48,11 +155,11 @@ public class OpenApiUtil {
             fieldInfo.setValue(eval.toString());
             fieldInfoList.add(fieldInfo);
         } else {
-            List<Object> evalList = (List) eval;
+            JSONArray evalList = (JSONArray) eval;
             evalList.forEach(evalItem -> {
                 FieldInfo fieldInfo = new FieldInfo();
                 fieldInfo.setType("");
-                fieldInfo.setValue(eval.toString());
+                fieldInfo.setValue(evalItem.toString());
                 fieldInfoList.add(fieldInfo);
             });
         }
@@ -208,10 +315,17 @@ public class OpenApiUtil {
         pathMap.forEach((arg, json) -> {
             String path = json.getString("path");
             String pathType = json.getString("pathType");
+            //请求参数
             if ("requestField".equalsIgnoreCase(path)) {
                 RSharePath rSharePath = new RSharePath(arg, pathType);
                 setRSharePathPosition(rSharePath, json, reqArgs);
                 apiSchema.setRequestFieldsPath(rSharePath);
+            }
+            //响应参数
+            if ("responseField".equalsIgnoreCase(path)) {
+                RSharePath rSharePath = new RSharePath(arg, pathType);
+                setRSharePathPosition(rSharePath, json, reqArgs);
+                apiSchema.setResponseFieldsPath(rSharePath);
             }
         });
     }
@@ -226,8 +340,8 @@ public class OpenApiUtil {
     private static void setRSharePathPosition(RSharePath rSharePath, JSONObject json, JSONArray reqArgs) {
         String pArg = json.getString("pArg");
         if (StrUtil.isBlank(pArg)) {
-            rSharePath.setPosition("$."+rSharePath.getPosition());
-            return ;
+            rSharePath.setPosition("$." + rSharePath.getPosition());
+            return;
         }
         Optional<JSONObject> parent = reqArgs.stream()
                 .map(obj -> JSON.parseObject(obj.toString()))

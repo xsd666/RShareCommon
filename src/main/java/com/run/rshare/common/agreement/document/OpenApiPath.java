@@ -40,6 +40,19 @@ public class OpenApiPath {
         return null;
     }
 
+    public String getHttpMethod() {
+        if (get != null) {
+            return HttpMethod.GET.name();
+        } else if (put != null) {
+            return HttpMethod.PUT.name();
+        } else if (post != null) {
+            return HttpMethod.POST.name();
+        } else if (delete != null) {
+            return HttpMethod.DELETE.name();
+        }
+        return null;
+    }
+
     public OpenApiOperation getGet() {
         return get;
     }

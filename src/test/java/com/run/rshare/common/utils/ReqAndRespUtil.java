@@ -189,10 +189,10 @@ public class ReqAndRespUtil {
 	 */
 	public static JSONArray buildReqHeadersDef() {
 		JSONArray jsonArray = new JSONArray();
-		jsonArray.add(buildHeader("Content-Type", "内容类型", "内容类型", "string", "1"));
-		jsonArray.add(buildHeader("SenderID", "应用ID", "应用ID", "string", "1"));
-		jsonArray.add(buildHeader("ServiceResourceId", "服务资源ID", "服务资源ID", "string", "1"));
-		jsonArray.add(buildHeader("UserID", "用户ID", "用户ID", "string", "1"));
+		//jsonArray.add(buildHeader("Content-Type", "内容类型", "内容类型", "string", "1"));
+		//jsonArray.add(buildHeader("SenderID", "应用ID", "应用ID", "string", "1"));
+		//jsonArray.add(buildHeader("ServiceResourceId", "服务资源ID", "服务资源ID", "string", "1"));
+		//jsonArray.add(buildHeader("UserID", "用户ID", "用户ID", "string", "1"));
 		return jsonArray;
 	}
 
