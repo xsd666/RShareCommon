@@ -275,7 +275,7 @@ public class OpenAPI30Test {
         String version = "1.0.1";
         //暂时设置为空
         List<Servers> servers = Lists.newArrayList();
-        String operationId = "postBBDataTest";
+        String operationId = "postBBDataTest1";
         String httpMethod = HttpMethod.POST.name();
         String defaultSchema = OpenApiUtil.reqAndRespToOpenApiJson(reqAndRespData, name, desc, version, servers, operationId, httpMethod);
         String schemaName = operationId + "_" + DateUtil.format(new Date(), "yyyy-MM-dd") + ".json";

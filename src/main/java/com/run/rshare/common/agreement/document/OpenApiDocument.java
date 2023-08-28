@@ -85,7 +85,7 @@ public class OpenApiDocument {
             return null;
         }
         OpenApiPath openApiPath = paths.get(path.get());
-        String httpMethod = openApiPath.getHttpMethod();
+        String httpMethod = openApiPath.fetchHttpMethod();
         return httpMethod;
     }
 

@@ -40,7 +40,7 @@ public class OpenApiPath {
         return null;
     }
 
-    public String getHttpMethod() {
+    public String fetchHttpMethod() {
         if (get != null) {
             return HttpMethod.GET.name();
         } else if (put != null) {
