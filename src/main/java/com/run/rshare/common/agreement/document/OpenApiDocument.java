@@ -243,12 +243,16 @@ public class OpenApiDocument {
         Map<String, OpenApiProperties> properties = openApiProperties.getProperties();
         if ("array".equalsIgnoreCase(valType)) {
             JSONArray jsonArray = new JSONArray();
-            JSONObject item = new JSONObject();
-            if (MapUtils.isNotEmpty(properties)) {
-                properties.forEach((key, val) -> {
-                    setParamJsonKey(item, val);
-                });
-                jsonArray.add(item);
+            Items items = openApiProperties.getItems();
+            if (items != null) {
+                Map<String, OpenApiProperties> itemsProperties = items.getProperties();
+                JSONObject item = new JSONObject();
+                if (MapUtils.isNotEmpty(itemsProperties)) {
+                    itemsProperties.forEach((key, val) -> {
+                        setParamJsonKey(item, val);
+                    });
+                    jsonArray.add(item);
+                }
             }
             requestParams.put(title, jsonArray);
         } else if ("object".equalsIgnoreCase(valType)) {

@@ -381,14 +381,15 @@ public class OpenApiUtil {
             openApiPropertiesItem.setType(type);
             openApiPropertiesItem.setTitle(arg);
             openApiPropertiesItem.setDescription(desc);
-            Map<String, OpenApiProperties> propertiesItem = Maps.newHashMap();
-            buildProperties(child, propertiesItem, groupByParentArgMap);
-            if (!MapUtils.isEmpty(propertiesItem)) {
-                openApiPropertiesItem.setProperties(propertiesItem);
-            }
-            openApiPropertiesItem.setProperties(propertiesItem);
-            if (!MapUtils.isEmpty(propertiesItem)) {
-                openApiPropertiesItem.setProperties(propertiesItem);
+            Map<String, OpenApiProperties> propertiesItems = Maps.newHashMap();
+            buildProperties(child, propertiesItems, groupByParentArgMap);
+            //如果是 array 下面需要添加items,再将properties属性给items
+            if (!MapUtils.isEmpty(propertiesItems) && "array".equalsIgnoreCase(type)) {
+                Items items = new Items();
+                items.setProperties(propertiesItems);
+                openApiPropertiesItem.setItems(items);
+            } else if (!MapUtils.isEmpty(propertiesItems)) {
+                openApiPropertiesItem.setProperties(propertiesItems);
             }
             if (StrUtil.isNotBlank(required) && CollectionUtils.isNotEmpty(requiredArgs)) {
                 openApiPropertiesItem.setRequired(requiredArgs);

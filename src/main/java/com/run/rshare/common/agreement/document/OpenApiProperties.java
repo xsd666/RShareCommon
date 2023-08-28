@@ -50,6 +50,8 @@ public class OpenApiProperties {
      */
     private List<String> examples;
 
+    private Items items;
+
     /**
      * 参数响应信息
      */
@@ -134,5 +136,13 @@ public class OpenApiProperties {
 
     public void setProperties(Map<String, OpenApiProperties> properties) {
         this.properties = properties;
+    }
+
+    public Items getItems() {
+        return items;
+    }
+
+    public void setItems(Items items) {
+        this.items = items;
     }
 }
