@@ -72,10 +72,12 @@ public class OpenApiUtil {
         if (HttpMethod.GET.name().equalsIgnoreCase(httpMethod) && MapUtils.isNotEmpty(paramsMap)) {
             //get请求只取一层
             List<String> params = new ArrayList<>();
-            paramsMap.forEach((key, val) -> {
-                if (paramsMapTemplate.containsKey(key)) {
-                    params.add(String.format("%s=%s", key, val));
+            paramsMapTemplate.forEach((key, val) -> {
+                val = "";
+                if (paramsMap.containsKey(key)) {
+                    val = paramsMap.get(key);
                 }
+                params.add(String.format("%s=%s", key, val));
             });
             serviceRequest.setRequestFormParam(Joiner.on("&").join(params));
         } else {
