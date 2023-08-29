@@ -1,15 +1,13 @@
 package com.run.rshare.common.utils;
 
 import cn.hutool.core.io.file.FileReader;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.junit.platform.commons.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -110,7 +108,7 @@ public class ReqAndRespUtil {
 				JSONObject reqHeader = new JSONObject();
 				try {
 					String reqHeaderString = reqAndRespSample.getJSONObject(0).getString("请求头示例");
-					reqHeader = JSONObject.parseObject(StringUtils.isNotBlank(reqHeaderString) ? reqHeaderString : "{}");
+					reqHeader = JSONObject.parseObject(StrUtil.isNotBlank(reqHeaderString) ? reqHeaderString : "{}");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -138,7 +136,7 @@ public class ReqAndRespUtil {
 				JSONObject respHeader = new JSONObject();
 				try {
 					String respHeaderString = reqAndRespSample.getJSONObject(0).getString("响应头示例");
-					respHeader = JSONObject.parseObject(StringUtils.isNotBlank(respHeaderString) ? respHeaderString : "{}");
+					respHeader = JSONObject.parseObject(StrUtil.isNotBlank(respHeaderString) ? respHeaderString : "{}");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -146,7 +144,7 @@ public class ReqAndRespUtil {
 				JSONObject respBody = new JSONObject();
 				try {
 					String respBodyString = reqAndRespSample.getJSONObject(0).getString("响应体示例");
-					respBody = JSONObject.parseObject(StringUtils.isNotBlank(respBodyString) ? respBodyString : "{}");
+					respBody = JSONObject.parseObject(StrUtil.isNotBlank(respBodyString) ? respBodyString : "{}");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -177,7 +175,7 @@ public class ReqAndRespUtil {
 		header.put("name", name);
 		header.put("desc", desc);
 		header.put("type", type);
-		if(StringUtils.isNotBlank(required)){
+		if(StrUtil.isNotBlank(required)){
 			header.put("required", required);
 		}
 		return header;
@@ -268,7 +266,7 @@ public class ReqAndRespUtil {
 	}
 	/**
 	 * <p>构建公共的请求头样例数据</p>
-	 * @param SenderID
+	 * @param senderId
 	 * @param ServiceResourceId
 	 * @param UserID
 	 * @return
@@ -295,7 +293,7 @@ public class ReqAndRespUtil {
 		StringBuffer Condition = new StringBuffer();
 		reqArgs.forEach(o_ -> {
 			JSONObject o = (JSONObject) o_;
-			if(StringUtils.isNotBlank(o.getString("value"))) {
+			if(StrUtil.isNotBlank(o.getString("value"))) {
 				Condition.append(" and " + o.getString("arg") + "='" + o.getString("value") + "'");
 			}
 		});

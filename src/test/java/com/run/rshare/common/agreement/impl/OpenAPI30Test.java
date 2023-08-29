@@ -19,7 +19,6 @@ import com.run.rshare.common.agreement.document.OpenApiUtil;
 import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import com.run.rshare.common.agreement.type.ServiceInfo;
-import com.run.rshare.common.utils.ReqAndRespUtil;
 import io.swagger.models.HttpMethod;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -265,17 +264,53 @@ public class OpenAPI30Test {
 
     @Test
     public void excelToSchema() throws Exception {
-        JSONObject fileContent = ReqAndRespUtil.externalRegFile("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
+        LOG.info("===========postBBDataTest1请求开始=============");
+        File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("SenderID", "400653");
+        paramsMap.put("ServiceResourceId", "S-320300000000-0400-00001");
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("Name", "XSD1");
+        jsonObject1.put("Fmt", "");
+        jsonArray.add(jsonObject1);
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("Name", "XSD2");
+        jsonObject2.put("Fmt", "");
+        jsonArray.add(jsonObject2);
+        paramsMap.put("DataItems", jsonArray);
+        excelToSchema1(file1, "postBBDataTest1", paramsMap);
+        LOG.info("===========postBBDataTest1请求结束=============");
+        LOG.info("========================================================================");
+        LOG.info("========================================================================");
+        LOG.info("===========postThirdTest1请求开始=============");
+        File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务.xlsx");
+        Map<String, Object> paramsMap2 = new HashMap<>();
+        paramsMap2.put("SenderID", "400653");
+        paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
+        paramsMap2.put("name", "任务调度");
+        Map<String, Object> item = new HashMap<>();
+        item.put("startTime", "20213/8/28");
+        item.put("endTime", "2023/8/28");
+        item.put("crontab", "0 0 1 * * ?");
+        paramsMap2.put("strategy", item);
+        excelToSchema1(file2, "postThirdTest1", paramsMap2);
+        LOG.info("===========postThirdTest1请求结束=============");
+
+    }
+
+
+    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap) throws Exception {
+        JSONObject fileContent = OpenApiUtil.importExcelRegFile(file);
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
-        //试
-        String name = "通用查询";
+        String fileName = file.getName();
+        String name = fileName.split(".json")[0];
         //测试
         String desc = "通用查询";
         //暂时设置为1.0.1
         String version = "1.0.1";
         //暂时设置为空
         List<Servers> servers = Lists.newArrayList();
-        String operationId = "postBBDataTest1";
         String httpMethod = HttpMethod.POST.name();
         String defaultSchema = OpenApiUtil.reqAndRespToOpenApiJson(reqAndRespData, name, desc, version, servers, operationId, httpMethod);
         String schemaName = operationId + "_" + DateUtil.format(new Date(), "yyyy-MM-dd") + ".json";
@@ -286,46 +321,32 @@ public class OpenAPI30Test {
         OpenApiDocument openApiDocument = JSONObject.parseObject(defaultSchema, OpenApiDocument.class);
         JSONObject requestJSON = openApiDocument.fetchRequestJSON();
         String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
-        LOG.info("服务请求参数体json:" + toJSONString);
+        LOG.info("服务请求参数体json:\r\n" + toJSONString);
         LOG.info("============服务请求参数json打印结束============");
 
         //todo 通用查询中example是有字段的,规约参数中
         //todo RequestParam.ResourceInfos[0].DataItems[0].Name
         //todo 中是以val值的形式，规约中没有
         List<FieldInfo> requestInfoList = OpenApiUtil.getRequestFieldInfoByOpenApiJson(defaultSchema);
-        LOG.info("requestInfoList:" + JSONObject.toJSONString(requestInfoList, SerializerFeature.WriteMapNullValue));
+        LOG.info("requestInfoList:\r\n" + JSONObject.toJSONString(requestInfoList, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务请求字段打印结束============");
 
 
         //取请求结果码为200的
         Optional<OpenApiResponse> openApiResponse = openApiDocument.fetchOpenApiResponseOptional("200");
         JSONObject responseHeader = openApiDocument.fetchResponseHeader(openApiResponse);
-        LOG.info("ResponseHeader:" + JSONObject.toJSONString(responseHeader, SerializerFeature.WriteMapNullValue));
+        LOG.info("ResponseHeader:\r\n" + JSONObject.toJSONString(responseHeader, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应头打印结束============");
 
         JSONObject responseJSON = openApiDocument.fetchResponseJSON(openApiResponse);
-        LOG.info("responseJSON:" + JSONObject.toJSONString(responseJSON, SerializerFeature.WriteMapNullValue));
+        LOG.info("responseJSON:\r\n" + JSONObject.toJSONString(responseJSON, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应json打印结束============");
 
         List<FieldInfo> responseFieldInfos = OpenApiUtil.getResponseFieldInfoByOpenApiJson(defaultSchema, "200");
-        LOG.info("responseFieldInfos:" + JSONObject.toJSONString(responseFieldInfos, SerializerFeature.WriteMapNullValue));
+        LOG.info("responseFieldInfos:\r\n" + JSONObject.toJSONString(responseFieldInfos, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应字段打印结束============");
-
-        Map<String,Object> paramsMap = new HashMap<>();
-        paramsMap.put("SenderID","400653");
-        paramsMap.put("ServiceResourceId","S-320300000000-0400-00001");
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject1 = new JSONObject();
-        jsonObject1.put("Name","XSD1");
-        jsonObject1.put("Fmt","");
-        jsonArray.add(jsonObject1);
-        JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("Name","XSD2");
-        jsonObject2.put("Fmt","");
-        jsonArray.add(jsonObject2);
-        paramsMap.put("DataItems",jsonArray);
         ServiceRequest buildServiceRequest = OpenApiUtil.buildServiceRequest(defaultSchema, paramsMap);
-        LOG.info("ServiceRequest:"+JSONObject.toJSONString(buildServiceRequest, SerializerFeature.WriteMapNullValue));
+        LOG.info("ServiceRequest:\r\n" + JSONObject.toJSONString(buildServiceRequest, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务请求体打印结束============");
     }
 

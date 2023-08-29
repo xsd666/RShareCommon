@@ -2,6 +2,7 @@ package com.run.rshare.common.agreement.document;
 
 import com.google.common.base.Joiner;
 import com.jayway.jsonpath.DocumentContext;
+import com.run.rshare.common.utils.ReqAndRespUtil;
 import org.springframework.http.HttpHeaders;
 
 import cn.hutool.core.util.StrUtil;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,16 @@ public class OpenApiUtil {
 
     private static Logger LOG = LoggerFactory.getLogger(OpenApiUtil.class);
 
+    /**
+     * 规约excel导入
+     *
+     * @param file
+     * @return
+     */
+    public static JSONObject importExcelRegFile(File file) {
+        JSONObject fileContent = ReqAndRespUtil.externalRegFile(file.getAbsolutePath());
+        return fileContent;
+    }
 
     /**
      * 构建请求题
