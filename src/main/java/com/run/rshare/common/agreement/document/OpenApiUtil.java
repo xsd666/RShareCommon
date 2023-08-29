@@ -101,9 +101,10 @@ public class OpenApiUtil {
      *
      * @param openApiJsonSchema 规约json
      * @param responseCode      响应码
+     * @param responseJson      响应结果json
      * @return
      */
-    public static List<FieldInfo> getResponseFieldInfoByOpenApiJson(String openApiJsonSchema, String responseCode) {
+    public static List<FieldInfo> getResponseFieldInfoByOpenApiJson(String openApiJsonSchema, String responseCode, String responseJson) {
         OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
         Optional<OpenApiResponse> openApiResponse = openApiDocument.fetchOpenApiResponseOptional(responseCode);
         Optional<OpenApiSchema> openApiSchemaOptional = openApiDocument.fetchResponseSchemaOptional(openApiResponse);
@@ -121,18 +122,18 @@ public class OpenApiUtil {
             LOG.error("响应结果中 position is blank");
             return null;
         }
-        List<FieldInfo> fieldInfoList = getFieldInfoByOpenApiSchema(apiSchema, position);
+        List<FieldInfo> fieldInfoList = getFieldInfoByOpenApiSchema(apiSchema, position, responseJson);
         return fieldInfoList;
     }
 
     /**
      * 从服务规约json中获取请求字段信息
-     * openApiJosn
      *
-     * @param openApiJsonSchema
+     * @param openApiJsonSchema 规约json
+     * @param requestJson       请求参数json
      * @return
      */
-    public static List<FieldInfo> getRequestFieldInfoByOpenApiJson(String openApiJsonSchema) {
+    public static List<FieldInfo> getRequestFieldInfoByOpenApiJson(String openApiJsonSchema, String requestJson) {
         OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
         Optional<OpenApiSchema> schemaOptional = openApiDocument.fetchRequestSchemaOptional();
         if (!schemaOptional.isPresent()) {
@@ -149,7 +150,7 @@ public class OpenApiUtil {
             LOG.error("请求参数中 position is blank");
             return null;
         }
-        List<FieldInfo> fieldInfoList = getFieldInfoByOpenApiSchema(openApiSchema, position);
+        List<FieldInfo> fieldInfoList = getFieldInfoByOpenApiSchema(openApiSchema, position, requestJson);
         return fieldInfoList;
     }
 
@@ -159,10 +160,9 @@ public class OpenApiUtil {
      * @param openApiSchema
      * @return
      */
-    private static List<FieldInfo> getFieldInfoByOpenApiSchema(OpenApiSchema openApiSchema, String position) {
+    private static List<FieldInfo> getFieldInfoByOpenApiSchema(OpenApiSchema openApiSchema, String position, String json) {
         List<FieldInfo> fieldInfoList = Lists.newArrayList();
-        String example = openApiSchema.getExample();
-        Object eval = JSONPath.eval(example, position);
+        Object eval = JSONPath.eval(json, position);
         if (eval instanceof String) {
             FieldInfo fieldInfo = new FieldInfo();
             fieldInfo.setType("");

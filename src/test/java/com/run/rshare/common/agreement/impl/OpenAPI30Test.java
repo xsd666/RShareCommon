@@ -279,28 +279,25 @@ public class OpenAPI30Test {
         jsonObject2.put("Fmt", "");
         jsonArray.add(jsonObject2);
         paramsMap.put("DataItems", jsonArray);
-        excelToSchema1(file1, "postBBDataTest1", paramsMap);
+        excelToSchema1(file1, "postBBDataTest1", paramsMap,HttpMethod.POST.name());
         LOG.info("===========postBBDataTest1请求结束=============");
         LOG.info("========================================================================");
         LOG.info("========================================================================");
-        LOG.info("===========postThirdTest1请求开始=============");
-        File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务.xlsx");
+        LOG.info("===========getThirdTest1请求开始=============");
+        File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\get请求外部服务.xlsx");
         Map<String, Object> paramsMap2 = new HashMap<>();
         paramsMap2.put("SenderID", "400653");
         paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
         paramsMap2.put("name", "任务调度");
         Map<String, Object> item = new HashMap<>();
-        item.put("startTime", "20213/8/28");
-        item.put("endTime", "2023/8/28");
-        item.put("crontab", "0 0 1 * * ?");
-        paramsMap2.put("strategy", item);
-        excelToSchema1(file2, "postThirdTest1", paramsMap2);
-        LOG.info("===========postThirdTest1请求结束=============");
+        item.put("description", "20213/8/28");
+        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.GET.name());
+        LOG.info("===========getThirdTest1请求结束=============");
 
     }
 
 
-    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap) throws Exception {
+    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap,String httpMethod) throws Exception {
         JSONObject fileContent = OpenApiUtil.importExcelRegFile(file);
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
         String fileName = file.getName();
@@ -311,7 +308,6 @@ public class OpenAPI30Test {
         String version = "1.0.1";
         //暂时设置为空
         List<Servers> servers = Lists.newArrayList();
-        String httpMethod = HttpMethod.POST.name();
         String defaultSchema = OpenApiUtil.reqAndRespToOpenApiJson(reqAndRespData, name, desc, version, servers, operationId, httpMethod);
         String schemaName = operationId + "_" + DateUtil.format(new Date(), "yyyy-MM-dd") + ".json";
         File schemaNameFile = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\" + schemaName);
@@ -324,12 +320,12 @@ public class OpenAPI30Test {
         LOG.info("服务请求参数体json:\r\n" + toJSONString);
         LOG.info("============服务请求参数json打印结束============");
 
-        //todo 通用查询中example是有字段的,规约参数中
+
         //todo RequestParam.ResourceInfos[0].DataItems[0].Name
         //todo 中是以val值的形式，规约中没有
-        List<FieldInfo> requestInfoList = OpenApiUtil.getRequestFieldInfoByOpenApiJson(defaultSchema);
+       /* List<FieldInfo> requestInfoList = OpenApiUtil.getRequestFieldInfoByOpenApiJson(defaultSchema);
         LOG.info("requestInfoList:\r\n" + JSONObject.toJSONString(requestInfoList, SerializerFeature.WriteMapNullValue));
-        LOG.info("============服务请求字段打印结束============");
+        LOG.info("============服务请求字段打印结束============");*/
 
 
         //取请求结果码为200的
@@ -342,9 +338,9 @@ public class OpenAPI30Test {
         LOG.info("responseJSON:\r\n" + JSONObject.toJSONString(responseJSON, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应json打印结束============");
 
-        List<FieldInfo> responseFieldInfos = OpenApiUtil.getResponseFieldInfoByOpenApiJson(defaultSchema, "200");
+        /*List<FieldInfo> responseFieldInfos = OpenApiUtil.getResponseFieldInfoByOpenApiJson(defaultSchema, "200");
         LOG.info("responseFieldInfos:\r\n" + JSONObject.toJSONString(responseFieldInfos, SerializerFeature.WriteMapNullValue));
-        LOG.info("============服务响应字段打印结束============");
+        LOG.info("============服务响应字段打印结束============");*/
         ServiceRequest buildServiceRequest = OpenApiUtil.buildServiceRequest(defaultSchema, paramsMap);
         LOG.info("ServiceRequest:\r\n" + JSONObject.toJSONString(buildServiceRequest, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务请求体打印结束============");
