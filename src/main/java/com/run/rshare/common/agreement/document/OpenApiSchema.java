@@ -36,6 +36,10 @@ public class OpenApiSchema {
     @JSONField(name = "x-rshare-response_fields-path")
     private RSharePath responseFieldsPath;
 
+
+    @JSONField(name = "x-rshare-response_data-path")
+    private RSharePath responseDataPath;
+
     public String getType() {
         return type;
     }
@@ -82,5 +86,13 @@ public class OpenApiSchema {
 
     public void setResponseFieldsPath(RSharePath responseFieldsPath) {
         this.responseFieldsPath = responseFieldsPath;
+    }
+
+    public RSharePath getResponseDataPath() {
+        return responseDataPath;
+    }
+
+    public void setResponseDataPath(RSharePath responseDataPath) {
+        this.responseDataPath = responseDataPath;
     }
 }

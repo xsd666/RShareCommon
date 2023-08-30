@@ -1,25 +1,27 @@
 package com.run.rshare.common.agreement.document;
 
-import com.google.common.base.Joiner;
-import com.jayway.jsonpath.DocumentContext;
-import com.run.rshare.common.utils.ReqAndRespUtil;
-import org.springframework.http.HttpHeaders;
-
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.jayway.jsonpath.DocumentContext;
 import com.run.rshare.common.agreement.ServiceRequest;
+import com.run.rshare.common.agreement.ServiceResponse;
 import com.run.rshare.common.agreement.type.FieldInfo;
+import com.run.rshare.common.utils.ReqAndRespUtil;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.util.*;
@@ -48,7 +50,64 @@ public class OpenApiUtil {
     }
 
     /**
-     * 构建请求题
+     * 构建规约响应请求体
+     *
+     * @param openApiJsonSchema
+     * @param result
+     * @return
+     */
+    public static ServiceResponse buildServiceResponse(String openApiJsonSchema, String result, List<String> fieldList) {
+        OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
+        Optional<OpenApiResponse> responseOptional = openApiDocument.fetchOpenApiResponseOptional("200");
+        if (!responseOptional.isPresent()) {
+            return new ServiceResponse("500", "该服务规约错误");
+        }
+        //获取响应json
+        JSONObject responseJson = openApiDocument.fetchResponseJSON(responseOptional);
+        Optional<OpenApiSchema> openApiSchemaOptional = responseOptional.map(OpenApiResponse::getContent)
+                .map(OpenApiContent::getApplicationJson)
+                .map(OpenApiMediaType::getSchema);
+        if (responseJson == null || !openApiSchemaOptional.isPresent()) {
+            return new ServiceResponse("500", "该服务规约错误");
+        }
+        RSharePath responseDataPath = openApiSchemaOptional.get().getResponseDataPath();
+        RSharePath responseFieldsPath = openApiSchemaOptional.get().getResponseFieldsPath();
+        String respDataPosition = Optional.ofNullable(responseDataPath).orElse(new RSharePath()).getPosition();
+        String respFieldPathPosition = Optional.ofNullable(responseFieldsPath).orElse(new RSharePath()).getPosition();
+        ServiceResponse serviceResponse = new ServiceResponse("200", "成功");
+        DocumentContext context = com.jayway.jsonpath.JsonPath.parse(responseJson);
+        if (StrUtil.isBlank(respDataPosition)) {
+            return new ServiceResponse("500", "未设置respDataPosition字段信息,无法使用JsonPath替换数据");
+        }
+        //设置值信息
+        if (StrUtil.isNotBlank(result)) {
+            if (result.startsWith("[")) {
+                JSONArray jsonArray = JSON.parseArray(result);
+                context.set(respDataPosition, jsonArray);
+            } else {
+                context.set(respDataPosition, result);
+            }
+        } else {
+            serviceResponse.setResponse(responseJson);
+        }
+        //设置字段信息
+        if (CollectionUtils.isNotEmpty(fieldList) && !Objects.equals(responseDataPath, responseFieldsPath)) {
+            String field = respFieldPathPosition.substring(respFieldPathPosition.lastIndexOf(".") + 1);
+            String preFieldPath = respFieldPathPosition.substring(0, respFieldPathPosition.lastIndexOf("["));
+            JSONArray jsonArray = new JSONArray(fieldList.size());
+            for (int i = 0, size = fieldList.size(); i < size; i++) {
+                JSONObject item = new JSONObject();
+                item.put(field, fieldList.get(i));
+                jsonArray.add(item);
+            }
+            context.set(preFieldPath, jsonArray);
+        }
+        serviceResponse.setResponse(JSONObject.parseObject(context.jsonString()));
+        return serviceResponse;
+    }
+
+    /**
+     * 构建规约请求体
      *
      * @param openApiJsonSchema
      * @param paramsMap
@@ -330,17 +389,27 @@ public class OpenApiUtil {
             String path = json.getString("path");
             String pathType = json.getString("pathType");
             //请求参数
-            if ("requestField".equalsIgnoreCase(path)) {
-                RSharePath rSharePath = new RSharePath(arg, pathType);
-                setRSharePathPosition(rSharePath, json, reqArgs);
-                apiSchema.setRequestFieldsPath(rSharePath);
+            if (StrUtil.isNotBlank(path)) {
+                //请求字段
+                if (path.contains("requestField")) {
+                    RSharePath rSharePath = new RSharePath(arg, pathType);
+                    setRSharePathPosition(rSharePath, json, reqArgs);
+                    apiSchema.setRequestFieldsPath(rSharePath);
+                }
+                //响应参数
+                if (path.contains("responseField")) {
+                    RSharePath rSharePath = new RSharePath(arg, pathType);
+                    setRSharePathPosition(rSharePath, json, reqArgs);
+                    apiSchema.setResponseFieldsPath(rSharePath);
+                }
+                //响应数据
+                if (path.contains("responseData")) {
+                    RSharePath rSharePath = new RSharePath(arg, pathType);
+                    setRSharePathPosition(rSharePath, json, reqArgs);
+                    apiSchema.setResponseDataPath(rSharePath);
+                }
             }
-            //响应参数
-            if ("responseField".equalsIgnoreCase(path)) {
-                RSharePath rSharePath = new RSharePath(arg, pathType);
-                setRSharePathPosition(rSharePath, json, reqArgs);
-                apiSchema.setResponseFieldsPath(rSharePath);
-            }
+
         });
     }
 

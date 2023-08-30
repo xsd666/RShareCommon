@@ -40,7 +40,7 @@ public class OpenAPI30Test {
 
     OpenAPI30 openAPI30 = new OpenAPI30();
 
-    @Test
+    /*@Test
     public void testCheckRequireSchema() throws Exception {
         openAPI30.checkRequireSchema();
     }
@@ -260,11 +260,11 @@ public class OpenAPI30Test {
         // ??????
         System.out.println("type:" + titles.getClass());
         System.out.println("value:" + titles.toString());
-    }
+    }*/
 
     @Test
     public void excelToSchema() throws Exception {
-        LOG.info("===========postBBDataTest1请求开始=============");
+        /*LOG.info("===========postBBDataTest1请求开始=============");
         File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("SenderID", "400653");
@@ -279,25 +279,39 @@ public class OpenAPI30Test {
         jsonObject2.put("Fmt", "");
         jsonArray.add(jsonObject2);
         paramsMap.put("DataItems", jsonArray);
-        excelToSchema1(file1, "postBBDataTest1", paramsMap,HttpMethod.POST.name());
-        LOG.info("===========postBBDataTest1请求结束=============");
+        String result1 = "[[\"R01000022000000000001\",\"张三\",\"1\",\"11000000000000001\",\"20160108112211\" ],[\"R01000022000000000002\", \"张三\", \"1\",\"11000000000000002\", \"20170108112222\"]]";
+        List<String> fieldList = Lists.newArrayList("XXZJBH","XM","XBDM","GMSFZHM","DJSJ");
+        excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), result1,fieldList);*/
+        /*LOG.info("===========postBBDataTest1请求结束=============");
         LOG.info("========================================================================");
         LOG.info("========================================================================");
-        LOG.info("===========getThirdTest1请求开始=============");
-        File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\get请求外部服务.xlsx");
+        LOG.info("===========postThirdTest1请求开始=============");
+        File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务.xlsx");
         Map<String, Object> paramsMap2 = new HashMap<>();
         paramsMap2.put("SenderID", "400653");
         paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
         paramsMap2.put("name", "任务调度");
         Map<String, Object> item = new HashMap<>();
         item.put("description", "20213/8/28");
-        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.GET.name());
-        LOG.info("===========getThirdTest1请求结束=============");
-
+        String result2 = "111111";
+        List<String> fieldList = null;
+        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), result2,fieldList);
+        LOG.info("===========getThirdTest1请求结束=============");*/
+        LOG.info("===========postThirdTestList1请求开始=============");
+        File file3 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务list.xlsx");
+        Map<String, Object> paramsMap2 = new HashMap<>();
+        paramsMap2.put("SenderID", "400653");
+        paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
+        paramsMap2.put("name", "任务调度");
+        Map<String, Object> item = new HashMap<>();
+        item.put("description", "20213/8/28");
+        String result2 = "[{ \"id\": 1, \"name\": \"Item 1\" }, { \"id\": 2, \"name\": \"Item 2\" }]";
+        List<String> fieldList = null;
+        excelToSchema1(file3, "postThirdTestList1", paramsMap2, HttpMethod.POST.name(), result2,fieldList);
     }
 
 
-    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap,String httpMethod) throws Exception {
+    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap, String httpMethod, String resultData,List<String> fieldList) throws Exception {
         JSONObject fileContent = OpenApiUtil.importExcelRegFile(file);
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
         String fileName = file.getName();
@@ -344,6 +358,10 @@ public class OpenAPI30Test {
         ServiceRequest buildServiceRequest = OpenApiUtil.buildServiceRequest(defaultSchema, paramsMap);
         LOG.info("ServiceRequest:\r\n" + JSONObject.toJSONString(buildServiceRequest, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务请求体打印结束============");
+
+        ServiceResponse serviceResponse = OpenApiUtil.buildServiceResponse(defaultSchema, resultData,fieldList);
+        LOG.info("ServiceResponse:\r\n" + JSONObject.toJSONString(serviceResponse, SerializerFeature.WriteMapNullValue));
+        LOG.info("============服务响应体打印结束============");
     }
 
 
