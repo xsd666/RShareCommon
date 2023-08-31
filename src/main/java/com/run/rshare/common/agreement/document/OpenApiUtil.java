@@ -14,14 +14,12 @@ import com.run.rshare.common.agreement.ServiceRequest;
 import com.run.rshare.common.agreement.ServiceResponse;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import com.run.rshare.common.utils.ReqAndRespUtil;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.util.*;
