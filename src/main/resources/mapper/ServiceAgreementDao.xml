@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.run.rshare.dao.ServiceAgreementDao">
+
+    <resultMap id="BaseResultMap" type="com.run.rshare.entity.ServiceAgreement">
+        <!--@Table service_agreement-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="serviceAgreementIdentifier" column="service_agreement_identifier" jdbcType="VARCHAR"/>
+        <result property="serviceAgreementName" column="service_agreement_name" jdbcType="VARCHAR"/>
+        <result property="serviceAgreementDesc" column="service_agreement_desc" jdbcType="VARCHAR"/>
+        <result property="serviceAgreementVersion" column="service_agreement_version" jdbcType="VARCHAR"/>
+        <result property="serviceAgreementOrg" column="service_agreement_org" jdbcType="VARCHAR"/>
+        <result property="serviceAgreementOrgName" column="service_agreement_org_name" jdbcType="VARCHAR"/>
+        <result property="dataServiceCode" column="data_service_code" jdbcType="VARCHAR"/>
+        <result property="dataService" column="data_service" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="serviceFileName" column="service_file_name" jdbcType="VARCHAR"/>
+        <result property="serviceFileStoreUrl" column="service_file_store_url" jdbcType="VARCHAR"/>
+        <result property="serviceInterfaceUrl" column="service_interface_url" jdbcType="VARCHAR"/>
+        <result property="serviceInterfaceHttpMethod" column="service_interface_http_method" jdbcType="VARCHAR"/>
+        <result property="serviceRespFileName" column="service_resp_file_name" jdbcType="VARCHAR"/>
+        <result property="serviceRespFileStoreUrl" column="service_resp_file_store_url" jdbcType="VARCHAR"/>
+        <result property="serviceAgreementLangType" column="service_agreement_lang_type" jdbcType="VARCHAR"/>
+        <result property="wsdlXml" column="wsdl_xml" jdbcType="VARCHAR"/>
+        <result property="openApiJson" column="open_api_json" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted
+        from service_engine.service_agreement
+        where id = #{id}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="query" resultMap="BaseResultMap">
+        select
+          id, service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted
+        from service_engine.service_agreement
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="serviceAgreementIdentifier != null and serviceAgreementIdentifier != ''">
+                and service_agreement_identifier = #{serviceAgreementIdentifier}
+            </if>
+            <if test="serviceAgreementName != null and serviceAgreementName != ''">
+                and service_agreement_name = #{serviceAgreementName}
+            </if>
+            <if test="serviceAgreementDesc != null and serviceAgreementDesc != ''">
+                and service_agreement_desc = #{serviceAgreementDesc}
+            </if>
+            <if test="serviceAgreementVersion != null and serviceAgreementVersion != ''">
+                and service_agreement_version = #{serviceAgreementVersion}
+            </if>
+            <if test="serviceAgreementOrg != null and serviceAgreementOrg != ''">
+                and service_agreement_org = #{serviceAgreementOrg}
+            </if>
+            <if test="serviceAgreementOrgName != null and serviceAgreementOrgName != ''">
+                and service_agreement_org_name = #{serviceAgreementOrgName}
+            </if>
+            <if test="dataServiceCode != null and dataServiceCode != ''">
+                and data_service_code = #{dataServiceCode}
+            </if>
+            <if test="dataService != null and dataService != ''">
+                and data_service = #{dataService}
+            </if>
+            <if test="createTimeStart != null">
+                and create_time  &gt;= #{createTimeStart}
+            </if>
+            <if test="createTimeEnd != null">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            <if test="serviceFileName != null and serviceFileName != ''">
+                and service_file_name = #{serviceFileName}
+            </if>
+            <if test="serviceFileStoreUrl != null and serviceFileStoreUrl != ''">
+                and service_file_store_url = #{serviceFileStoreUrl}
+            </if>
+            <if test="serviceInterfaceUrl != null and serviceInterfaceUrl != ''">
+                and service_interface_url = #{serviceInterfaceUrl}
+            </if>
+            <if test="serviceInterfaceHttpMethod != null and serviceInterfaceHttpMethod != ''">
+                and service_interface_http_method = #{serviceInterfaceHttpMethod}
+            </if>
+            <if test="serviceRespFileName != null and serviceRespFileName != ''">
+                and service_resp_file_name = #{serviceRespFileName}
+            </if>
+            <if test="serviceRespFileStoreUrl != null and serviceRespFileStoreUrl != ''">
+                and service_resp_file_store_url = #{serviceRespFileStoreUrl}
+            </if>
+            <if test="serviceAgreementLangType != null and serviceAgreementLangType != ''">
+                and service_agreement_lang_type = #{serviceAgreementLangType}
+            </if>
+            <if test="wsdlXml != null and wsdlXml != ''">
+                and wsdl_xml = #{wsdlXml}
+            </if>
+            <if test="openApiJson != null and openApiJson != ''">
+                and open_api_json = #{openApiJson}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into service_engine.service_agreement(service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted)
+        values (#{serviceAgreementIdentifier}, #{serviceAgreementName}, #{serviceAgreementDesc}, #{serviceAgreementVersion}, #{serviceAgreementOrg}, #{serviceAgreementOrgName}, #{dataServiceCode}, #{dataService}, #{createTime}, #{updateTime}, #{serviceFileName}, #{serviceFileStoreUrl}, #{serviceInterfaceUrl}, #{serviceInterfaceHttpMethod}, #{serviceRespFileName}, #{serviceRespFileStoreUrl}, #{serviceAgreementLangType}, #{wsdlXml}, #{openApiJson}, #{deleted})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update service_engine.service_agreement
+        <set>
+            <if test="serviceAgreementIdentifier != null and serviceAgreementIdentifier != ''">
+                service_agreement_identifier = #{serviceAgreementIdentifier},
+            </if>
+            <if test="serviceAgreementName != null and serviceAgreementName != ''">
+                service_agreement_name = #{serviceAgreementName},
+            </if>
+            <if test="serviceAgreementDesc != null and serviceAgreementDesc != ''">
+                service_agreement_desc = #{serviceAgreementDesc},
+            </if>
+            <if test="serviceAgreementVersion != null and serviceAgreementVersion != ''">
+                service_agreement_version = #{serviceAgreementVersion},
+            </if>
+            <if test="serviceAgreementOrg != null and serviceAgreementOrg != ''">
+                service_agreement_org = #{serviceAgreementOrg},
+            </if>
+            <if test="serviceAgreementOrgName != null and serviceAgreementOrgName != ''">
+                service_agreement_org_name = #{serviceAgreementOrgName},
+            </if>
+            <if test="dataServiceCode != null and dataServiceCode != ''">
+                data_service_code = #{dataServiceCode},
+            </if>
+            <if test="dataService != null and dataService != ''">
+                data_service = #{dataService},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="serviceFileName != null and serviceFileName != ''">
+                service_file_name = #{serviceFileName},
+            </if>
+            <if test="serviceFileStoreUrl != null and serviceFileStoreUrl != ''">
+                service_file_store_url = #{serviceFileStoreUrl},
+            </if>
+            <if test="serviceInterfaceUrl != null and serviceInterfaceUrl != ''">
+                service_interface_url = #{serviceInterfaceUrl},
+            </if>
+            <if test="serviceInterfaceHttpMethod != null and serviceInterfaceHttpMethod != ''">
+                service_interface_http_method = #{serviceInterfaceHttpMethod},
+            </if>
+            <if test="serviceRespFileName != null and serviceRespFileName != ''">
+                service_resp_file_name = #{serviceRespFileName},
+            </if>
+            <if test="serviceRespFileStoreUrl != null and serviceRespFileStoreUrl != ''">
+                service_resp_file_store_url = #{serviceRespFileStoreUrl},
+            </if>
+            <if test="serviceAgreementLangType != null and serviceAgreementLangType != ''">
+                service_agreement_lang_type = #{serviceAgreementLangType},
+            </if>
+            <if test="wsdlXml != null and wsdlXml != ''">
+                wsdl_xml = #{wsdlXml},
+            </if>
+            <if test="openApiJson != null and openApiJson != ''">
+                open_api_json = #{openApiJson},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
