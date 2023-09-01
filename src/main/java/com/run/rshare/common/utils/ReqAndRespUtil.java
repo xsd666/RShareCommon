@@ -138,7 +138,7 @@ public class ReqAndRespUtil {
 					String respHeaderString = reqAndRespSample.getJSONObject(0).getString("响应头示例");
 					respHeader = JSONObject.parseObject(StrUtil.isNotBlank(respHeaderString) ? respHeaderString : "{}");
 				} catch (Exception e) {
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 				service_resp_sample.put("header", respHeader);
 				JSONObject respBody = new JSONObject();
@@ -146,7 +146,7 @@ public class ReqAndRespUtil {
 					String respBodyString = reqAndRespSample.getJSONObject(0).getString("响应体示例");
 					respBody = JSONObject.parseObject(StrUtil.isNotBlank(respBodyString) ? respBodyString : "{}");
 				} catch (Exception e) {
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 				service_resp_sample.put("body", respBody);
 				result.getJSONObject("data").put("service_resp_sample", service_resp_sample);
@@ -155,7 +155,7 @@ public class ReqAndRespUtil {
 				result.getJSONObject("data").put("service_resp_sample", new JSONObject());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return result;
 	}
