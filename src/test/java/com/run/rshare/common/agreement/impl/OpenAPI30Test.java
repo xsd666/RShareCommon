@@ -264,7 +264,7 @@ public class OpenAPI30Test {
 
     @Test
     public void excelToSchema() throws Exception {
-        /*LOG.info("===========postBBDataTest1请求开始=============");
+        LOG.info("===========postBBDataTest1请求开始=============");
         File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("SenderID", "400653");
@@ -281,8 +281,8 @@ public class OpenAPI30Test {
         paramsMap.put("DataItems", jsonArray);
         String result1 = "[[\"R01000022000000000001\",\"张三\",\"1\",\"11000000000000001\",\"20160108112211\" ],[\"R01000022000000000002\", \"张三\", \"1\",\"11000000000000002\", \"20170108112222\"]]";
         List<String> fieldList = Lists.newArrayList("XXZJBH","XM","XBDM","GMSFZHM","DJSJ");
-        excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), result1,fieldList);*/
-        /*LOG.info("===========postBBDataTest1请求结束=============");
+        excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), result1,fieldList);
+        LOG.info("===========postBBDataTest1请求结束=============");
         LOG.info("========================================================================");
         LOG.info("========================================================================");
         LOG.info("===========postThirdTest1请求开始=============");
@@ -291,23 +291,17 @@ public class OpenAPI30Test {
         paramsMap2.put("SenderID", "400653");
         paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
         paramsMap2.put("name", "任务调度");
-        Map<String, Object> item = new HashMap<>();
-        item.put("description", "20213/8/28");
         String result2 = "111111";
-        List<String> fieldList = null;
-        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), result2,fieldList);
-        LOG.info("===========getThirdTest1请求结束=============");*/
+        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), result2,null);
+        LOG.info("===========postThirdTest1请求结束=============");
         LOG.info("===========postThirdTestList1请求开始=============");
         File file3 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务list.xlsx");
-        Map<String, Object> paramsMap2 = new HashMap<>();
-        paramsMap2.put("SenderID", "400653");
-        paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
-        paramsMap2.put("name", "任务调度");
-        Map<String, Object> item = new HashMap<>();
-        item.put("description", "20213/8/28");
-        String result2 = "[{ \"id\": 1, \"name\": \"Item 1\" }, { \"id\": 2, \"name\": \"Item 2\" }]";
-        List<String> fieldList = null;
-        excelToSchema1(file3, "postThirdTestList1", paramsMap2, HttpMethod.POST.name(), result2,fieldList);
+        Map<String, Object> paramsMap3 = new HashMap<>();
+        paramsMap3.put("SenderID", "400653");
+        paramsMap3.put("ServiceResourceId", "S-320300000000-0400-00001");
+        paramsMap3.put("name", "任务调度");
+        String result3 = "[{ \"id\": 1, \"name\": \"Item 1\" }, { \"id\": 2, \"name\": \"Item 2\" }]";
+        excelToSchema1(file3, "postThirdTestList1", paramsMap3, HttpMethod.POST.name(), result3,null);
     }
 
 

@@ -3,8 +3,6 @@ package com.run.rshare.service;
 import com.run.rshare.model.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-
 /**
  * @ClassName ServiceAgreementService
  * @Description: 服务规约(ServiceAgreement)表服务接口
@@ -42,8 +40,14 @@ public interface ServiceAgreementService {
      * 上传接口定义规约excel
      *
      * @param file
-     * @param ruleExcelEnum
+     * @param enumRuleExcel
      * @return
      */
-    UploadRuleExcelVO uploadRuleExcel(MultipartFile file, RuleExcelEnum ruleExcelEnum);
+    UploadRuleExcelVO uploadRuleExcel(MultipartFile file, EnumRuleExcel enumRuleExcel);
+
+    /**
+     * 规约保存
+     * @param serviceAgreementSaveDTO
+     */
+    void save(ServiceAgreementSaveDTO serviceAgreementSaveDTO);
 }

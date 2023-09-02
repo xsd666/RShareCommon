@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.run.rshare.dao.AgreementCounterDao">
+
+    <resultMap type="com.run.rshare.entity.AgreementCounter" id="AgreementCounterMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="rulePrefix" column="rule_prefix" jdbcType="VARCHAR"/>
+        <result property="counter" column="counter" jdbcType="INTEGER"/>
+        <result property="substringLength" column="substring_length" jdbcType="INTEGER"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AgreementCounterMap">
+        select id,
+               rule_prefix,
+               counter,
+               substring_length,
+               version
+        from agreement_counter
+        where id = #{id}
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="updateByIdAndVersion">
+        update agreement_counter
+        <set>
+            <if test="rulePrefix != null and rulePrefix != ''">
+                rule_prefix = #{rulePrefix},
+            </if>
+            <if test="counter != null">
+                counter = #{counter},
+            </if>
+            <if test="substringLength != null">
+                substring_length = #{substringLength},
+            </if>
+            <if test="version != null ">
+                version = #{version} +1,
+            </if>
+        </set>
+        where id = #{id} and version = #{version}
+    </update>
+
+</mapper>
+

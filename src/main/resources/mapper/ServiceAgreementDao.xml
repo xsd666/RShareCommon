@@ -31,7 +31,7 @@
     <select id="queryById" resultMap="BaseResultMap">
         select
           id, service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted
-        from service_engine.service_agreement
+        from service_agreement
         where id = #{id}
     </select>
 
@@ -39,7 +39,7 @@
     <select id="query" resultMap="BaseResultMap">
         select
           id, service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted
-        from service_engine.service_agreement
+        from service_agreement
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -109,13 +109,13 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into service_engine.service_agreement(service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted)
+        insert into service_agreement(service_agreement_identifier, service_agreement_name, service_agreement_desc, service_agreement_version, service_agreement_org, service_agreement_org_name, data_service_code, data_service, create_time, update_time, service_file_name, service_file_store_url, service_interface_url, service_interface_http_method, service_resp_file_name, service_resp_file_store_url, service_agreement_lang_type, wsdl_xml, open_api_json, deleted)
         values (#{serviceAgreementIdentifier}, #{serviceAgreementName}, #{serviceAgreementDesc}, #{serviceAgreementVersion}, #{serviceAgreementOrg}, #{serviceAgreementOrgName}, #{dataServiceCode}, #{dataService}, #{createTime}, #{updateTime}, #{serviceFileName}, #{serviceFileStoreUrl}, #{serviceInterfaceUrl}, #{serviceInterfaceHttpMethod}, #{serviceRespFileName}, #{serviceRespFileStoreUrl}, #{serviceAgreementLangType}, #{wsdlXml}, #{openApiJson}, #{deleted})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update service_engine.service_agreement
+        update service_agreement
         <set>
             <if test="serviceAgreementIdentifier != null and serviceAgreementIdentifier != ''">
                 service_agreement_identifier = #{serviceAgreementIdentifier},

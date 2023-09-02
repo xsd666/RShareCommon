@@ -5,17 +5,35 @@
  Source Server Type    : MySQL
  Source Server Version : 50723
  Source Host           : localhost:3306
- Source Schema         : service_engine
+ Source Schema         : service_agreement
 
  Target Server Type    : MySQL
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 01/09/2023 10:50:34
+ Date: 02/09/2023 13:20:05
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for agreement_counter
+-- ----------------------------
+DROP TABLE IF EXISTS `agreement_counter`;
+CREATE TABLE `agreement_counter`  (
+  `id` int(11) NOT NULL,
+  `rule_prefix` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规则前缀',
+  `counter` int(5) DEFAULT NULL COMMENT '计数器',
+  `substring_length` int(2) DEFAULT NULL COMMENT '从后面开始截取多少长度',
+  `version` int(11) DEFAULT NULL COMMENT '版本号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '规约标识计数表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of agreement_counter
+-- ----------------------------
+INSERT INTO `agreement_counter` VALUES (1, '00000', 0, 5, 0);
 
 -- ----------------------------
 -- Table structure for service_agreement

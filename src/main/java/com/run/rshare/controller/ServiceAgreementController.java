@@ -1,6 +1,7 @@
 package com.run.rshare.controller;
 
 import com.run.rshare.model.*;
+import com.run.rshare.service.AgreementCounterService;
 import com.run.rshare.service.ServiceAgreementService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,19 @@ public class ServiceAgreementController {
      */
     @Resource
     private ServiceAgreementService serviceAgreementService;
+
+    @Resource
+    private AgreementCounterService agreementCounterService;
+
+    /**
+     * 规约标识生成
+     * @return
+     */
+    @PostMapping(value = "generateAgreementIdentifier")
+    public Result<String> generateAgreementIdentifier() {
+        String agreementIdentifier = agreementCounterService.generateAgreementIdentifier();
+        return Result.success(agreementIdentifier);
+    }
 
     /**
      * 删除
@@ -67,11 +81,11 @@ public class ServiceAgreementController {
      * 上传规则描述文件
      *
      * @param file
-     * @param ruleExcelEnum
+     * @param enumRuleExcel
      * @return
      */
     @PostMapping(value = "/uploadRuleExcel")
-    public Result<UploadRuleExcelVO> uploadRuleExcel(@RequestParam("file") MultipartFile file,@RequestParam("ruleExcel") RuleExcelEnum ruleExcelEnum) {
+    public Result<UploadRuleExcelVO> uploadRuleExcel(@RequestParam("file") MultipartFile file, @RequestParam("enumRuleExcel") EnumRuleExcel enumRuleExcel) {
         if (file.isEmpty()) {
             return Result.fail("文件不能为空");
         }
@@ -80,7 +94,21 @@ public class ServiceAgreementController {
         if (!originalFilename.endsWith(xlsxSuffix)) {
             return Result.fail("excel暂时只支持xlsx");
         }
-        return Result.success(serviceAgreementService.uploadRuleExcel(file,ruleExcelEnum));
 
+        return Result.success(serviceAgreementService.uploadRuleExcel(file, enumRuleExcel));
     }
+
+
+    /**
+     * 规约保存
+     *
+     * @param serviceAgreementSaveDTO
+     * @return
+     */
+    @PostMapping(value = "/save")
+    public Result<Boolean> save(@Validated ServiceAgreementSaveDTO serviceAgreementSaveDTO) {
+        serviceAgreementService.save(serviceAgreementSaveDTO);
+        return Result.success(Boolean.TRUE);
+    }
+
 }

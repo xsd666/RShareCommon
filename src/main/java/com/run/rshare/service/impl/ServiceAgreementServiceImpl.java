@@ -1,24 +1,20 @@
 package com.run.rshare.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.run.rshare.common.agreement.document.OpenApiUtil;
-import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.config.SystemBizConfig;
-import com.run.rshare.controller.ServiceAgreementController;
 import com.run.rshare.dao.ServiceAgreementDao;
 import com.run.rshare.entity.ServiceAgreement;
 import com.run.rshare.model.*;
 import com.run.rshare.service.ServiceAgreementService;
 import io.swagger.models.HttpMethod;
 import ma.glasnost.orika.MapperFacade;
-import org.apache.http.protocol.HTTP;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -106,15 +102,15 @@ public class ServiceAgreementServiceImpl implements ServiceAgreementService {
      * 上传接口定义规约excel
      *
      * @param file
-     * @param ruleExcelEnum
+     * @param enumRuleExcel
      * @return
      */
     @Override
-    public UploadRuleExcelVO uploadRuleExcel(MultipartFile file, RuleExcelEnum ruleExcelEnum) {
+    public UploadRuleExcelVO uploadRuleExcel(MultipartFile file, EnumRuleExcel enumRuleExcel) {
         String xlsxSuffix = ".xlsx";
         String jsonSuffix = ".json";
         String snowflakeNextId = IdUtil.getSnowflakeNextIdStr();
-        String agreementExcelFilePath = systemBizConfig.getRuleExcelStorePath() + File.separator + ruleExcelEnum.name() + "_" + snowflakeNextId + xlsxSuffix;
+        String agreementExcelFilePath = systemBizConfig.getRuleExcelStorePath() + File.separator + enumRuleExcel.name() + "_" + snowflakeNextId + xlsxSuffix;
         File agreementExcelFile = new File(agreementExcelFilePath);
         if (!agreementExcelFile.getParentFile().exists()) {
             agreementExcelFile.getParentFile().mkdirs();
@@ -125,9 +121,9 @@ public class ServiceAgreementServiceImpl implements ServiceAgreementService {
             LOG.error("规则描述文件上传失败", e);
             throw new RuntimeException("规则描述文件上传失败" + e.getMessage());
         }
-        //规则响应文件 不需要转为规约json
-        if (ruleExcelEnum.name().equals(RuleExcelEnum.responseRule.name())) {
-            return new UploadRuleExcelVO(RuleExcelEnum.responseRule.name(), agreementExcelFilePath, "");
+        //返回结果的规则文件不需要解析,直接存储路径。
+        if (enumRuleExcel.name().equals(EnumRuleExcel.responseRule.name())) {
+            return new UploadRuleExcelVO(EnumRuleExcel.responseRule.name(), agreementExcelFilePath, "");
         }
         JSONObject importExcelRegFile = OpenApiUtil.importExcelRegFile(agreementExcelFile);
         if (!Objects.equals(importExcelRegFile.getString("code"), "200")) {
@@ -138,10 +134,31 @@ public class ServiceAgreementServiceImpl implements ServiceAgreementService {
         String fileName = file.getName();
         String name = fileName.split(jsonSuffix)[0];
         String operationId = snowflakeNextId;
+        //给个默认值,POST方法
         String httpMethod = HttpMethod.POST.name();
         String defaultSchema = OpenApiUtil.reqAndRespToOpenApiJson(reqAndRespData, name, name, "1.0", Lists.newArrayList(), operationId, httpMethod);
         FileUtil.writeString(defaultSchema, new File(jsonStoreFilePath), "utf-8");
-        return new UploadRuleExcelVO(RuleExcelEnum.interfaceRule.name(), agreementExcelFilePath, jsonStoreFilePath);
+        return new UploadRuleExcelVO(EnumRuleExcel.interfaceRule.name(), agreementExcelFilePath, jsonStoreFilePath);
 
+    }
+
+    /**
+     * 规约保存
+     *
+     * @param serviceAgreementSaveDTO
+     */
+    @Override
+    public void save(ServiceAgreementSaveDTO serviceAgreementSaveDTO) {
+        ServiceAgreement serviceAgreement = mapperFacade.map(serviceAgreementSaveDTO, ServiceAgreement.class);
+        serviceAgreement.setDeleted(0);
+        String agreementJson = FileUtil.readUtf8String(new File(serviceAgreementSaveDTO.getServiceFileJsonStoreUrl()));
+        if (StringUtils.isBlank(agreementJson)) {
+            LOG.error("规约错误,文件路径=[{}]", serviceAgreementSaveDTO.getServiceFileJsonStoreUrl());
+            throw new RuntimeException("接口定义规则文件出现问题,请重新上传");
+        }
+        Date date = new Date();
+        serviceAgreement.setCreateTime(date);
+        serviceAgreement.setUpdateTime(date);
+        serviceAgreementDao.insert(serviceAgreement);
     }
 }

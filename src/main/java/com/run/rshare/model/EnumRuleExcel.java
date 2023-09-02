@@ -7,7 +7,7 @@ package com.run.rshare.model;
  * @Date 2023/9/2
  * @Version V1.0
  **/
-public enum RuleExcelEnum {
+public enum EnumRuleExcel {
     /**
      * 接口规则
      */
@@ -16,17 +16,4 @@ public enum RuleExcelEnum {
      * 响应规则
      */
     responseRule;
-
-    RuleExcelEnum() {
-    }
-
-    private String type;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }
