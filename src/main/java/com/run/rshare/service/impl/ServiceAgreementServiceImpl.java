@@ -89,6 +89,12 @@ public class ServiceAgreementServiceImpl implements ServiceAgreementService {
     public PageResult<ServiceAgreementVO> list(ServiceAgreementQueryPageDTO serviceAgreementQueryPageDTO) {
         ServiceAgreement serviceAgreement = mapperFacade.map(serviceAgreementQueryPageDTO, ServiceAgreement.class);
         serviceAgreement.setDeleted(0);
+        if (StringUtils.isNotEmpty(serviceAgreement.getServiceAgreementName())) {
+            serviceAgreement.setServiceAgreementName("%" + serviceAgreement.getServiceAgreementName() + "%");
+        }
+        if (StringUtils.isNotEmpty(serviceAgreement.getServiceAgreementIdentifier())) {
+            serviceAgreement.setServiceAgreementIdentifier("%" + serviceAgreement.getServiceAgreementIdentifier() + "%");
+        }
         PageHelper.startPage(serviceAgreementQueryPageDTO.getPageNum(), serviceAgreementQueryPageDTO.getCurrentPage());
         List<ServiceAgreement> serviceAgreementList = serviceAgreementDao.query(serviceAgreement);
         PageInfo<ServiceAgreement> pageInfo = new PageInfo<>(serviceAgreementList);
@@ -156,9 +162,32 @@ public class ServiceAgreementServiceImpl implements ServiceAgreementService {
             LOG.error("规约错误,文件路径=[{}]", serviceAgreementSaveDTO.getServiceFileJsonStoreUrl());
             throw new RuntimeException("接口定义规则文件出现问题,请重新上传");
         }
+        serviceAgreement.setOpenApiJson(agreementJson);
         Date date = new Date();
         serviceAgreement.setCreateTime(date);
         serviceAgreement.setUpdateTime(date);
         serviceAgreementDao.insert(serviceAgreement);
+    }
+
+    /**
+     * 修改
+     *
+     * @param serviceAgreementUpdateDTO
+     */
+    @Override
+    public void edit(ServiceAgreementUpdateDTO serviceAgreementUpdateDTO) {
+        ServiceAgreement serviceAgreement = mapperFacade.map(serviceAgreementUpdateDTO, ServiceAgreement.class);
+        if (StringUtils.isNotBlank(serviceAgreementUpdateDTO.getServiceFileJsonStoreUrl())) {
+            String agreementJson = FileUtil.readUtf8String(new File(serviceAgreementUpdateDTO.getServiceFileJsonStoreUrl()));
+            if (StringUtils.isBlank(agreementJson)) {
+                LOG.error("规约错误,文件路径=[{}]", serviceAgreementUpdateDTO.getServiceFileJsonStoreUrl());
+                throw new RuntimeException("接口定义规则文件出现问题,请重新上传");
+            }
+            serviceAgreement.setOpenApiJson(agreementJson);
+        }
+        Date date = new Date();
+        serviceAgreement.setUpdateTime(date);
+        serviceAgreement.setDeleted(0);
+        serviceAgreementDao.update(serviceAgreement);
     }
 }

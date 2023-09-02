@@ -50,4 +50,10 @@ public interface ServiceAgreementService {
      * @param serviceAgreementSaveDTO
      */
     void save(ServiceAgreementSaveDTO serviceAgreementSaveDTO);
+
+    /**
+     * 修改
+     * @param serviceAgreementUpdateDTO
+     */
+    void edit(ServiceAgreementUpdateDTO serviceAgreementUpdateDTO);
 }

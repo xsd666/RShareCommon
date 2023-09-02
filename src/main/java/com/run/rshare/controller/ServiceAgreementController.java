@@ -85,7 +85,7 @@ public class ServiceAgreementController {
      * @return
      */
     @PostMapping(value = "/uploadRuleExcel")
-    public Result<UploadRuleExcelVO> uploadRuleExcel(@RequestParam("file") MultipartFile file, @RequestParam("enumRuleExcel") EnumRuleExcel enumRuleExcel) {
+    public Result<UploadRuleExcelVO> uploadRuleExcel(@RequestParam("file") MultipartFile file, @RequestParam("ruleExcel") EnumRuleExcel enumRuleExcel) {
         if (file.isEmpty()) {
             return Result.fail("文件不能为空");
         }
@@ -106,8 +106,20 @@ public class ServiceAgreementController {
      * @return
      */
     @PostMapping(value = "/save")
-    public Result<Boolean> save(@Validated ServiceAgreementSaveDTO serviceAgreementSaveDTO) {
+    public Result<Boolean> save(@Validated @RequestBody ServiceAgreementSaveDTO serviceAgreementSaveDTO) {
         serviceAgreementService.save(serviceAgreementSaveDTO);
+        return Result.success(Boolean.TRUE);
+    }
+
+    /**
+     * 规约修改
+     *
+     * @param serviceAgreementUpdateDTO
+     * @return
+     */
+    @PostMapping(value = "/edit")
+    public Result<Boolean> edit(@Validated @RequestBody ServiceAgreementUpdateDTO serviceAgreementUpdateDTO) {
+        serviceAgreementService.edit(serviceAgreementUpdateDTO);
         return Result.success(Boolean.TRUE);
     }
 

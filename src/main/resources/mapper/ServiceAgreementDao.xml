@@ -45,10 +45,10 @@
                 and id = #{id}
             </if>
             <if test="serviceAgreementIdentifier != null and serviceAgreementIdentifier != ''">
-                and service_agreement_identifier = #{serviceAgreementIdentifier}
+                and service_agreement_identifier like #{serviceAgreementIdentifier}
             </if>
             <if test="serviceAgreementName != null and serviceAgreementName != ''">
-                and service_agreement_name = #{serviceAgreementName}
+                and service_agreement_name like #{serviceAgreementName}
             </if>
             <if test="serviceAgreementDesc != null and serviceAgreementDesc != ''">
                 and service_agreement_desc = #{serviceAgreementDesc}
