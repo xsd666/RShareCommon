@@ -16,6 +16,7 @@ public class HeadersParameter {
     private String description;
     private Boolean required;
     private String example;
+    private String defaultValue;
     private Map<String,Object> schema;
 
     public String getName() {
@@ -64,5 +65,13 @@ public class HeadersParameter {
 
     public void setSchema(Map<String, Object> schema) {
         this.schema = schema;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

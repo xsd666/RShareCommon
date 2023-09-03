@@ -52,6 +52,8 @@ public class OpenApiProperties {
 
     private Items items;
 
+    private String defaultValue;
+
     /**
      * 参数响应信息
      */
@@ -144,5 +146,13 @@ public class OpenApiProperties {
 
     public void setItems(Items items) {
         this.items = items;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

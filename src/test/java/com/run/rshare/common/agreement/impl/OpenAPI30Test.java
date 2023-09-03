@@ -20,9 +20,12 @@ import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import com.run.rshare.common.agreement.type.ServiceInfo;
 import io.swagger.models.HttpMethod;
+import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.json.schema.*;
+import io.vertx.json.schema.common.SchemaRouterImpl;
+import io.vertx.json.schema.draft7.Draft7SchemaParser;
 import io.vertx.junit5.VertxExtension;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -80,23 +83,7 @@ public class OpenAPI30Test {
         res.checkValidity();
     }
 
-    @Test
-    public void testSchemaSelfValidate(Vertx vertx) throws Exception {
-        JsonSchemaOptions SCHEMA_OPTIONS = new JsonSchemaOptions().setDraft(Draft.DRAFT202012).setBaseUri("app://");
-        SchemaRepository repository = SchemaRepository.create(SCHEMA_OPTIONS);
 
-        FileReader fileReader1 = new FileReader("classpath:specification/251Whole.json");
-        String schemaJson = fileReader1.readString();
-
-        OutputUnit ou = repository
-                .preloadMetaSchema(vertx.fileSystem())
-                .validator("https://json-schema.org/draft/2020-12/schema")
-                .validate(new JsonObject(schemaJson));
-
-        if (!ou.getValid()) {
-            System.out.println(ou.getError());
-        }
-    }
 
     @Test
     public void testGetRequestParam() throws Exception {
@@ -262,10 +249,112 @@ public class OpenAPI30Test {
         System.out.println("value:" + titles.toString());
     }*/
 
+    /*@Test
+    public void validation() throws Exception {
+        String utf8String = FileUtil.readUtf8String(new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\postBBDataTest1_2023-09-02.json"));
+        OpenApiDocument openApiDocument = JSONObject.parseObject(utf8String, OpenApiDocument.class);
+        JSONObject requestJSON = openApiDocument.fetchRequestJSON();
+        String requestData = "{\n" +
+                "  \"From\": \"370000000001\",\n" +
+                "  \"To\": \"110000000001\",\n" +
+                "  \"MessageSequence\": \"201901071414120001\",\n" +
+                "  \"RequestParam\": {\n" +
+                "    \"Condition\": \"XM='张三'\",\n" +
+                "    \"ResourceInfos\": [\n" +
+                "      {\n" +
+                "        \"ResourceName\": \"R-010000220000-00000001\",\n" +
+                "        \"DataItems\": [\n" +
+                "          {\n" +
+                "            \"Name\": \"XXZJBH1\",\n" +
+                "            \"Fmt\": \"\"\n" +
+                "          },\n" +
+                "\t\t  {\n" +
+                "            \"Name\": \"XXZJBH2\",\n" +
+                "            \"Fmt\": \"\"\n" +
+                "          }\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    ],\n" +
+                "    \"OtherCondition\": {\n" +
+                "      \"MaxReturnNum\": \"2\",\n" +
+                "      \"AsyncBoolean\": \"0\",\n" +
+                "      \"AsyncOnceReturnNum\": \"2\",\n" +
+                "      \"AsyncQuery\": \"\",\n" +
+                "      \"CallbackID\": \"\",\n" +
+                "      \"CodeMode\": \"0\",\n" +
+                "      \"SortResults\": \"DJSJ+,XM-\"\n" +
+                "    }\n" +
+                "  }";
+        Vertx vertx = Vertx.vertx();
+        SchemaParser parser = SchemaParser.createDraft7SchemaParser(
+                SchemaRouter.create(vertx, new SchemaRouterOptions())
+        );
+        SchemaRouter schemaRouter = new SchemaRouter();
+        SchemaParserBuilder builder = Draft7SchemaParser.create(schemaRouter)
+                .w
+
+        // 解析 JSON Schema
+        Schema schema = parser.parse(schemaJson);
+        Optional<OpenApiResponse> openApiResponse = openApiDocument.fetchOpenApiResponseOptional("200");
+        JSONObject fetchResponseJSON = openApiDocument.fetchResponseJSON(openApiResponse);
+    }
+*/
+
+    @Test
+    public void testSchemaSelfValidate() throws Exception {
+        Vertx vertx = Vertx.vertx();
+        JsonSchemaOptions SCHEMA_OPTIONS = new JsonSchemaOptions().setDraft(Draft.DRAFT202012).setBaseUri("app://");
+        SchemaRepository repository = SchemaRepository.create(SCHEMA_OPTIONS);
+
+        File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\postBBDataTest1_2023-09-02.json");
+
+
+        String utf8String = FileUtil.readUtf8String(new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\postBBDataTest1_2023-09-02.json"));
+        OpenApiDocument openApiDocument = JSONObject.parseObject(utf8String, OpenApiDocument.class);
+        JSONObject requestJSON = openApiDocument.fetchRequestJSON(new HashMap<>());
+        String requestData = "{\n" +
+                "  \"From\": \"370000000001\",\n" +
+                "  \"To\": \"110000000001\",\n" +
+                "  \"MessageSequence\": \"201901071414120001\",\n" +
+                "  \"RequestParam\": {\n" +
+                "    \"Condition\": \"XM='张三'\",\n" +
+                "    \"ResourceInfos\": [\n" +
+                "      {\n" +
+                "        \"ResourceName\": \"R-010000220000-00000001\",\n" +
+                "        \"DataItems\": [\n" +
+                "          {\n" +
+                "            \"Name\": \"XXZJBH1\",\n" +
+                "            \"Fmt\": \"\"\n" +
+                "          },\n" +
+                "\t\t  {\n" +
+                "            \"Name\": \"XXZJBH2\",\n" +
+                "            \"Fmt\": \"\"\n" +
+                "          }\n" +
+                "        ]\n" +
+                "      }\n" +
+                "    ],\n" +
+                "    \"OtherCondition\": {\n" +
+                "      \"MaxReturnNum\": \"2\",\n" +
+                "      \"AsyncBoolean\": \"0\",\n" +
+                "      \"AsyncOnceReturnNum\": \"2\",\n" +
+                "      \"AsyncQuery\": \"\",\n" +
+                "      \"CallbackID\": \"\",\n" +
+                "      \"CodeMode\": \"0\",\n" +
+                "      \"SortResults\": \"DJSJ+,XM-\"\n" +
+                "    }\n" +
+                "  }";
+
+        SchemaParser schemaParser = SchemaParser.createDraft7SchemaParser(new SchemaRouterImpl(vertx, null, vertx.fileSystem(), new SchemaRouterOptions()));
+        String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
+        JsonObject jsonObject = new JsonObject(toJSONString);
+        Schema schema = schemaParser.parse(jsonObject);
+        schema.validateSync(requestData);
+    }
+
     @Test
     public void excelToSchema() throws Exception {
         LOG.info("===========postBBDataTest1请求开始=============");
-        File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询.xlsx");
+        File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\通用查询_1.xlsx");
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("SenderID", "400653");
         paramsMap.put("ServiceResourceId", "S-320300000000-0400-00001");
@@ -279,11 +368,10 @@ public class OpenAPI30Test {
         jsonObject2.put("Fmt", "");
         jsonArray.add(jsonObject2);
         paramsMap.put("DataItems", jsonArray);
-        String result1 = "[[\"R01000022000000000001\",\"张三\",\"1\",\"11000000000000001\",\"20160108112211\" ],[\"R01000022000000000002\", \"张三\", \"1\",\"11000000000000002\", \"20170108112222\"]]";
-        List<String> fieldList = Lists.newArrayList("XXZJBH","XM","XBDM","GMSFZHM","DJSJ");
-        excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), result1,fieldList);
+        Map<String, Object> resultMap = new HashMap<>();
+        excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), resultMap);
         LOG.info("===========postBBDataTest1请求结束=============");
-        LOG.info("========================================================================");
+        /*LOG.info("========================================================================");
         LOG.info("========================================================================");
         LOG.info("===========postThirdTest1请求开始=============");
         File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务.xlsx");
@@ -292,7 +380,7 @@ public class OpenAPI30Test {
         paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
         paramsMap2.put("name", "任务调度");
         String result2 = "111111";
-        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), result2,null);
+        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), resultMap);
         LOG.info("===========postThirdTest1请求结束=============");
         LOG.info("===========postThirdTestList1请求开始=============");
         File file3 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务list.xlsx");
@@ -301,11 +389,11 @@ public class OpenAPI30Test {
         paramsMap3.put("ServiceResourceId", "S-320300000000-0400-00001");
         paramsMap3.put("name", "任务调度");
         String result3 = "[{ \"id\": 1, \"name\": \"Item 1\" }, { \"id\": 2, \"name\": \"Item 2\" }]";
-        excelToSchema1(file3, "postThirdTestList1", paramsMap3, HttpMethod.POST.name(), result3,null);
+        excelToSchema1(file3, "postThirdTestList1", paramsMap3, HttpMethod.POST.name(), resultMap);*/
     }
 
 
-    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap, String httpMethod, String resultData,List<String> fieldList) throws Exception {
+    public void excelToSchema1(File file, String operationId, Map<String, Object> paramsMap, String httpMethod, Map<String, Object> resultMap) throws Exception {
         JSONObject fileContent = OpenApiUtil.importExcelRegFile(file);
         JSONObject reqAndRespData = fileContent.getJSONObject("data");
         String fileName = file.getName();
@@ -320,10 +408,14 @@ public class OpenAPI30Test {
         String schemaName = operationId + "_" + DateUtil.format(new Date(), "yyyy-MM-dd") + ".json";
         File schemaNameFile = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\" + schemaName);
         FileUtil.writeString(defaultSchema, schemaNameFile, "utf-8");
-        LOG.info("============生成服务规约json结束============");
 
         OpenApiDocument openApiDocument = JSONObject.parseObject(defaultSchema, OpenApiDocument.class);
-        JSONObject requestJSON = openApiDocument.fetchRequestJSON();
+
+        JSONObject RequestHeader = openApiDocument.fetchRequestHeader(paramsMap);
+        String requestHeaderJSONString = JSONObject.toJSONString(RequestHeader, SerializerFeature.WriteMapNullValue);
+        LOG.info("请求头体json:\r\n" + requestHeaderJSONString);
+
+        JSONObject requestJSON = openApiDocument.fetchRequestJSON(paramsMap);
         String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
         LOG.info("服务请求参数体json:\r\n" + toJSONString);
         LOG.info("============服务请求参数json打印结束============");
@@ -338,11 +430,11 @@ public class OpenAPI30Test {
 
         //取请求结果码为200的
         Optional<OpenApiResponse> openApiResponse = openApiDocument.fetchOpenApiResponseOptional("200");
-        JSONObject responseHeader = openApiDocument.fetchResponseHeader(openApiResponse);
+        JSONObject responseHeader = openApiDocument.fetchResponseHeader(openApiResponse, new HashMap<>());
         LOG.info("ResponseHeader:\r\n" + JSONObject.toJSONString(responseHeader, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应头打印结束============");
 
-        JSONObject responseJSON = openApiDocument.fetchResponseJSON(openApiResponse);
+        JSONObject responseJSON = openApiDocument.fetchResponseJSON(openApiResponse,  resultMap);
         LOG.info("responseJSON:\r\n" + JSONObject.toJSONString(responseJSON, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应json打印结束============");
 
@@ -353,7 +445,7 @@ public class OpenAPI30Test {
         LOG.info("ServiceRequest:\r\n" + JSONObject.toJSONString(buildServiceRequest, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务请求体打印结束============");
 
-        ServiceResponse serviceResponse = OpenApiUtil.buildServiceResponse(defaultSchema, resultData,fieldList);
+        ServiceResponse serviceResponse = OpenApiUtil.buildServiceResponse(defaultSchema, resultMap);
         LOG.info("ServiceResponse:\r\n" + JSONObject.toJSONString(serviceResponse, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应体打印结束============");
     }

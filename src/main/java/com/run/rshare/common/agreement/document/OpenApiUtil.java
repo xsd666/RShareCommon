@@ -51,56 +51,23 @@ public class OpenApiUtil {
      * 构建规约响应请求体
      *
      * @param openApiJsonSchema
-     * @param result
+     * @param paramsMap
      * @return
      */
-    public static ServiceResponse buildServiceResponse(String openApiJsonSchema, String result, List<String> fieldList) {
+    public static ServiceResponse buildServiceResponse(String openApiJsonSchema, Map<String, Object> paramsMap) {
         OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
         Optional<OpenApiResponse> responseOptional = openApiDocument.fetchOpenApiResponseOptional("200");
         if (!responseOptional.isPresent()) {
             return new ServiceResponse("500", "该服务规约错误");
         }
         //获取响应json
-        JSONObject responseJson = openApiDocument.fetchResponseJSON(responseOptional);
-        Optional<OpenApiSchema> openApiSchemaOptional = responseOptional.map(OpenApiResponse::getContent)
-                .map(OpenApiContent::getApplicationJson)
-                .map(OpenApiMediaType::getSchema);
-        if (responseJson == null || !openApiSchemaOptional.isPresent()) {
+        JSONObject responseJson = openApiDocument.fetchResponseJSON(responseOptional,paramsMap);
+
+        if (responseJson == null) {
             return new ServiceResponse("500", "该服务规约错误");
         }
-        RSharePath responseDataPath = openApiSchemaOptional.get().getResponseDataPath();
-        RSharePath responseFieldsPath = openApiSchemaOptional.get().getResponseFieldsPath();
-        String respDataPosition = Optional.ofNullable(responseDataPath).orElse(new RSharePath()).getPosition();
-        String respFieldPathPosition = Optional.ofNullable(responseFieldsPath).orElse(new RSharePath()).getPosition();
         ServiceResponse serviceResponse = new ServiceResponse("200", "成功");
-        DocumentContext context = com.jayway.jsonpath.JsonPath.parse(responseJson);
-        if (StrUtil.isBlank(respDataPosition)) {
-            return new ServiceResponse("500", "未设置respDataPosition字段信息,无法使用JsonPath替换数据");
-        }
-        //设置值信息
-        if (StrUtil.isNotBlank(result)) {
-            if (result.startsWith("[")) {
-                JSONArray jsonArray = JSON.parseArray(result);
-                context.set(respDataPosition, jsonArray);
-            } else {
-                context.set(respDataPosition, result);
-            }
-        } else {
-            serviceResponse.setResponse(responseJson);
-        }
-        //设置字段信息
-        if (CollectionUtils.isNotEmpty(fieldList) && !Objects.equals(responseDataPath, responseFieldsPath)) {
-            String field = respFieldPathPosition.substring(respFieldPathPosition.lastIndexOf(".") + 1);
-            String preFieldPath = respFieldPathPosition.substring(0, respFieldPathPosition.lastIndexOf("["));
-            JSONArray jsonArray = new JSONArray(fieldList.size());
-            for (int i = 0, size = fieldList.size(); i < size; i++) {
-                JSONObject item = new JSONObject();
-                item.put(field, fieldList.get(i));
-                jsonArray.add(item);
-            }
-            context.set(preFieldPath, jsonArray);
-        }
-        serviceResponse.setResponse(JSONObject.parseObject(context.jsonString()));
+        serviceResponse.setResponse(responseJson);
         return serviceResponse;
     }
 
@@ -113,15 +80,15 @@ public class OpenApiUtil {
      */
     public static ServiceRequest buildServiceRequest(String openApiJsonSchema, Map<String, Object> paramsMap) {
         OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
-        JSONObject paramsMapTemplate = openApiDocument.fetchRequestJSON();
+        JSONObject paramsMapTemplate = openApiDocument.fetchRequestJSON(new HashMap<>());
         String httpMethod = openApiDocument.fetchHttpMethod();
         ServiceRequest serviceRequest = new ServiceRequest();
         //填充请求头
-        JSONObject requestHeader = openApiDocument.fetchRequestHeader();
+        JSONObject requestHeader = openApiDocument.fetchRequestHeader(paramsMap);
         HttpHeaders httpHeaders = new HttpHeaders();
         if (MapUtils.isNotEmpty(requestHeader)) {
-            paramsMap.forEach((key, val) -> {
-                if (requestHeader.containsKey(key)) {
+            requestHeader.forEach((key, val) -> {
+                if (val != null) {
                     httpHeaders.add(key, val.toString());
                 }
             });
@@ -320,6 +287,7 @@ public class OpenApiUtil {
             String desc = header.getString("desc");
             String type = header.getString("type");
             String required = header.getString("required");
+            String defaultValue = header.getString("defaultValue");
             HeadersParameter parameter = new HeadersParameter();
             parameter.setIn("header");
             parameter.setName(arg);
@@ -327,6 +295,7 @@ public class OpenApiUtil {
             if (StrUtil.isNotBlank(required)) {
                 parameter.setRequired(Objects.equals("是", required) ? Boolean.TRUE : Objects.equals("1", required) ? Boolean.TRUE : Boolean.FALSE);
             }
+            parameter.setDefaultValue(defaultValue);
             parameter.setExample("");
             Map<String, Object> schema = new HashMap<>();
             schema.put("type", type);
@@ -455,6 +424,7 @@ public class OpenApiUtil {
             String required = item.getString("required");
             String path = item.getString("path");
             String pathType = item.getString("pathType");
+            String defaultValue = item.getString("defaultValue");
             //设置必填项 当前目录的必填项
             List<JSONObject> child = groupByParentArgMap.getOrDefault(arg, Lists.newArrayList());
             List<String> requiredArgs = fetchRequiredArgs(child);
@@ -462,6 +432,7 @@ public class OpenApiUtil {
             openApiPropertiesItem.setType(type);
             openApiPropertiesItem.setTitle(arg);
             openApiPropertiesItem.setDescription(desc);
+            openApiPropertiesItem.setDefaultValue(defaultValue);
             Map<String, OpenApiProperties> propertiesItems = Maps.newHashMap();
             buildProperties(child, propertiesItems, groupByParentArgMap);
             //如果是 array 下面需要添加items,再将properties属性给items
