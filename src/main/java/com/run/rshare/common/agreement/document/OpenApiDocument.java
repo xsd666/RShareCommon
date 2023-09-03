@@ -158,7 +158,7 @@ public class OpenApiDocument {
      * @param openApiResponseOptional
      * @return fetchResponseHeader
      */
-    public JSONObject fetchResponseHeader(Optional<OpenApiResponse> openApiResponseOptional,Map<String, Object> paramsMap) {
+    public JSONObject fetchResponseHeader(Optional<OpenApiResponse> openApiResponseOptional, Map<String, Object> paramsMap) {
         if (!openApiResponseOptional.isPresent()) {
             return null;
         }
@@ -243,6 +243,7 @@ public class OpenApiDocument {
         String valType = openApiProperties.getType();
         String defaultValue = openApiProperties.getDefaultValue();
         String title = openApiProperties.getTitle();
+        String between = getBetween(defaultValue);
         Map<String, OpenApiProperties> properties = openApiProperties.getProperties();
         if ("array".equalsIgnoreCase(valType)) {
             JSONArray jsonArray = new JSONArray();
@@ -250,29 +251,30 @@ public class OpenApiDocument {
             if (items != null) {
                 Map<String, OpenApiProperties> itemsProperties = items.getProperties();
                 JSONObject item = new JSONObject();
-                if (MapUtils.isNotEmpty(itemsProperties) && defaultValue != null && !defaultValue.startsWith("REFER")) {
-                    for (Map.Entry<String, OpenApiProperties> entry : itemsProperties.entrySet()) {
-                        setParamJsonKey(item, entry.getValue(), paramsMap);
-                    }
-                    jsonArray.add(item);
-                } else if (defaultValue != null && defaultValue.startsWith("REFER")) {
+                if (defaultValue != null && defaultValue.startsWith("REFER") && paramsMap.containsKey(between)) {
                     Object val = getVal(defaultValue, paramsMap);
                     if (val != null) {
                         jsonArray = JSONArray.parseArray(val.toString());
                     }
+                } else if (MapUtils.isNotEmpty(itemsProperties)) {
+                    for (Map.Entry<String, OpenApiProperties> entry : itemsProperties.entrySet()) {
+                        setParamJsonKey(item, entry.getValue(), paramsMap);
+                    }
+                    jsonArray.add(item);
+
                 }
             }
             requestParams.put(title, jsonArray);
         } else if ("object".equalsIgnoreCase(valType)) {
             JSONObject item = new JSONObject();
-            if (MapUtils.isNotEmpty(properties) && defaultValue != null && !defaultValue.startsWith("REFER")) {
-                for (Map.Entry<String, OpenApiProperties> entry : properties.entrySet()) {
-                    setParamJsonKey(item, entry.getValue(), paramsMap);
-                }
-            } else if (defaultValue != null && defaultValue.startsWith("REFER")) {
+            if (defaultValue != null && defaultValue.startsWith("REFER") && paramsMap.containsKey(between)) {
                 Object val = getVal(defaultValue, paramsMap);
                 if (val != null) {
                     item = JSONObject.parseObject(val.toString());
+                }
+            } else if (MapUtils.isNotEmpty(properties)) {
+                for (Map.Entry<String, OpenApiProperties> entry : properties.entrySet()) {
+                    setParamJsonKey(item, entry.getValue(), paramsMap);
                 }
             }
 
@@ -294,10 +296,7 @@ public class OpenApiDocument {
             return null;
         }
         Object val = null;
-        String between = StringUtils.substringBetween(defaultValue, "(", ")");
-        if (StringUtils.isBlank(between)) {
-            between = StringUtils.substringBetween(defaultValue, "（", "）");
-        }
+        String between = getBetween(defaultValue);
         if (defaultValue.startsWith("VALUE")) {
             val = between;
         } else if (defaultValue.startsWith("FUNC")) {
@@ -307,4 +306,16 @@ public class OpenApiDocument {
         }
         return val;
     }
+
+    private String getBetween(String defaultValue) {
+        if (StringUtils.isBlank(defaultValue)) {
+            return null;
+        }
+        String between = StringUtils.substringBetween(defaultValue, "(", ")");
+        if (StringUtils.isBlank(between)) {
+            between = StringUtils.substringBetween(defaultValue, "（", "）");
+        }
+        return between;
+    }
+
 }
