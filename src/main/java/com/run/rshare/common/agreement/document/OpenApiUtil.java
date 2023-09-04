@@ -14,6 +14,13 @@ import com.run.rshare.common.agreement.ServiceRequest;
 import com.run.rshare.common.agreement.ServiceResponse;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import com.run.rshare.common.utils.ReqAndRespUtil;
+import com.run.rshare.model.Result;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
+import io.vertx.json.schema.Schema;
+import io.vertx.json.schema.SchemaParser;
+import io.vertx.json.schema.SchemaRouter;
+import io.vertx.json.schema.SchemaRouterOptions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
@@ -48,6 +55,67 @@ public class OpenApiUtil {
     }
 
     /**
+     * 校验请求体
+     *
+     * @param openApiJsonSchema
+     * @param requestParams
+     * @return
+     */
+    public static Result<Boolean> validateRequestParams(String openApiJsonSchema, String requestParams) {
+        OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
+        Optional<OpenApiSchema> openApiSchemaOptional = openApiDocument.fetchRequestSchemaOptional();
+        if (!openApiSchemaOptional.isPresent()) {
+            return Result.fail("规约无法获取请求体信息,校验错误");
+        }
+        JsonObject schemaJson = new JsonObject(JSON.toJSONString(openApiSchemaOptional.get()));
+        JsonObject requestParamsJson = new JsonObject(requestParams);
+        return validateJson(schemaJson, requestParamsJson);
+    }
+
+    /**
+     * 校验响应体
+     *
+     * @param openApiJsonSchema
+     * @param response
+     * @return
+     */
+    public static Result<Boolean> validateResponse(String openApiJsonSchema, String response) {
+        OpenApiDocument openApiDocument = JSONObject.parseObject(openApiJsonSchema, OpenApiDocument.class);
+        Optional<OpenApiResponse> responseOptional = openApiDocument.fetchOpenApiResponseOptional("200");
+        Optional<OpenApiSchema> openApiSchema = openApiDocument.fetchResponseSchemaOptional(responseOptional);
+        if (!openApiSchema.isPresent()) {
+            return Result.fail("规约无法获取请求体信息,校验错误");
+        }
+        JsonObject schemaJson = new JsonObject(JSON.toJSONString(openApiSchema.get()));
+        JsonObject requestParamsJson = new JsonObject(response);
+        return validateJson(schemaJson, requestParamsJson);
+    }
+
+    /**
+     * 校验json
+     *
+     * @param schemaJson
+     * @param dataJson
+     * @return
+     */
+    private static Result<Boolean> validateJson(JsonObject schemaJson, JsonObject dataJson) {
+        Vertx vertx = Vertx.vertx();
+        SchemaRouterOptions options = new SchemaRouterOptions();
+        SchemaRouter schemaRouter = SchemaRouter.create(vertx, options);
+        SchemaParser schemaParser = SchemaParser.createDraft201909SchemaParser(schemaRouter);
+        Schema schema = schemaParser.parse(schemaJson);
+        try {
+            schema.validateSync(dataJson);
+        } catch (Exception e) {
+            LOG.error("Validation failed", e);
+            return Result.fail(e.getMessage());
+        } finally {
+            vertx.close();
+        }
+        return Result.success(Boolean.TRUE);
+    }
+
+    /**
      * 构建规约响应请求体
      *
      * @param openApiJsonSchema
@@ -61,7 +129,7 @@ public class OpenApiUtil {
             return new ServiceResponse("500", "该服务规约错误");
         }
         //获取响应json
-        JSONObject responseJson = openApiDocument.fetchResponseJSON(responseOptional,paramsMap);
+        JSONObject responseJson = openApiDocument.fetchResponseJSON(responseOptional, paramsMap);
 
         if (responseJson == null) {
             return new ServiceResponse("500", "该服务规约错误");
@@ -440,7 +508,7 @@ public class OpenApiUtil {
                 Items items = new Items();
                 items.setProperties(propertiesItems);
                 openApiPropertiesItem.setItems(items);
-            }else {
+            } else {
                 openApiPropertiesItem.setProperties(propertiesItems);
             }
 
