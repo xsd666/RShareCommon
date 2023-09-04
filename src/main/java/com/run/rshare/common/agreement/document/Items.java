@@ -26,6 +26,8 @@ public class Items {
     private Map<String, OpenApiProperties> properties;
 
 
+    private Items items;
+
     public String getType() {
         return type;
     }
@@ -48,5 +50,13 @@ public class Items {
 
     public void setProperties(Map<String, OpenApiProperties> properties) {
         this.properties = properties;
+    }
+
+    public Items getItems() {
+        return items;
+    }
+
+    public void setItems(Items items) {
+        this.items = items;
     }
 }

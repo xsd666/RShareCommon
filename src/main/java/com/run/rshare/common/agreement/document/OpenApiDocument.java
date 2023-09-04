@@ -262,6 +262,8 @@ public class OpenApiDocument {
                     }
                     jsonArray.add(item);
 
+                } else if (MapUtils.isEmpty(itemsProperties) && openApiProperties.getItems() != null && "array".equalsIgnoreCase(openApiProperties.getItems().getType())) {
+                    jsonArray.add(new JSONArray());
                 }
             }
             requestParams.put(title, jsonArray);

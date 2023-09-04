@@ -3,6 +3,7 @@ package com.run.rshare.common.agreement.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileReader;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -19,6 +20,7 @@ import com.run.rshare.common.agreement.document.OpenApiUtil;
 import com.run.rshare.common.agreement.document.Servers;
 import com.run.rshare.common.agreement.type.FieldInfo;
 import com.run.rshare.common.agreement.type.ServiceInfo;
+import com.run.rshare.model.Result;
 import io.swagger.models.HttpMethod;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
@@ -302,53 +304,64 @@ public class OpenAPI30Test {
 
     @Test
     public void testSchemaSelfValidate() throws Exception {
-        Vertx vertx = Vertx.vertx();
-        JsonSchemaOptions SCHEMA_OPTIONS = new JsonSchemaOptions().setDraft(Draft.DRAFT202012).setBaseUri("app://");
-        SchemaRepository repository = SchemaRepository.create(SCHEMA_OPTIONS);
-
-        File file1 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\postBBDataTest1_2023-09-02.json");
-
-
-        String utf8String = FileUtil.readUtf8String(new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\postBBDataTest1_2023-09-02.json"));
-        OpenApiDocument openApiDocument = JSONObject.parseObject(utf8String, OpenApiDocument.class);
-        JSONObject requestJSON = openApiDocument.fetchRequestJSON(new HashMap<>());
-        String requestData = "{\n" +
-                "  \"From\": \"370000000001\",\n" +
-                "  \"To\": \"110000000001\",\n" +
-                "  \"MessageSequence\": \"201901071414120001\",\n" +
-                "  \"RequestParam\": {\n" +
-                "    \"Condition\": \"XM='张三'\",\n" +
-                "    \"ResourceInfos\": [\n" +
-                "      {\n" +
-                "        \"ResourceName\": \"R-010000220000-00000001\",\n" +
-                "        \"DataItems\": [\n" +
-                "          {\n" +
-                "            \"Name\": \"XXZJBH1\",\n" +
-                "            \"Fmt\": \"\"\n" +
-                "          },\n" +
-                "\t\t  {\n" +
-                "            \"Name\": \"XXZJBH2\",\n" +
-                "            \"Fmt\": \"\"\n" +
-                "          }\n" +
-                "        ]\n" +
+        String requestData = "{\"From\": \"370000000001\",\"To\": \"110000000001\",\"MessageSequence\": \"201901071414120001\",\"RequestParam\": {\"Condition\": \"XM='张三'\",\"ResourceInfos\": [{\"ResourceName\": \"R-010000220000-00000001\",\"DataItems\": [{\"Name\": \"XXZJBH\",\"Fmt\": \"\"},{\"Name\": \"XXZJBH\",\"Fmt\": \"\"}]}],\"OtherCondition\": {\"MaxReturnNum\": \"2\",\"AsyncBoolean\": \"0\",\"AsyncOnceReturnNum\": \"2\",\"AsyncQuery\": \"\",\"CallbackID\": \"\",\"CodeMode\": \"0\",\"SortResults\": \"DJSJ+,XM-\"}}}";
+        String utf8String = FileUtil.readUtf8String(new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\postBBDataTest1_2023-09-04.json"));
+        Result<Boolean> booleanResult1 = OpenApiUtil.validateRequestParams(utf8String, requestData);
+        LOG.info("请求体校验结果为:[{}]", JSON.toJSONString(booleanResult1));
+        String responseData = "{\"MessageStatus\": \"0200\",\"MessageSequence\": \"2019010714141200001\",\n" +
+                "\"Remark\": \"正常\",\n" +
+                "\"ResponseParam\": {\n" +
+                "\"ResourceInfos\": [\n" +
+                "{\n" +
+                "\"ResourceName\": \"R-010000220000-00000001\",\n" +
+                "\"x-rshare-fields-path\": \"$.ResponseParam.ResourceInfos[0].DataItems[*].Name\",\n" +
+                "\"DataItems\": [\n" +
+                "  {\n" +
+                "    \"Name\": \"XXZJBH\",\n" +
+                "    \"Fmt\": \"\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"Name\": \"XM\",\n" +
+                "    \"Fmt\": \"\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"Name\": \"XBDM\",\n" +
+                "    \"Fmt\": \"\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"Name\": \"GMSFZHM\",\n" +
+                "    \"Fmt\": \"\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"Name\": \"DJSJ\",\n" +
+                "    \"Fmt\": \"d14\"\n" +
+                "  }\n" +
+                "],\n" +
+                "\"x-rshare-data-path\": \"$.ResponseParam.ResourceInfos[0].DataInfo[*]\",\n" +
+                "\"DataInfo\": [\n" +
+                "  [\n" +
+                "    \"R01000022000000000001\",\n" +
+                "    \"张三\",\n" +
+                "    \"1\",\n" +
+                "    \"11000000000000001\",\n" +
+                "    \"20160108112211\"\n" +
+                "  ],\n" +
+                "  [\n" +
+                "    \"R01000022000000000002\",\n" +
+                "    \"张三\",\n" +
+                "    \"1\",\n" +
+                "    \"11000000000000002\",\n" +
+                "    \"20170108112222\"\n" +
+                "  ]\n" +
+                "]\n" +
                 "      }\n" +
-                "    ],\n" +
-                "    \"OtherCondition\": {\n" +
-                "      \"MaxReturnNum\": \"2\",\n" +
-                "      \"AsyncBoolean\": \"0\",\n" +
-                "      \"AsyncOnceReturnNum\": \"2\",\n" +
-                "      \"AsyncQuery\": \"\",\n" +
-                "      \"CallbackID\": \"\",\n" +
-                "      \"CodeMode\": \"0\",\n" +
-                "      \"SortResults\": \"DJSJ+,XM-\"\n" +
-                "    }\n" +
-                "  }";
+                "    ]\n" +
+                "  }\n" +
+                "}";
+        Result<Boolean> booleanResult2 = OpenApiUtil.validateResponse(utf8String, responseData);
 
-        SchemaParser schemaParser = SchemaParser.createDraft7SchemaParser(new SchemaRouterImpl(vertx, null, vertx.fileSystem(), new SchemaRouterOptions()));
-        String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
-        JsonObject jsonObject = new JsonObject(toJSONString);
-        Schema schema = schemaParser.parse(jsonObject);
-        schema.validateSync(requestData);
+        LOG.info("响应体校验结果为:[{}]", JSON.toJSONString(booleanResult2));
+
     }
 
     @Test
@@ -369,6 +382,11 @@ public class OpenAPI30Test {
         jsonArray.add(jsonObject2);
         paramsMap.put("DataItems", jsonArray);
         Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("ResourceName","R-010000220000-00000001");
+        resultMap.put("DataItems","[{\"Name\": \"XXZJBH\", \"Fmt\": \"\"},{\"Name\": \"XM\",\"Fmt\": \"\"},{\"Name\": \"GMSFZHM\",\"Fmt\": \"\"},{\"Name\": \"DJSJ\",\"Fmt\": \"\"}]");
+        resultMap.put("DataInfo","[[\"R01000022000000000001\",\"张三\",\"1\",\"11000000000000001\",\"20160108112211\"],[\"R01000022000000000002\",\"张三\",\"1\",\"11000000000000002\",\"20170108112222\"]]");
+
+        //excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), resultMap);
         excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), resultMap);
         LOG.info("===========postBBDataTest1请求结束=============");
         /*LOG.info("========================================================================");
@@ -380,16 +398,8 @@ public class OpenAPI30Test {
         paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
         paramsMap2.put("name", "任务调度");
         String result2 = "111111";
-        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), resultMap);
-        LOG.info("===========postThirdTest1请求结束=============");
-        LOG.info("===========postThirdTestList1请求开始=============");
-        File file3 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务list.xlsx");
-        Map<String, Object> paramsMap3 = new HashMap<>();
-        paramsMap3.put("SenderID", "400653");
-        paramsMap3.put("ServiceResourceId", "S-320300000000-0400-00001");
-        paramsMap3.put("name", "任务调度");
-        String result3 = "[{ \"id\": 1, \"name\": \"Item 1\" }, { \"id\": 2, \"name\": \"Item 2\" }]";
-        excelToSchema1(file3, "postThirdTestList1", paramsMap3, HttpMethod.POST.name(), resultMap);*/
+        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), resultMap);*/
+
     }
 
 

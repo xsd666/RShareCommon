@@ -488,6 +488,7 @@ public class OpenApiUtil {
             JSONObject item = parentList.get(i);
             String arg = item.getString("arg");
             String desc = item.getString("desc");
+            String pArg = item.getString("pArg");
             String type = item.getString("type");
             String required = item.getString("required");
             String path = item.getString("path");
@@ -506,12 +507,21 @@ public class OpenApiUtil {
             //如果是 array 下面需要添加items,再将properties属性给items
             if ("array".equalsIgnoreCase(type)) {
                 Items items = new Items();
-                items.setProperties(propertiesItems);
+                List<JSONObject> objectList = groupByParentArgMap.get(arg);
+                //二元数组情况
+                if(CollectionUtils.isNotEmpty(objectList) && objectList.size()==1 ){
+                    String childType = objectList.get(0).getString("type");
+                    String childArg = objectList.get(0).getString("arg");
+                    if("array".equalsIgnoreCase(childType) && StrUtil.isEmpty(childArg)){
+                        items.setType("array");
+                    }
+                }else {
+                    items.setProperties(propertiesItems);
+                }
                 openApiPropertiesItem.setItems(items);
             } else {
                 openApiPropertiesItem.setProperties(propertiesItems);
             }
-
             if (StrUtil.isNotBlank(required) && CollectionUtils.isNotEmpty(requiredArgs)) {
                 openApiPropertiesItem.setRequired(requiredArgs);
             }
