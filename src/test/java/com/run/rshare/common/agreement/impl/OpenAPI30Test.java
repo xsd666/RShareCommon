@@ -386,19 +386,29 @@ public class OpenAPI30Test {
         resultMap.put("DataItems","[{\"Name\": \"XXZJBH\", \"Fmt\": \"\"},{\"Name\": \"XM\",\"Fmt\": \"\"},{\"Name\": \"GMSFZHM\",\"Fmt\": \"\"},{\"Name\": \"DJSJ\",\"Fmt\": \"\"}]");
         resultMap.put("DataInfo","[[\"R01000022000000000001\",\"张三\",\"1\",\"11000000000000001\",\"20160108112211\"],[\"R01000022000000000002\",\"张三\",\"1\",\"11000000000000002\",\"20170108112222\"]]");
 
-        //excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), resultMap);
         excelToSchema1(file1, "postBBDataTest1", paramsMap, HttpMethod.POST.name(), resultMap);
         LOG.info("===========postBBDataTest1请求结束=============");
-        /*LOG.info("========================================================================");
+
         LOG.info("========================================================================");
+        LOG.info("========================================================================");
+
         LOG.info("===========postThirdTest1请求开始=============");
         File file2 = new File("D:\\code\\2023\\RShare_V2.0R\\RShareCommon\\外部服务.xlsx");
         Map<String, Object> paramsMap2 = new HashMap<>();
         paramsMap2.put("SenderID", "400653");
         paramsMap2.put("ServiceResourceId", "S-320300000000-0400-00001");
-        paramsMap2.put("name", "任务调度");
-        String result2 = "111111";
-        excelToSchema1(file2, "getThirdTest1", paramsMap2, HttpMethod.POST.name(), resultMap);*/
+        String strategy = "{\n" +
+                "      \"startTime\": \"2021/10/15\",\n" +
+                "      \"endTime\": \"2021/10/15\",\n" +
+                "      \"crontab\": \"0 0/10 * * * ?\"\n" +
+                "   }";
+        paramsMap2.put("strategy",JSONObject.parseObject(strategy));
+
+        String data = "[{ \"id\": 1, \"name\": \"Item 1\" },{ \"id\": 2, \"name\": \"Item 2\" }]";
+        JSONArray jsonArray1 = JSONArray.parseArray(data);
+        Map<String, Object> resultMap2 = new HashMap<>();
+        resultMap2.put("data",jsonArray1);
+        excelToSchema1(file2, "postThirdTest1", paramsMap2, HttpMethod.POST.name(), resultMap2);
 
     }
 
