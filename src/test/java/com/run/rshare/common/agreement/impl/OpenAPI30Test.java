@@ -425,7 +425,7 @@ public class OpenAPI30Test {
         String requestHeaderJSONString = JSONObject.toJSONString(RequestHeader, SerializerFeature.WriteMapNullValue);
         LOG.info("请求头体json:\r\n" + requestHeaderJSONString);
 
-        JSONObject requestJSON = openApiDocument.fetchRequestJSON(paramsMap);
+        JSONObject requestJSON = openApiDocument.fetchEmptyRequestJSON();
         String toJSONString = JSONObject.toJSONString(requestJSON, SerializerFeature.WriteMapNullValue);
         LOG.info("服务请求参数体json:\r\n" + toJSONString);
         LOG.info("============服务请求参数json打印结束============");
@@ -444,7 +444,7 @@ public class OpenAPI30Test {
         LOG.info("ResponseHeader:\r\n" + JSONObject.toJSONString(responseHeader, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应头打印结束============");
 
-        JSONObject responseJSON = openApiDocument.fetchResponseJSON(openApiResponse,  resultMap);
+        JSONObject responseJSON = openApiDocument.fetchEmptyResponseJSON(openApiResponse);
         LOG.info("responseJSON:\r\n" + JSONObject.toJSONString(responseJSON, SerializerFeature.WriteMapNullValue));
         LOG.info("============服务响应json打印结束============");
 

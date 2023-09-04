@@ -3,6 +3,7 @@ package com.run.rshare.common.agreement.document;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Maps;
 import com.run.rshare.common.agreement.AgreementFunction.FunctionEnum;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -184,10 +185,24 @@ public class OpenApiDocument {
             return null;
         }
         OpenApiSchema apiSchema = openApiSchemaOptional.get();
-        return fetchJSON(apiSchema, paramsMap);
-
+        return fetchJSON(apiSchema, Boolean.FALSE, paramsMap);
     }
 
+    /**
+     * 获取响应json 值为空的
+     *
+     * @return
+     */
+    public JSONObject fetchEmptyResponseJSON(Optional<OpenApiResponse> openApiResponseOptional) {
+        Optional<OpenApiSchema> openApiSchemaOptional = openApiResponseOptional.map(OpenApiResponse::getContent)
+                .map(OpenApiContent::getApplicationJson)
+                .map(OpenApiMediaType::getSchema);
+        if (!openApiSchemaOptional.isPresent()) {
+            return null;
+        }
+        OpenApiSchema apiSchema = openApiSchemaOptional.get();
+        return fetchJSON(apiSchema, Boolean.TRUE, null);
+    }
 
     /**
      * 获取响应schema
@@ -206,14 +221,14 @@ public class OpenApiDocument {
      *
      * @return
      */
-    public JSONObject fetchJSON(OpenApiSchema apiSchema, Map<String, Object> paramsMap) {
+    public JSONObject fetchJSON(OpenApiSchema apiSchema, Boolean isValNull, Map<String, Object> paramsMap) {
         Map<String, OpenApiProperties> properties = apiSchema.getProperties();
         if (MapUtils.isEmpty(properties)) {
             return new JSONObject();
         }
         JSONObject requestParams = new JSONObject();
         properties.forEach((key, val) -> {
-            setParamJsonKey(requestParams, val, paramsMap);
+            setParamJsonKey(requestParams, val, isValNull, paramsMap);
         });
         return requestParams;
     }
@@ -230,7 +245,21 @@ public class OpenApiDocument {
             return null;
         }
         OpenApiSchema apiSchema = schemaOptional.get();
-        return fetchJSON(apiSchema, paramsMap);
+        return fetchJSON(apiSchema, Boolean.FALSE, paramsMap);
+    }
+
+    /**
+     * 获取请求json 值为null
+     *
+     * @return
+     */
+    public JSONObject fetchEmptyRequestJSON() {
+        Optional<OpenApiSchema> schemaOptional = fetchRequestSchemaOptional();
+        if (!schemaOptional.isPresent()) {
+            return null;
+        }
+        OpenApiSchema apiSchema = schemaOptional.get();
+        return fetchJSON(apiSchema, Boolean.TRUE, null);
     }
 
     /**
@@ -239,7 +268,7 @@ public class OpenApiDocument {
      * @param requestParams
      * @param openApiProperties
      */
-    private void setParamJsonKey(JSONObject requestParams, OpenApiProperties openApiProperties, Map<String, Object> paramsMap) {
+    private void setParamJsonKey(JSONObject requestParams, OpenApiProperties openApiProperties, Boolean isValNull, Map<String, Object> paramsMap) {
         String valType = openApiProperties.getType();
         String defaultValue = openApiProperties.getDefaultValue();
         String title = openApiProperties.getTitle();
@@ -251,14 +280,14 @@ public class OpenApiDocument {
             if (items != null) {
                 Map<String, OpenApiProperties> itemsProperties = items.getProperties();
                 JSONObject item = new JSONObject();
-                if (defaultValue != null && defaultValue.startsWith("REFER") && paramsMap.containsKey(between)) {
+                if (defaultValue != null && defaultValue.startsWith("REFER") && MapUtils.isNotEmpty(paramsMap) && paramsMap.containsKey(between)) {
                     Object val = getVal(defaultValue, paramsMap);
                     if (val != null) {
                         jsonArray = JSONArray.parseArray(val.toString());
                     }
                 } else if (MapUtils.isNotEmpty(itemsProperties)) {
                     for (Map.Entry<String, OpenApiProperties> entry : itemsProperties.entrySet()) {
-                        setParamJsonKey(item, entry.getValue(), paramsMap);
+                        setParamJsonKey(item, entry.getValue(), isValNull, paramsMap);
                     }
                     jsonArray.add(item);
 
@@ -276,13 +305,13 @@ public class OpenApiDocument {
                 }
             } else if (MapUtils.isNotEmpty(properties)) {
                 for (Map.Entry<String, OpenApiProperties> entry : properties.entrySet()) {
-                    setParamJsonKey(item, entry.getValue(), paramsMap);
+                    setParamJsonKey(item, entry.getValue(), isValNull, paramsMap);
                 }
             }
 
             requestParams.put(title, item);
         } else {
-            requestParams.put(title, getVal(defaultValue, paramsMap));
+            requestParams.put(title, isValNull ? null : getVal(defaultValue, paramsMap));
         }
     }
 
