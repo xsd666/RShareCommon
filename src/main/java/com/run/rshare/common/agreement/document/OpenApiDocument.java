@@ -298,7 +298,7 @@ public class OpenApiDocument {
             requestParams.put(title, jsonArray);
         } else if ("object".equalsIgnoreCase(valType)) {
             JSONObject item = new JSONObject();
-            if (defaultValue != null && defaultValue.startsWith("REFER") && paramsMap.containsKey(between)) {
+            if (defaultValue != null && defaultValue.startsWith("REFER") && MapUtils.isNotEmpty(paramsMap) && paramsMap.containsKey(between)) {
                 Object val = getVal(defaultValue, paramsMap);
                 if (val != null) {
                     item = JSONObject.parseObject(val.toString());
